@@ -16,11 +16,11 @@ export class GoodreadsService {
     return results;
   }
 
-  async getBook(query: string) {
-    return new Book();
-  }
+  // async getBook(query: string) {
+  //   return new Book();
+  // }
 
-  async getQuotes(query: string) {
-    return new Array<string>();
-  }
+  // async getQuotes(query: string) {
+  //   return new Array<string>();
+  // }
 }

@@ -1,56 +1,25 @@
-import cheerio, { CheerioAPI } from 'cheerio';
-import { Book } from '../models/book.dto';
+import { Author, Book, GoodreadsBook } from '../models/book.dto';
+import { Parser } from './parser';
 
-export class GoodreadsParser {
-  soup: CheerioAPI;
+export class GoodreadsParser extends Parser {
 
   constructor(body: any) {
-    this.soup = cheerio.load(body);
-    console.log('Loaded HTML for parsing');
+    super(body);
   }
 
   parseSearchPage(k: number): Book[] {
     const tableRows = this.soup('table[class=tableList]')
       .children('tbody')
       .children('tr');
-    const res = [];
+    const bookList: Array<Book> = [];
     for (let i = 0; i < Math.min(tableRows.length, k); i++) {
-      const cleanResult = this.parseSearchResult(this.soup(tableRows[i]));
-      res.push(cleanResult);
+      const book = this.parseSearchResult(this.soup(tableRows[i]));
+      bookList.push(book);
     }
-    return res;
+    return bookList;
   }
 
-  extractTitle(field) {
-    return field.text().trim();
-  }
-
-  extractUrl(field) {
-    return field.attr('href').split('?')[0];
-  }
-
-  extractAuthors(authorArray) {
-    const authors = [];
-    for (let i = 0; i < authorArray.length; i++) {
-      const author = this.soup(authorArray[i]).text().trim();
-      const authorUrl = this.soup(authorArray[i]).attr('href').split('?')[0];
-      authors.push({ name: author, url: authorUrl });
-    }
-    return authors;
-  }
-  parseSearchResult(result) {
-    const td = result.find('td[width=100%]');
-    const url = this.extractUrl(td.children('a'));
-    const title = this.extractTitle(td.children('a'));
-    const authors = this.extractAuthors(td.find('a[class=authorName]'));
-    return {
-      title: title,
-      authors: authors,
-      url: url,
-    };
-  }
-
-  parseBookPage() {
+  parseBookPage(): GoodreadsBook {
     const coverUrl = this.soup('img[id=coverImage]').attr('src');
     const metaCol = this.soup('div #metacol');
     const { titleText, seriesText } = this.extractTitleAndSeries(metaCol);
@@ -62,6 +31,7 @@ export class GoodreadsParser {
     const genres = this.extractGenres();
     return {
       title: titleText,
+      url: null,
       series: seriesText,
       authors: authors,
       coverUrl: coverUrl,
@@ -73,6 +43,47 @@ export class GoodreadsParser {
       genres: genres,
     };
   }
+
+  parseSearchResult(result): Book {
+    const td = result.find('td[width=100%]');
+    const url = this.extractUrl(td.children('a'));
+    const title = this.extractTitle(td.children('a'));
+    const authors = this.extractAuthors(td.find('a[class=authorName]'));
+    return {
+      title: title,
+      authors: authors,
+      url: url,
+    };
+  }
+
+  parseQuotePage(k: number) {
+    const quotes = [];
+    const quoteDivs = this.soup('div[class=quoteText]');
+    for (let i = 0; i < Math.min(quoteDivs.length, k); i++) {
+      const quote = this.soup(quoteDivs[i]).text().trim();
+      quotes.push(quote);
+    }
+    return quotes;
+  }
+
+  extractTitle(field) {
+    return field.text().trim();
+  }
+
+  extractUrl(field) {
+    return `https://www.goodreads.com${field.attr('href').split('?')[0]}`;
+  }
+
+  extractAuthors(authorArray): Array<Author> {
+    const authors: Array<Author> = [];
+    for (let i = 0; i < authorArray.length; i++) {
+      const author = this.soup(authorArray[i]).text().trim();
+      const authorUrl = this.soup(authorArray[i]).attr('href').split('?')[0];
+      authors.push({ name: author, url: authorUrl });
+    }
+    return authors;
+  }
+
 
   extractBookMetaInfo(metaCol) {
     const bookMeta = metaCol.find('div[id=bookMeta]');
@@ -113,15 +124,5 @@ export class GoodreadsParser {
     const titleText = metaCol.find('h1[id=bookTitle]').text().trim();
     const seriesText = metaCol.find('h2[id=bookSeries]').text().trim();
     return { titleText, seriesText };
-  }
-
-  parseQuotePage(k) {
-    const quotes = [];
-    const quoteDivs = this.soup('div[class=quoteText]');
-    for (let i = 0; i < Math.min(quoteDivs.length, k); i++) {
-      const quote = this.soup(quoteDivs[i]).text().trim();
-      quotes.push(quote);
-    }
-    return quotes;
   }
 }

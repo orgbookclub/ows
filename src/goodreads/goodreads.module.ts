@@ -7,4 +7,4 @@ import { GoodreadsService } from './goodreads.service';
   providers: [GoodreadsService],
   exports: [GoodreadsService],
 })
-export class GoodreadsModule {}
+export class GoodreadsModule { }
