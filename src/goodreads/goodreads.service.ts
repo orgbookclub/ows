@@ -5,7 +5,7 @@ import { GoodreadsParser } from './goodreadsParser';
 
 @Injectable()
 export class GoodreadsService {
-  private GR_BASE_URL = `https://www.goodreads.com`;
+  private GR_BASE_URL = 'https://www.goodreads.com';
 
   async searchBooks(query: string) {
     const response = await axios.get(

@@ -4,7 +4,9 @@ import { GoodreadsService } from './goodreads.service';
 
 @Controller('api/goodreads')
 export class GoodreadsController {
-  constructor(private goodreadsService: GoodreadsService) {}
+  constructor(private goodreadsService: GoodreadsService) {
+    console.log('Initalized Goodreads Controller');
+  }
 
   @Get('search')
   async getSearch(@Query('q') query: string): Promise<Array<Book>> {

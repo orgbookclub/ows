@@ -13,8 +13,7 @@ export class GoodreadsParser {
     const tableRows = this.soup('table[class=tableList]')
       .children('tbody')
       .children('tr');
-    var res = [];
-    var res = [];
+    const res = [];
     for (let i = 0; i < Math.min(tableRows.length, k); i++) {
       const cleanResult = this.parseSearchResult(this.soup(tableRows[i]));
       res.push(cleanResult);
