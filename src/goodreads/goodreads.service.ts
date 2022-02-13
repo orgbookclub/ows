@@ -8,10 +8,9 @@ export class GoodreadsService {
   private GR_BASE_URL = 'https://www.goodreads.com';
 
   async searchBooks(query: string) {
-    const response = await axios.get(
-      `${this.GR_BASE_URL}/search?query=${query}&search_type=books`,
-    );
-    const parser = new GoodreadsParser(response.data);
+    const url = `${this.GR_BASE_URL}/search?query=${query}&search_type=books`;
+    const response = await axios.get(url);
+    const parser = new GoodreadsParser(url, response.data);
     const results = parser.parseSearchPage(10);
     return results;
   }

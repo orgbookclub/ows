@@ -1,9 +1,11 @@
 import cheerio, { CheerioAPI } from "cheerio";
 
 export class Parser {
+    url: string;
     soup: CheerioAPI;
 
-    constructor(body) {
+    constructor(url, body) {
+        this.url = url;
         this.soup = cheerio.load(body);
         console.log('Loaded HTML for parsing');
     }

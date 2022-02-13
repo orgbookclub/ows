@@ -3,8 +3,8 @@ import { Parser } from './parser';
 
 export class GoodreadsParser extends Parser {
 
-  constructor(body: any) {
-    super(body);
+  constructor(url: string, body: any) {
+    super(url, body);
   }
 
   parseSearchPage(k: number): Book[] {
@@ -23,7 +23,7 @@ export class GoodreadsParser extends Parser {
     const coverUrl = this.soup('img[id=coverImage]').attr('src');
     const metaCol = this.soup('div #metacol');
     const { titleText, seriesText } = this.extractTitleAndSeries(metaCol);
-    const authors = this.extractAuthors(metaCol.find('div[id=bookAuthors]'));
+    const authors = this.extractAuthors(metaCol.find('a[class=authorName]'));
     const { avgRating, numRatings, numReviews } =
       this.extractBookMetaInfo(metaCol);
     const description = this.extractDescription(metaCol);
@@ -31,7 +31,7 @@ export class GoodreadsParser extends Parser {
     const genres = this.extractGenres();
     return {
       title: titleText,
-      url: null,
+      url: this.url,
       series: seriesText,
       authors: authors,
       coverUrl: coverUrl,
@@ -56,7 +56,7 @@ export class GoodreadsParser extends Parser {
     };
   }
 
-  parseQuotePage(k: number) {
+  parseQuotesPage(k: number) {
     const quotes = [];
     const quoteDivs = this.soup('div[class=quoteText]');
     for (let i = 0; i < Math.min(quoteDivs.length, k); i++) {
@@ -87,14 +87,37 @@ export class GoodreadsParser extends Parser {
 
   extractBookMetaInfo(metaCol) {
     const bookMeta = metaCol.find('div[id=bookMeta]');
-    const avgRating = bookMeta.find('span[itemprop=ratingValue]').text().trim();
-    const numRatings = bookMeta
-      .find('meta[itemprop=ratingCount]')
-      .attr('content');
-    const numReviews = bookMeta
-      .find('meta[itemprop=reviewCount]')
-      .attr('content');
+    const avgRating = extractRating();
+    const numRatings = extractNumRatings();
+    const numReviews = extractNumReviews();
     return { avgRating, numRatings, numReviews };
+
+    function extractNumReviews() {
+      try {
+        return parseInt(bookMeta.find('meta[itemprop=reviewCount]').attr('content'));
+      }
+      catch {
+        return 0;
+      }
+    }
+
+    function extractNumRatings() {
+      try {
+        return parseInt(bookMeta.find('meta[itemprop=ratingCount]').attr('content'));
+      }
+      catch {
+        return 0;
+      }
+    }
+
+    function extractRating() {
+      try {
+        return parseFloat(bookMeta.find('span[itemprop=ratingValue]').text().trim());
+      }
+      catch {
+        return 0;
+      }
+    }
   }
 
   extractDescription(metaCol) {
@@ -106,8 +129,14 @@ export class GoodreadsParser extends Parser {
       .trim();
   }
 
-  extractPages(metaCol) {
-    return metaCol.find('span[itemprop=numberOfPages]').text();
+  extractPages(metaCol): number {
+    try {
+      const pageStr = metaCol.find('span[itemprop=numberOfPages]').text();
+      return parseInt(pageStr.split(' ')[0]);
+    }
+    catch {
+      return 0;
+    }
   }
 
   extractGenres() {
