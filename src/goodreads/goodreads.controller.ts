@@ -9,33 +9,22 @@ export class GoodreadsController {
   }
 
   @Get('search')
-  async getSearch(@Query('q') query: string): Promise<Array<Book>> {
-    try {
-      console.log('here!');
-      return this.goodreadsService.searchBooks(query);
-    } catch (error) {
-      console.error(error);
-      return new Array<Book>();
-    }
+  async searchBooks(@Query('q') query: string, @Query('k') k = 5): Promise<Array<Book>> {
+      return this.goodreadsService.searchBooks(query, k);
   }
 
   @Get('book')
-  async getBook(@Query('q') query: string): Promise<Book> {
-    try {
-      return this.goodreadsService.getBook(query);
-    } catch (error) {
-      console.error(error);
-      return new Book();
-    }
+  async searchAndGetBook(@Query('q') query: string): Promise<Book> {
+      const bookList = await this.goodreadsService.searchBooks(query, 1);
+      if (bookList.length != 1)
+      {
+        // throw error
+      }
+      return this.goodreadsService.getBook(bookList[0].url);
   }
 
   @Get('quotes')
-  async getQuotes(@Query('q') query: string): Promise<Array<string>> {
-    try {
-      return this.goodreadsService.getQuotes(query);
-    } catch (error) {
-      console.error(error);
-      return new Array<string>();
-    }
+  async getQuotes(@Query('k') k = 5, @Query('q') query?: string,): Promise<Array<string>> {
+      return this.goodreadsService.getQuotes(k, query);
   }
 }
