@@ -3,13 +3,13 @@ export class Author {
   url: string;
 }
 
-export class Book {
+export class BookDto {
   title: string;
   authors: Array<Author>;
   url: string;
 }
 
-export class GoodreadsBook extends Book {
+export class GoodreadsBookDto extends BookDto {
   series: string;
   coverUrl: string;
   avgRating: number;
@@ -20,7 +20,7 @@ export class GoodreadsBook extends Book {
   genres: Array<string>;
 }
 
-export class StorygraphBook extends Book {
+export class StorygraphBookDto extends BookDto {
   series: string;
   coverUrl: string;
   avgRating: number;

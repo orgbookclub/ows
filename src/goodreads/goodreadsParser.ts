@@ -1,31 +1,29 @@
 import { InternalServerErrorException } from '@nestjs/common';
-import { Author, Book, GoodreadsBook } from '../models/book.dto';
+import { Author, BookDto, GoodreadsBookDto } from '../models/book.dto';
 import { Parser } from './parser';
 
 export class GoodreadsParser extends Parser {
-
   constructor(url: string, body: any) {
     super(url, body);
   }
 
-  parseSearchPage(k: number): Book[] {
+  parseSearchPage(k: number): BookDto[] {
     try {
       const tableRows = this.soup('table[class=tableList]')
         .children('tbody')
         .children('tr');
-      const bookList: Array<Book> = [];
+      const bookList: Array<BookDto> = [];
       for (let i = 0; i < Math.min(tableRows.length, k); i++) {
         const book = this.parseSearchResult(this.soup(tableRows[i]));
         bookList.push(book);
       }
       return bookList;
-    }
-    catch {
+    } catch {
       throw new InternalServerErrorException();
     }
   }
 
-  parseBookPage(): GoodreadsBook {
+  parseBookPage(): GoodreadsBookDto {
     try {
       const coverUrl = this.soup('img[id=coverImage]').attr('src');
       const metaCol = this.soup('div #metacol');
@@ -49,13 +47,12 @@ export class GoodreadsParser extends Parser {
         numPages: numPages,
         genres: genres,
       };
-    }
-    catch {
+    } catch {
       throw new InternalServerErrorException();
     }
   }
 
-  parseSearchResult(result): Book {
+  parseSearchResult(result): BookDto {
     const td = result.find('td[width=100%]');
     const url = this.extractUrl(td.children('a'));
     const title = this.extractTitle(td.children('a'));
@@ -76,8 +73,7 @@ export class GoodreadsParser extends Parser {
         quotes.push(quote);
       }
       return quotes;
-    }
-    catch {
+    } catch {
       throw new InternalServerErrorException();
     }
   }
@@ -100,7 +96,6 @@ export class GoodreadsParser extends Parser {
     return authors;
   }
 
-
   extractBookMetaInfo(metaCol) {
     const bookMeta = metaCol.find('div[id=bookMeta]');
     const avgRating = extractRating();
@@ -110,27 +105,30 @@ export class GoodreadsParser extends Parser {
 
     function extractNumReviews() {
       try {
-        return parseInt(bookMeta.find('meta[itemprop=reviewCount]').attr('content'));
-      }
-      catch {
+        return parseInt(
+          bookMeta.find('meta[itemprop=reviewCount]').attr('content'),
+        );
+      } catch {
         return 0;
       }
     }
 
     function extractNumRatings() {
       try {
-        return parseInt(bookMeta.find('meta[itemprop=ratingCount]').attr('content'));
-      }
-      catch {
+        return parseInt(
+          bookMeta.find('meta[itemprop=ratingCount]').attr('content'),
+        );
+      } catch {
         return 0;
       }
     }
 
     function extractRating() {
       try {
-        return parseFloat(bookMeta.find('span[itemprop=ratingValue]').text().trim());
-      }
-      catch {
+        return parseFloat(
+          bookMeta.find('span[itemprop=ratingValue]').text().trim(),
+        );
+      } catch {
         return 0;
       }
     }
@@ -144,9 +142,8 @@ export class GoodreadsParser extends Parser {
         .last()
         .text()
         .trim();
-    }
-    catch {
-      return "No description available";
+    } catch {
+      return 'No description available';
     }
   }
 
@@ -154,8 +151,7 @@ export class GoodreadsParser extends Parser {
     try {
       const pageStr = metaCol.find('span[itemprop=numberOfPages]').text();
       return parseInt(pageStr.split(' ')[0]);
-    }
-    catch {
+    } catch {
       return 0;
     }
   }
@@ -163,14 +159,15 @@ export class GoodreadsParser extends Parser {
   extractGenres() {
     try {
       const genres = [];
-      const genreList = this.soup("a[class='actionLinkLite bookPageGenreLink']");
+      const genreList = this.soup(
+        "a[class='actionLinkLite bookPageGenreLink']",
+      );
       for (let i = 0; i < genreList.length; i++) {
         const genre = this.soup(genreList[i]).text();
         genres.push(genre);
       }
       return genres;
-    }
-    catch {
+    } catch {
       return [];
     }
   }

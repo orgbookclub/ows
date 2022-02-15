@@ -1,5 +1,10 @@
-import { HttpException, HttpStatus, Injectable, ServiceUnavailableException } from '@nestjs/common';
-import { Book } from '../models/book.dto';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  ServiceUnavailableException,
+} from '@nestjs/common';
+import { BookDto } from '../models/book.dto';
 import axios from 'axios';
 import { GoodreadsParser } from './goodreadsParser';
 
@@ -7,7 +12,7 @@ import { GoodreadsParser } from './goodreadsParser';
 export class GoodreadsService {
   private GR_BASE_URL = 'https://www.goodreads.com';
 
-  async searchBooks(query: string, k: number): Promise<Book[]> {
+  async searchBooks(query: string, k: number): Promise<BookDto[]> {
     const url = `${this.GR_BASE_URL}/search?query=${query}&search_type=books`;
     const response = await axios.get(url);
     if (!response) {
@@ -20,7 +25,7 @@ export class GoodreadsService {
 
   async getBook(url: string) {
     if (!url.startsWith(`${this.GR_BASE_URL}/book`)) {
-      throw new HttpException("Invalid URL", HttpStatus.BAD_REQUEST);
+      throw new HttpException('Invalid URL', HttpStatus.BAD_REQUEST);
     }
     const response = await axios.get(url);
     if (!response) {

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Book } from '../models/book.dto';
+import { BookDto } from '../models/book.dto';
 
 @Injectable()
 export class DatabaseService {
-    async getBook(query: string) {
-        return new Book();
-    }
+  async getBook(query: string) {
+    return new BookDto();
+  }
 }
