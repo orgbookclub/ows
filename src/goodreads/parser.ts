@@ -7,6 +7,5 @@ export class Parser {
     constructor(url, body) {
         this.url = url;
         this.soup = cheerio.load(body);
-        console.log('Loaded HTML for parsing');
     }
 }
