@@ -1,19 +1,22 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { BookDto } from 'src/models/book.dto';
+import { Author } from 'src/common/author.dto';
 
-export type BookDocument = BookDto & Document;
+export type BookDocument = Book & Document;
 
 @Schema()
 export class Book {
   @Prop()
-  name: string;
+  title: string;
+
+  @Prop([Author])
+  authors: Array<Author>;
 
   @Prop()
-  age: number;
+  url: string;
 
-  @Prop()
-  breed: string;
+  @Prop([String])
+  genres: Array<string>;
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book);

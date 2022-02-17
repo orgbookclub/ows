@@ -4,7 +4,7 @@ import {
   Injectable,
   ServiceUnavailableException,
 } from '@nestjs/common';
-import { BookDto } from '../models/book.dto';
+import { BookDto } from '../common/book.dto';
 import axios from 'axios';
 import { GoodreadsParser } from './goodreadsParser';
 

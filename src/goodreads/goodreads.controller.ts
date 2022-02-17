@@ -1,5 +1,5 @@
 import { Controller, Get, NotFoundException, Query } from '@nestjs/common';
-import { BookDto } from '../models/book.dto';
+import { BookDto } from '../common/book.dto';
 import { GoodreadsService } from './goodreads.service';
 
 @Controller('api/goodreads')
