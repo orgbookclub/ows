@@ -5,3 +5,10 @@ export class BookDto {
   authors: Array<Author>;
   url: string;
 }
+
+export class CreateBookDto {
+  title: string;
+  authors: Array<Author>;
+  url: string;
+  genres: Array<string>;
+}
