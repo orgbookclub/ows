@@ -1,7 +1,7 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateBookDto } from 'src/common/book.dto';
-import { Book, BookDocument } from 'src/schemas/book.schema';
+import { CreateBookDto } from '../common/book.dto';
+import { Book, BookDocument } from '../schemas/book.schema';
 
 export class BookRepository {
   constructor(

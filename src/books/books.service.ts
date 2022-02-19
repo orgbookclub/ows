@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBookDto } from 'src/common/book.dto';
-import { BookRepository } from 'src/repositories/book.repository';
+import { CreateBookDto } from '../common/book.dto';
+import { BookRepository } from '../repositories/book.repository';
 
 @Injectable()
 export class BooksService {

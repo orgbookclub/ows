@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { GoodreadsModule } from 'src/goodreads/goodreads.module';
-import { BookRepository } from 'src/repositories/book.repository';
-import { Book, BookSchema } from 'src/schemas/book.schema';
+import { GoodreadsModule } from '../goodreads/goodreads.module';
+import { BookRepository } from '../repositories/book.repository';
+import { Book, BookSchema } from '../schemas/book.schema';
 import { BooksController } from './books.controller';
 import { BooksService } from './books.service';
 
