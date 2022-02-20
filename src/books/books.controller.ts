@@ -1,30 +1,51 @@
-import { Controller, Get, NotFoundException, Query } from '@nestjs/common';
-import { GoodreadsService } from 'src/goodreads/goodreads.service';
-import { BookDto, CreateBookDto } from '../common/book.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Logger,
+} from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { BookRepository } from '../repositories/book.repository';
 import { BooksService } from './books.service';
+import { CreateBookDto } from './dto/create-book.dto';
+import { UpdateBookDto } from './dto/update-book.dto';
 
-@Controller('api/book')
+@ApiTags('Books')
+@Controller('api/books')
 export class BooksController {
   constructor(
-    private booksService: BooksService,
-    private goodreadsService: GoodreadsService,
+    private readonly booksService: BooksService,
+    private readonly bookRepository: BookRepository,
   ) {
-    //
+    Logger.debug('Initialized BooksController');
   }
 
-  // @Get('test')
-  // async testFetchAndCreate(@Query('q') query: string): Promise<BookDto> {
-    // const bookList = await this.goodreadsService.searchBooks(query, 1);
-    // if (bookList.length == 0) {
-    //   throw new NotFoundException('Could not find a book by that query');
-    // }
-    // const grBook = await this.goodreadsService.getBook(bookList[0].url);
-    // const createBookDto: CreateBookDto = {
-    //   title: grBook.title,
-    //   authors: grBook.authors,
-    //   url: grBook.url,
-    //   genres: grBook.genres,
-    // };
-    // return await this.booksService.createBook(createBookDto);
-  // }
+  @Post()
+  create(@Body() createBookDto: CreateBookDto) {
+    return this.booksService.create(createBookDto);
+  }
+
+  @Get()
+  findAll() {
+    return this.booksService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.booksService.findOne(+id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
+    return this.booksService.update(+id, updateBookDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.booksService.remove(+id);
+  }
 }

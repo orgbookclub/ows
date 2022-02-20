@@ -4,7 +4,7 @@ export class Parser {
   url: string;
   soup: CheerioAPI;
 
-  constructor(url, body) {
+  constructor(url: string, body) {
     this.url = url;
     this.soup = cheerio.load(body);
   }

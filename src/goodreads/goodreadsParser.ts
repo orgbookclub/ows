@@ -1,7 +1,7 @@
 import { InternalServerErrorException } from '@nestjs/common';
 import { BookDto } from '../common/book.dto';
-import { Author } from "../common/author.dto";
-import { GoodreadsBookDto } from "./dto/goodreadsBook.dto";
+import { Author } from '../common/author.dto';
+import { GoodreadsBookDto } from './dto/goodreadsBook.dto';
 import { Parser } from './parser';
 
 export class GoodreadsParser extends Parser {

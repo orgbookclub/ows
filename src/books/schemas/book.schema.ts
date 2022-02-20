@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Author } from '../common/author.dto';
+import { AuthorDto } from '../dto/author.dto';
 
 export type BookDocument = Book & Document;
 
@@ -9,10 +9,14 @@ export class Book {
   @Prop()
   title: string;
 
-  @Prop([Author])
-  authors: Array<Author>;
+  @Prop([AuthorDto])
+  authors: Array<AuthorDto>;
 
-  @Prop()
+  @Prop({
+    type: String,
+    unique: true,
+    set: (url: string) => url.split('?')[0],
+  })
   url: string;
 
   @Prop([String])

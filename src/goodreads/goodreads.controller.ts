@@ -1,7 +1,9 @@
 import { Controller, Get, NotFoundException, Query } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { BookDto } from '../common/book.dto';
 import { GoodreadsService } from './goodreads.service';
 
+@ApiTags('Goodreads')
 @Controller('api/goodreads')
 export class GoodreadsController {
   constructor(private goodreadsService: GoodreadsService) {
