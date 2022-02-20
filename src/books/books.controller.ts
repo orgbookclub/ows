@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Logger,
+  Req,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { BooksService } from './books.service';
@@ -16,19 +17,19 @@ import { UpdateBookDto } from './dto/update-book.dto';
 @ApiTags('Books')
 @Controller('api/books')
 export class BooksController {
-  constructor(
-    private readonly booksService: BooksService,
-  ) {
+  constructor(private readonly booksService: BooksService) {
     Logger.debug('Initialized BooksController');
   }
 
   @Post()
   create(@Body() createBookDto: CreateBookDto) {
+    Logger.debug(`Creating book ${JSON.stringify(createBookDto)}...`);
     return this.booksService.create(createBookDto);
   }
 
   @Get()
   findAll() {
+    Logger.debug(`Finding all books...`);
     return this.booksService.findAll();
   }
 

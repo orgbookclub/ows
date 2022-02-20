@@ -6,7 +6,7 @@ import {
   ServiceUnavailableException,
 } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
-import { BookDto } from '../common/book.dto';
+import { BookDto } from '../books/dto/book.dto';
 import { GoodreadsParser } from './goodreadsParser';
 
 @Injectable()

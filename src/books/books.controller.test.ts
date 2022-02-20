@@ -6,6 +6,32 @@ import { BooksService } from './books.service';
 import { BookDto } from './dto/book.dto';
 import { Book, BookSchema } from './schemas/book.schema';
 
+const mockAuthor = (name = 'mock author', url = 'mock author url') => ({
+  name: name,
+  url: url,
+});
+const mockBook = (
+  title = 'mock title',
+  authors = [mockAuthor()],
+  url = 'https://mock-url.com?suffix',
+  genres = ['Mock genre 1', 'Mock genre 2'],
+): Book => ({
+  title: title,
+  authors: authors,
+  url: url,
+  genres: genres,
+});
+const allBooks = [
+  mockBook(),
+  mockBook('mock title 2'),
+  mockBook(
+    'mock title 3',
+    [{ name: 'mock author2', url: 'mock url' }],
+    'mock book url',
+    ['mock genre 3'],
+  ),
+];
+
 describe('BooksController', () => {
   let controller: BooksController;
 
@@ -25,6 +51,9 @@ describe('BooksController', () => {
               .mockImplementation((book: BookDto) =>
                 Promise.resolve({ _id: 'a uuid', ...book }),
               ),
+            findAll: jest
+              .fn()
+              .mockImplementation(() => Promise.resolve(allBooks)),
           },
         },
         BookRepository,
@@ -52,6 +81,12 @@ describe('BooksController', () => {
         _id: 'a uuid',
         ...newBookDto,
       });
+    });
+  });
+
+  describe('findAll', () => {
+    it('should get all books', () => {
+      expect(controller.findAll()).resolves.toEqual(allBooks);
     });
   });
 });

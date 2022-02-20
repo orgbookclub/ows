@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { BookRepository } from '../repositories/book.repository';
 import { BooksService } from './books.service';
 import { AuthorDto } from './dto/author.dto';
-import { Book, BookDocument, BookSchema } from './schemas/book.schema';
+import { Book, BookDocument } from './schemas/book.schema';
 
 const mockAuthor = (
   name = 'mock author',
@@ -39,6 +39,7 @@ describe('BooksService', () => {
             constructor: jest.fn().mockResolvedValue(mockBook()),
             find: jest.fn(),
             findOne: jest.fn(),
+            getAll: jest.fn(),
             update: jest.fn(),
             create: jest.fn(),
             remove: jest.fn(),
@@ -53,9 +54,11 @@ describe('BooksService', () => {
     service = module.get<BooksService>(BooksService);
     model = module.get<Model<BookDocument>>(getModelToken(Book.name));
   });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
+
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
@@ -64,11 +67,17 @@ describe('BooksService', () => {
     jest.spyOn(model, 'find').mockReturnValue({
       exec: jest.fn().mockResolvedValueOnce([]),
     } as any);
-    jest
-      .spyOn(model, 'create')
-      .mockImplementationOnce(() => Promise.resolve(mockBook()));
+    jest.spyOn(model, 'create').mockImplementationOnce(() =>
+      Promise.resolve({
+        _id: 'a uuid',
+        ...mockBook(),
+      }),
+    );
     const actual = await service.create(mockBook());
-    expect(actual).toEqual(mockBook());
+    expect(actual).toEqual({
+      _id: 'a uuid',
+      ...mockBook(),
+    });
   });
 
   it('should throw an error if we try to create a book that already exists ', async () => {
@@ -78,5 +87,14 @@ describe('BooksService', () => {
     await expect(service.create(mockBook())).rejects.toThrow(
       'Book already exists!',
     );
+  });
+
+  it('should return all books', async () => {
+    const allBooks = [mockBook(), mockBook('mock book 2')];
+    jest.spyOn(model, 'find').mockReturnValue({
+      exec: jest.fn().mockResolvedValueOnce(allBooks),
+    } as any);
+    const actual = await service.findAll();
+    expect(actual).toEqual(allBooks);
   });
 });

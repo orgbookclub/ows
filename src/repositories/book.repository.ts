@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Book, BookDocument } from '../books/schemas/book.schema';
@@ -10,10 +11,14 @@ export class BookRepository extends BaseRepository<Book> {
     super();
   }
   async create(item: Book): Promise<Book> {
+    Logger.debug(item);
     return await this.bookModel.create(item);
   }
   async get(id: string): Promise<Book> {
     throw new Error('Method not implemented.');
+  }
+  async getAll(): Promise<Book[]> {
+    return this.bookModel.find().exec();
   }
   async find(query: any): Promise<Book[]> {
     return this.bookModel.find(query).exec();

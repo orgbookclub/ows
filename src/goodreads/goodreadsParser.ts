@@ -1,6 +1,6 @@
 import { InternalServerErrorException } from '@nestjs/common';
-import { BookDto } from '../common/book.dto';
-import { Author } from '../common/author.dto';
+import { AuthorDto } from '../books/dto/author.dto';
+import { BookDto } from '../books/dto/book.dto';
 import { GoodreadsBookDto } from './dto/goodreadsBook.dto';
 import { Parser } from './parser';
 
@@ -63,6 +63,7 @@ export class GoodreadsParser extends Parser {
       title: title,
       authors: authors,
       url: url,
+      genres: [],
     };
   }
 
@@ -88,8 +89,8 @@ export class GoodreadsParser extends Parser {
     return `https://www.goodreads.com${field.attr('href').split('?')[0]}`;
   }
 
-  extractAuthors(authorArray): Array<Author> {
-    const authors: Array<Author> = [];
+  extractAuthors(authorArray): Array<AuthorDto> {
+    const authors: Array<AuthorDto> = [];
     for (let i = 0; i < authorArray.length; i++) {
       const author = this.soup(authorArray[i]).text().trim();
       const authorUrl = this.soup(authorArray[i]).attr('href').split('?')[0];

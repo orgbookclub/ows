@@ -1,6 +1,6 @@
 import { Controller, Get, NotFoundException, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { BookDto } from '../common/book.dto';
+import { BookDto } from '../books/dto/book.dto';
 import { GoodreadsService } from './goodreads.service';
 
 @ApiTags('Goodreads')

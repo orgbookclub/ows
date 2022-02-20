@@ -17,7 +17,7 @@ export class BooksService {
   }
 
   findAll() {
-    return `This action returns all books`;
+    return this.repository.getAll();
   }
 
   findOne(id: number) {

@@ -1,4 +1,4 @@
-import { BookDto } from "../../common/book.dto";
+import { BookDto } from "../../books/dto/book.dto";
 
 
 export class GoodreadsBookDto extends BookDto {
@@ -9,5 +9,4 @@ export class GoodreadsBookDto extends BookDto {
   numReviews: number;
   description: string;
   numPages: number;
-  genres: Array<string>;
 }
