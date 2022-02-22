@@ -54,6 +54,15 @@ describe('BooksController', () => {
             findAll: jest
               .fn()
               .mockImplementation(() => Promise.resolve(allBooks)),
+            findByUrl: jest.fn().mockImplementation((url: string) => {
+              const book = mockBook(
+                'mock title x',
+                [{ name: 'mock authorx', url: 'mock url' }],
+                url,
+                ['mock genre 3'],
+              );
+              return Promise.resolve({ _id: 'a uuid', ...book });
+            }),
           },
         },
         BookRepository,
@@ -87,6 +96,21 @@ describe('BooksController', () => {
   describe('findAll', () => {
     it('should get all books', () => {
       expect(controller.findAll()).resolves.toEqual(allBooks);
+    });
+  });
+
+  describe('findOne', () => {
+    it('should return one book', () => {
+      const book = mockBook(
+        'mock title x',
+        [{ name: 'mock authorx', url: 'mock url' }],
+        'https://www.mockurl.com',
+        ['mock genre 3'],
+      );
+      expect(controller.findOne(book.url)).resolves.toEqual({
+        _id: 'a uuid',
+        ...book,
+      });
     });
   });
 });

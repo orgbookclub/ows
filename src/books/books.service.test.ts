@@ -63,38 +63,72 @@ describe('BooksService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should create a book', async () => {
-    jest.spyOn(model, 'find').mockReturnValue({
-      exec: jest.fn().mockResolvedValueOnce([]),
-    } as any);
-    jest.spyOn(model, 'create').mockImplementationOnce(() =>
-      Promise.resolve({
+  describe('create', () => {
+    it('should create a book', async () => {
+      jest.spyOn(model, 'find').mockReturnValue({
+        exec: jest.fn().mockResolvedValueOnce([]),
+      } as any);
+      jest.spyOn(model, 'create').mockImplementationOnce(() =>
+        Promise.resolve({
+          _id: 'a uuid',
+          ...mockBook(),
+        }),
+      );
+      const actual = await service.create(mockBook());
+      expect(actual).toEqual({
         _id: 'a uuid',
         ...mockBook(),
-      }),
-    );
-    const actual = await service.create(mockBook());
-    expect(actual).toEqual({
-      _id: 'a uuid',
-      ...mockBook(),
+      });
+    });
+
+    it('should throw an error if we try to create a book that already exists ', async () => {
+      jest.spyOn(model, 'find').mockReturnValue({
+        exec: jest.fn().mockResolvedValueOnce([mockBook()]),
+      } as any);
+      await expect(service.create(mockBook())).rejects.toThrow(
+        'Book already exists!',
+      );
     });
   });
 
-  it('should throw an error if we try to create a book that already exists ', async () => {
-    jest.spyOn(model, 'find').mockReturnValue({
-      exec: jest.fn().mockResolvedValueOnce([mockBook()]),
-    } as any);
-    await expect(service.create(mockBook())).rejects.toThrow(
-      'Book already exists!',
-    );
+  describe('findAll', () => {
+    it('should return all books', async () => {
+      const allBooks = [mockBook(), mockBook('mock book 2')];
+      jest.spyOn(model, 'find').mockReturnValue({
+        exec: jest.fn().mockResolvedValueOnce(allBooks),
+      } as any);
+      const actual = await service.findAll();
+      expect(actual).toEqual(allBooks);
+    });
   });
 
-  it('should return all books', async () => {
-    const allBooks = [mockBook(), mockBook('mock book 2')];
-    jest.spyOn(model, 'find').mockReturnValue({
-      exec: jest.fn().mockResolvedValueOnce(allBooks),
-    } as any);
-    const actual = await service.findAll();
-    expect(actual).toEqual(allBooks);
+  describe('findByUrl', () => {
+    it('should return a book with that url', async () => {
+      const book = mockBook();
+      jest.spyOn(model, 'find').mockReturnValue({
+        exec: jest.fn().mockResolvedValueOnce([book]),
+      } as any);
+      const actual = await service.findByUrl(book.url);
+      expect(actual).toEqual([book]);
+    });
+
+    it('should return an empty array if not found', async () => {
+      const book = mockBook();
+      jest.spyOn(model, 'find').mockReturnValue({
+        exec: jest.fn().mockResolvedValueOnce([]),
+      } as any);
+      const actual = await service.findByUrl(book.url);
+      expect(actual).toEqual([]);
+    });
+
+    it('should throw an error if multiple books found', async () => {
+      const book = mockBook();
+      jest.spyOn(model, 'find').mockReturnValue({
+        exec: jest.fn().mockResolvedValueOnce([book, mockBook()]),
+      } as any);
+      await expect(service.findByUrl(book.url)).rejects.toThrow(
+        'Multiple books found',
+      );
+    });
   });
 });

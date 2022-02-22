@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   Logger,
-  Req,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { BooksService } from './books.service';
@@ -33,9 +32,10 @@ export class BooksController {
     return this.booksService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.booksService.findOne(+id);
+  @Get(':url')
+  findOne(@Param('url') url: string) {
+    Logger.debug(`Finding book with url ${url} ...`);
+    return this.booksService.findByUrl(url);
   }
 
   @Patch(':id')
