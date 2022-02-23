@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { BooksService } from './books.service';
-import { BooksController } from './books.controller';
+// import { BooksController } from './books.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Book, BookSchema } from './schemas/book.schema';
 import { BookRepository } from '../repositories/book.repository';
@@ -9,7 +9,8 @@ import { BookRepository } from '../repositories/book.repository';
   imports: [
     MongooseModule.forFeature([{ name: Book.name, schema: BookSchema }]),
   ],
-  controllers: [BooksController],
+  // controllers: [BooksController],
+  controllers: [],
   providers: [BooksService, BookRepository],
   exports: [BooksService],
 })

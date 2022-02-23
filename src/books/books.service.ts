@@ -21,14 +21,14 @@ export class BooksService {
     return this.repository.create(createBookDto);
   }
 
-  findAll() {
+  async findAll() {
     return this.repository.getAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} book`;
+  async findOne(id: string) {
+    return await this.repository.get(id);
   }
-  
+
   async findByUrl(url: string) {
     const books = await this.repository.find({ url: url });
     if (books.length > 1) {
@@ -37,11 +37,12 @@ export class BooksService {
     return books;
   }
 
-  update(id: number, updateBookDto: UpdateBookDto) {
-    return `This action updates a #${id} book`;
+  async update(id: string, updateBookDto: UpdateBookDto) {
+    return await this.repository.update(id, updateBookDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} book`;
+  async remove(id: string) {
+    await this.repository.delete(id);
+    return true;
   }
 }

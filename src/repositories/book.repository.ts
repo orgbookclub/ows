@@ -10,23 +10,25 @@ export class BookRepository extends BaseRepository<Book> {
   ) {
     super();
   }
-  async create(item: Book): Promise<Book> {
+  async create(item: Book) {
     Logger.debug(item);
     return await this.bookModel.create(item);
   }
-  async get(id: string): Promise<Book> {
-    throw new Error('Method not implemented.');
+  async get(id: string) {
+    return this.bookModel.findById(id).exec();
   }
-  async getAll(): Promise<Book[]> {
+  async getAll() {
     return this.bookModel.find().exec();
   }
-  async find(query: any): Promise<Book[]> {
+  async find(query: any) {
     return this.bookModel.find(query).exec();
   }
-  async update(id: string, item: Book): Promise<Book> {
-    throw new Error('Method not implemented.');
+  async update(id: string, updateDto) {
+    return this.bookModel.findByIdAndUpdate(id, updateDto, {
+      returnDocument: 'after',
+    });
   }
   async delete(id: string) {
-    throw new Error('Method not implemented.');
+    return this.bookModel.findByIdAndRemove(id);
   }
 }

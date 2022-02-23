@@ -1,8 +1,8 @@
 export abstract class BaseRepository<T> {
-  abstract create(item: T): Promise<T>;
-  abstract get(id: string): Promise<T>;
-  abstract getAll(): Promise<T[]>;
-  abstract find(query): Promise<T[]>;
-  abstract update(id: string, item: T): Promise<T>;
+  abstract create(item: T);
+  abstract get(id: string);
+  abstract getAll();
+  abstract find(query);
+  abstract update(id: string, updateDto);
   abstract delete(id: string);
 }
