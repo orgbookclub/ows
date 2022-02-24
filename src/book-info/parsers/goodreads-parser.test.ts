@@ -1,4 +1,4 @@
-import { GoodreadsParser } from './goodreadsParser';
+import { GoodreadsParser } from './goodreads-parser';
 import { readFileSync } from 'fs';
 
 describe('GoodreadsParser', () => {

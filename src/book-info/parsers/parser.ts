@@ -8,4 +8,8 @@ export class Parser {
     this.url = url;
     this.soup = cheerio.load(body);
   }
+
+  protected extractTitle(field) {
+    return field.text().trim();
+  }
 }

@@ -4,6 +4,6 @@ import { EventGroupsController } from './event-groups.controller';
 
 @Module({
   controllers: [EventGroupsController],
-  providers: [EventGroupsService]
+  providers: [EventGroupsService],
 })
 export class EventGroupsModule {}

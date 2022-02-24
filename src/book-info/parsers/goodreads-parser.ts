@@ -1,7 +1,7 @@
 import { InternalServerErrorException } from '@nestjs/common';
-import { AuthorDto } from '../books/dto/author.dto';
-import { BookDto } from '../books/dto/book.dto';
-import { GoodreadsBookDto } from './dto/goodreadsBook.dto';
+import { AuthorDto } from '../../books/dto/author.dto';
+import { BookDto } from '../../books/dto/book.dto';
+import { GoodreadsBookDto } from '../dto/goodreads-book.dto';
 import { Parser } from './parser';
 
 export class GoodreadsParser extends Parser {
@@ -14,17 +14,19 @@ export class GoodreadsParser extends Parser {
       const tableRows = this.soup('table[class=tableList]')
         .children('tbody')
         .children('tr');
-      const bookList: Array<BookDto> = [];
-      for (let i = 0; i < Math.min(tableRows.length, k); i++) {
-        const book = this.parseSearchResult(this.soup(tableRows[i]));
-        bookList.push(book);
-      }
-      return bookList;
+      return this.extractBooksFromRows(tableRows, k);
     } catch {
       throw new InternalServerErrorException();
     }
   }
-
+  private extractBooksFromRows(tableRows, k: number) {
+    const bookList: Array<BookDto> = [];
+    for (let i = 0; i < Math.min(tableRows.length, k); i++) {
+      const book = this.parseSearchResult(this.soup(tableRows[i]));
+      bookList.push(book);
+    }
+    return bookList;
+  }
   parseBookPage(): GoodreadsBookDto {
     try {
       const coverUrl = this.soup('img[id=coverImage]').attr('src');
@@ -79,10 +81,6 @@ export class GoodreadsParser extends Parser {
     } catch {
       throw new InternalServerErrorException();
     }
-  }
-
-  extractTitle(field) {
-    return field.text().trim();
   }
 
   extractUrl(field) {

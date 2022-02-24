@@ -73,12 +73,12 @@ describe('BooksService', () => {
         'https://new-url.com',
         [],
       );
-      const actual = await service.create(book);
+      const actual = await service.createBook(book);
       expect(actual).toEqual({ _id: 'mock random uuid', ...book });
     });
 
     it('should throw an error if we try to create a book that already exists ', async () => {
-      await expect(service.create(mockBook())).rejects.toThrow(
+      await expect(service.createBook(mockBook())).rejects.toThrow(
         'Book already exists!',
       );
     });
@@ -86,38 +86,38 @@ describe('BooksService', () => {
 
   describe('findAll', () => {
     it('should return all books', async () => {
-      const actual = await service.findAll();
+      const actual = await service.getAllBooks();
       expect(actual).toEqual(mockBookDocs);
     });
   });
 
   describe('findOne', () => {
     it('should return a book', async () => {
-      const actual = await service.findOne(mockBookDocs[0]._id);
+      const actual = await service.getBook(mockBookDocs[0]._id);
       expect(actual).toEqual(mockBookDocs[0]);
     });
 
     it('should return null if no book found', async () => {
-      const actual = await service.findOne('random id');
+      const actual = await service.getBook('random id');
       expect(actual).toBeUndefined();
     });
   });
   describe('findByUrl', () => {
     it('should return a book with that url', async () => {
-      const actual = await service.findByUrl(mockBooks[1].url);
+      const actual = await service.findBooksByUrl(mockBooks[1].url);
       expect(actual).toEqual([mockBookDocs[1]]);
     });
 
     it('should return an empty array if not found', async () => {
-      const actual = await service.findByUrl('random url');
+      const actual = await service.findBooksByUrl('random url');
       expect(actual).toEqual([]);
     });
   });
 
   describe('update', () => {
     it('should update the title of the book', async () => {
-      await service.update(mockBookDocs[0]._id, { title: 'updated title' });
-      const updatedBook = await service.findOne(mockBookDocs[0]._id);
+      await service.updateBook(mockBookDocs[0]._id, { title: 'updated title' });
+      const updatedBook = await service.getBook(mockBookDocs[0]._id);
       expect(updatedBook.title).toEqual('updated title');
     });
   });
@@ -125,8 +125,8 @@ describe('BooksService', () => {
   describe('remove', () => {
     it('should delete the book', async () => {
       const id = mockBookDocs[0]._id;
-      await service.remove(id);
-      const book = await service.findOne(id);
+      await service.deleteBook(id);
+      const book = await service.getBook(id);
       expect(book).toBeUndefined();
     });
   });

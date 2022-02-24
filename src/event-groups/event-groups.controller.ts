@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { EventGroupsService } from './event-groups.service';
 import { CreateEventGroupDto } from './dto/create-event-group.dto';
 import { UpdateEventGroupDto } from './dto/update-event-group.dto';
@@ -25,7 +33,10 @@ export class EventGroupsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEventGroupDto: UpdateEventGroupDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateEventGroupDto: UpdateEventGroupDto,
+  ) {
     return this.eventGroupsService.update(+id, updateEventGroupDto);
   }
 

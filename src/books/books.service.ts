@@ -13,23 +13,23 @@ export class BooksService {
   constructor(private repository: BookRepository) {
     Logger.debug('Initialized BooksService');
   }
-  async create(createBookDto: CreateBookDto) {
-    const books = await this.findByUrl(createBookDto.url);
+  async createBook(createBookDto: CreateBookDto) {
+    const books = await this.findBooksByUrl(createBookDto.url);
     if (books.length) {
       throw new ForbiddenException('Book already exists!');
     }
     return this.repository.create(createBookDto);
   }
 
-  async findAll() {
+  async getAllBooks() {
     return this.repository.getAll();
   }
 
-  async findOne(id: string) {
+  async getBook(id: string) {
     return await this.repository.get(id);
   }
 
-  async findByUrl(url: string) {
+  async findBooksByUrl(url: string) {
     const books = await this.repository.find({ url: url });
     if (books.length > 1) {
       throw new InternalServerErrorException('Multiple books found');
@@ -37,11 +37,11 @@ export class BooksService {
     return books;
   }
 
-  async update(id: string, updateBookDto: UpdateBookDto) {
+  async updateBook(id: string, updateBookDto: UpdateBookDto) {
     return await this.repository.update(id, updateBookDto);
   }
 
-  async remove(id: string) {
+  async deleteBook(id: string) {
     await this.repository.delete(id);
     return true;
   }

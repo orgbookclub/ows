@@ -8,4 +8,6 @@ export class StorygraphBookDto extends BookDto {
   moods: Array<string>;
   pace: Array<string>;
   quesAns: Array<[string, string]>;
+  description: string;
+  genres: Array<string>;
 }

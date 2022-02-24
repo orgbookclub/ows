@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { GoodreadsModule } from './goodreads/goodreads.module';
+import { BookInfoModule } from './book-info/book-info.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EventsModule } from './events/events.module';
@@ -21,7 +21,7 @@ import { BooksModule } from './books/books.module';
         uri: configService.get<string>('MONGODB_URI'),
       }),
     }),
-    GoodreadsModule,
+    BookInfoModule,
     BooksModule,
     EventsModule,
     UsersModule,

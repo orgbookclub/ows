@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { BookListsService } from './book-lists.service';
 import { CreateBookListDto } from './dto/create-book-list.dto';
@@ -25,7 +33,10 @@ export class BookListsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookListDto: UpdateBookListDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateBookListDto: UpdateBookListDto,
+  ) {
     return this.bookListsService.update(+id, updateBookListDto);
   }
 

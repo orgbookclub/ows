@@ -31,7 +31,7 @@ describe('GoodreadsController', () => {
             },
           ],
           url: 'https://www.goodreads.com/book/show/30165203-american-gods',
-          genres:[],
+          genres: [],
         },
         {
           title: 'Anansi Boys (American Gods, #2)',
@@ -42,7 +42,7 @@ describe('GoodreadsController', () => {
             },
           ],
           url: 'https://www.goodreads.com/book/show/2744.Anansi_Boys',
-          genres:[],
+          genres: [],
         },
         {
           title: 'Filthy Gods (American Gods, #0.5)',
@@ -53,7 +53,7 @@ describe('GoodreadsController', () => {
             },
           ],
           url: 'https://www.goodreads.com/book/show/39296064-filthy-gods',
-          genres:[],
+          genres: [],
         },
         {
           title: 'The Monarch of the Glen (American Gods, #1.1)',
@@ -64,7 +64,7 @@ describe('GoodreadsController', () => {
             },
           ],
           url: 'https://www.goodreads.com/book/show/18245822-the-monarch-of-the-glen',
-          genres:[],
+          genres: [],
         },
         {
           title: "Rich Boys Don't Have Hearts (American Gods, #1)",
@@ -75,7 +75,7 @@ describe('GoodreadsController', () => {
             },
           ],
           url: 'https://www.goodreads.com/book/show/35077930-rich-boys-don-t-have-hearts',
-          genres:[],
+          genres: [],
         },
       ];
       jest
@@ -98,7 +98,7 @@ describe('GoodreadsController', () => {
             },
           ],
           url: 'https://www.goodreads.com/book/show/30165203-american-gods',
-          genres:[],
+          genres: [],
         },
         {
           title: 'Anansi Boys (American Gods, #2)',
@@ -109,7 +109,7 @@ describe('GoodreadsController', () => {
             },
           ],
           url: 'https://www.goodreads.com/book/show/2744.Anansi_Boys',
-          genres:[],
+          genres: [],
         },
         {
           title: 'Filthy Gods (American Gods, #0.5)',
@@ -120,7 +120,7 @@ describe('GoodreadsController', () => {
             },
           ],
           url: 'https://www.goodreads.com/book/show/39296064-filthy-gods',
-          genres:[],
+          genres: [],
         },
         {
           title: 'The Monarch of the Glen (American Gods, #1.1)',
@@ -131,7 +131,7 @@ describe('GoodreadsController', () => {
             },
           ],
           url: 'https://www.goodreads.com/book/show/18245822-the-monarch-of-the-glen',
-          genres:[],
+          genres: [],
         },
         {
           title: "Rich Boys Don't Have Hearts (American Gods, #1)",
@@ -142,7 +142,7 @@ describe('GoodreadsController', () => {
             },
           ],
           url: 'https://www.goodreads.com/book/show/35077930-rich-boys-don-t-have-hearts',
-          genres:[],
+          genres: [],
         },
       ];
       const expected = {
