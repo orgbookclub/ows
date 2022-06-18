@@ -24,7 +24,7 @@ describe('GoodreadsController', () => {
       moduleRef.get<GoodreadsController>(GoodreadsController);
   });
 
-  describe('getSearch', () => {
+  describe('searchBooks', () => {
     it('should return a list of books', async () => {
       const expected = mockSearchResultsFromGR;
       jest
@@ -35,7 +35,7 @@ describe('GoodreadsController', () => {
     });
   });
 
-  describe('getBook', () => {
+  describe('searchAndG  etBook', () => {
     it('should return a book object', async () => {
       const expected = mockBookResultFromGR;
       jest
