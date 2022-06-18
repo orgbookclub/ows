@@ -1,7 +1,5 @@
-import { Body, Controller, Get, Logger, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { GoodreadsBookDto } from '../book-info/dto/goodreads-book.dto';
-import { StorygraphBookDto } from '../book-info/dto/storygraph-book.dto';
 import { GoodreadsService } from '../book-info/goodreads.service';
 import { StorygraphService } from '../book-info/storygraph.service';
 import { BooksService } from './books.service';
@@ -24,7 +22,7 @@ export class BooksController {
   }
 
   @Get('create')
-  async createBookFromUrl(@Param('url') url: string) {
+  async createBookFromUrl(@Query('url') url: string) {
     let book: CreateBookDto;
     if (url.startsWith(this.goodreadsService.GR_BASE_URL)) {
       book = await this.goodreadsService.getBook(url);
