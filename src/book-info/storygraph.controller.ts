@@ -15,7 +15,7 @@ export class StorygraphController {
     @Query('q') query: string,
     @Query('k') k = 5,
   ): Promise<Array<BookDto>> {
-    return this.bookInfoService.searchBooks(query, k);
+    return await this.bookInfoService.searchBooks(query, k);
   }
 
   @Get('book')
@@ -24,6 +24,6 @@ export class StorygraphController {
     if (bookList.length == 0) {
       throw new NotFoundException('Could not find a book by that query');
     }
-    return this.bookInfoService.getBook(bookList[0].url);
+    return await this.bookInfoService.getBook(bookList[0].url);
   }
 }

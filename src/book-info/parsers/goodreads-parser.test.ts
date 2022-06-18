@@ -1,76 +1,26 @@
 import { GoodreadsParser } from './goodreads-parser';
 import { readFileSync } from 'fs';
+import {
+  mockBookResultFromGR,
+  mockQuoteResultsFromGR,
+  mockSearchResultsFromGR,
+} from '../../utils/mockValues';
 
 describe('GoodreadsParser', () => {
   let goodreadsParser: GoodreadsParser;
-  const SAMPLE_DIR_PATH = 'src/goodreads/samples/';
+  const SAMPLE_DIR_PATH = 'src/book-info/samples/';
+  const MOCK_SEARCH_PAGE = 'gr-search.html';
+  const MOCK_BOOK_PAGE = 'gr-book.html';
 
   describe('parseSearchPage', () => {
     beforeEach(() => {
-      const data = String(readFileSync(SAMPLE_DIR_PATH + 'search.html'));
+      const data = String(readFileSync(SAMPLE_DIR_PATH + MOCK_SEARCH_PAGE));
       goodreadsParser = new GoodreadsParser('mock url', data);
     });
 
     it('valid page should return a list of books', () => {
-      const expected = [
-        {
-          title: 'American Gods (American Gods, #1)',
-          authors: [
-            {
-              name: 'Neil Gaiman',
-              url: 'https://www.goodreads.com/author/show/1221698.Neil_Gaiman',
-            },
-          ],
-          url: 'https://www.goodreads.com/book/show/30165203-american-gods',
-          genres: [],
-        },
-        {
-          title: 'Anansi Boys (American Gods, #2)',
-          authors: [
-            {
-              name: 'Neil Gaiman',
-              url: 'https://www.goodreads.com/author/show/1221698.Neil_Gaiman',
-            },
-          ],
-          url: 'https://www.goodreads.com/book/show/2744.Anansi_Boys',
-          genres: [],
-        },
-        {
-          title: 'Filthy Gods (American Gods, #0.5)',
-          authors: [
-            {
-              name: 'R. Scarlett',
-              url: 'https://www.goodreads.com/author/show/15254222.R_Scarlett',
-            },
-          ],
-          url: 'https://www.goodreads.com/book/show/39296064-filthy-gods',
-          genres: [],
-        },
-        {
-          title: 'The Monarch of the Glen (American Gods, #1.1)',
-          authors: [
-            {
-              name: 'Neil Gaiman',
-              url: 'https://www.goodreads.com/author/show/1221698.Neil_Gaiman',
-            },
-          ],
-          url: 'https://www.goodreads.com/book/show/18245822-the-monarch-of-the-glen',
-          genres: [],
-        },
-        {
-          title: "Rich Boys Don't Have Hearts (American Gods, #1)",
-          authors: [
-            {
-              name: 'R. Scarlett',
-              url: 'https://www.goodreads.com/author/show/15254222.R_Scarlett',
-            },
-          ],
-          url: 'https://www.goodreads.com/book/show/35077930-rich-boys-don-t-have-hearts',
-          genres: [],
-        },
-      ];
       const actual = goodreadsParser.parseSearchPage(5);
-      expect(actual).toEqual(expected);
+      expect(actual).toEqual(mockSearchResultsFromGR);
     });
   });
 
@@ -78,65 +28,25 @@ describe('GoodreadsParser', () => {
     beforeEach(() => {
       const mockUrl =
         'https://www.goodreads.com/book/show/30165203-american-gods';
-      const data = String(readFileSync(SAMPLE_DIR_PATH + 'book.html'));
+      const data = String(readFileSync(SAMPLE_DIR_PATH + MOCK_BOOK_PAGE));
       goodreadsParser = new GoodreadsParser(mockUrl, data);
     });
 
     it('valid page should return a book object', () => {
-      const expected = {
-        title: 'American Gods',
-        url: 'https://www.goodreads.com/book/show/30165203-american-gods',
-        series: '(American Gods)',
-        authors: [
-          {
-            name: 'Neil Gaiman',
-            url: 'https://www.goodreads.com/author/show/1221698.Neil_Gaiman',
-          },
-        ],
-        coverUrl:
-          'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1462924585l/30165203.jpg',
-        avgRating: 4.11,
-        numRatings: 831358,
-        numReviews: 41763,
-        description:
-          "Days before his release from prison, Shadow's wife, Laura, dies in a mysterious car crash. Numbly, he makes his way back home. On the plane, he encounters the enigmatic Mr Wednesday, who claims to be a refugee from a distant war, a former god and the king of America. Together they embark on a profoundly strange journey across the heart of the USA, whilst all around them a storm of preternatural and epic proportions threatens to break.Scary, gripping and deeply unsettling, American Gods takes a long, hard look into the soul of America. You'll be surprised by what - and who - it finds there...",
-        numPages: 635,
-        genres: [
-          'Fantasy',
-          'Fiction',
-          'Fantasy',
-          'Urban Fantasy',
-          'Fantasy',
-          'Mythology',
-          'Audiobook',
-          'Science Fiction',
-          'Science Fiction Fantasy',
-          'Adult',
-          'Contemporary',
-          'Horror',
-        ],
-      };
       const actual = goodreadsParser.parseBookPage();
-      expect(actual).toEqual(expected);
+      expect(actual).toEqual(mockBookResultFromGR);
     });
   });
 
   describe('parseQuotesPage', () => {
     beforeEach(() => {
-      const data = String(readFileSync(SAMPLE_DIR_PATH + 'quotes.html'));
+      const data = String(readFileSync(SAMPLE_DIR_PATH + 'gr-quotes.html'));
       goodreadsParser = new GoodreadsParser('mock url', data);
     });
 
     it('valid page should return a list of quotes', () => {
-      const expected = [
-        '“Be yourself; everyone else is already taken.”\n    ―\n  \n    Oscar Wilde',
-        "“I'm selfish, impatient and a little insecure. I make mistakes, I am out of control and at times hard to handle. But if you can't handle me at my worst, then you sure as hell don't deserve me at my best.”\n    ―\n  \n    Marilyn Monroe",
-        "“Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.”\n    ―\n  \n    Albert Einstein",
-        '“So many books, so little time.”\n    ―\n  \n    Frank Zappa',
-        '“A room without books is like a body without a soul.”\n    ―\n  \n    Marcus Tullius Cicero',
-      ];
       const actual = goodreadsParser.parseQuotesPage(5);
-      expect(actual).toEqual(expected);
+      expect(actual).toEqual(mockQuoteResultsFromGR);
     });
   });
 });

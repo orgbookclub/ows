@@ -8,7 +8,7 @@ export class StorygraphParser extends Parser {
   constructor(url: string, body: any) {
     super(url, body);
   }
-  parseSearchPage(k: number): BookDto[] {
+  public parseSearchPage(k: number): BookDto[] {
     try {
       const tableRows = this.soup('div[class=book-title-author-and-series]');
       return this.extractBooksFromRows(tableRows, k);
@@ -17,16 +17,7 @@ export class StorygraphParser extends Parser {
     }
   }
 
-  private extractBooksFromRows(tableRows, k: number) {
-    const bookList: Array<BookDto> = [];
-    for (let i = 0; i < Math.min(tableRows.length, k); i++) {
-      const book = this.parseSearchResult(this.soup(tableRows[i]));
-      bookList.push(book);
-    }
-    return bookList;
-  }
-
-  parseBookPage(): StorygraphBookDto {
+  public parseBookPage(): StorygraphBookDto {
     try {
       const coverUrl = this.soup('div .book-cover').children('img').attr('src');
       const metaCol = this.soup('div .book-title-author-and-series');
@@ -54,8 +45,16 @@ export class StorygraphParser extends Parser {
       throw new InternalServerErrorException();
     }
   }
+  private extractBooksFromRows(tableRows, k: number) {
+    const bookList: Array<BookDto> = [];
+    for (let i = 0; i < Math.min(tableRows.length, k); i++) {
+      const book = this.parseSearchResult(this.soup(tableRows[i]));
+      bookList.push(book);
+    }
+    return bookList;
+  }
 
-  parseSearchResult(result): BookDto {
+  private parseSearchResult(result): BookDto {
     const td = result.find('h3 > a');
     const url = this.extractUrl(td);
     const title = this.extractTitle(td);
@@ -68,7 +67,7 @@ export class StorygraphParser extends Parser {
     };
   }
 
-  extractDescription() {
+  private extractDescription() {
     try {
       return this.soup('div .blurb-pane').text().trim();
     } catch {
@@ -76,7 +75,7 @@ export class StorygraphParser extends Parser {
     }
   }
 
-  extractGenres() {
+  private extractGenres() {
     try {
       const genres = [];
       const genreList = this.soup("div[class='leading-3 my-1 md:w-9/12']")
@@ -94,6 +93,7 @@ export class StorygraphParser extends Parser {
 
   private extractBookMetaInfo() {
     const leftPane = this.soup("div[class='standard-pane mb-5']");
+
     const avgRating = extractRating();
     const warnings = leftPane
       .find('div .content-warnings-information')
@@ -112,7 +112,7 @@ export class StorygraphParser extends Parser {
     function extractRating() {
       try {
         return parseFloat(
-          leftPane.find('span .average-star-rating').text().trim(),
+          leftPane.find("span[class='average-star-rating']").text().split(' ')[0].trim(),
         );
       } catch {
         return 0;
@@ -120,10 +120,10 @@ export class StorygraphParser extends Parser {
     }
   }
 
-  extractUrl(field) {
+  private extractUrl(field) {
     return 'https://app.thestorygraph.com' + field.attr('href').split('?')[0];
   }
-  extractTitleAndSeries(metaCol) {
+  private extractTitleAndSeries(metaCol) {
     const titleText = metaCol.find('h3 > a').first().text().trim();
     const pFields = metaCol.find('p');
     let seriesText = '';
@@ -133,7 +133,7 @@ export class StorygraphParser extends Parser {
     return { titleText, seriesText };
   }
 
-  extractQuesAndAns(leftPane) {
+  private extractQuesAndAns(leftPane) {
     const questions = leftPane
       .find('div')
       .last()
@@ -151,7 +151,7 @@ export class StorygraphParser extends Parser {
     return quesAns;
   }
 
-  extractTupleFields(parent) {
+  private extractTupleFields(parent) {
     const childFields = parent.children('span');
     const fields = [];
     let field = '';
@@ -171,7 +171,8 @@ export class StorygraphParser extends Parser {
     }
     return fields;
   }
-  extractAuthors(authorArray): Array<AuthorDto> {
+
+  private extractAuthors(authorArray): Array<AuthorDto> {
     const authors: Array<AuthorDto> = [];
     for (let i = 0; i < authorArray.length; i++) {
       const author = this.soup(authorArray[i]).text().trim();

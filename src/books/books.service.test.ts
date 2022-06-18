@@ -2,44 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { BookRepository } from '../repositories/book.repository';
 import { MockRepository } from '../repositories/mock.repository';
 import { BooksService } from './books.service';
-import { AuthorDto } from './dto/author.dto';
+import {
+  mockBookDocs,
+  mockBook,
+  mockAuthors,
+  mockBooks,
+} from '../utils/mockValues';
 import { Book } from './schemas/book.schema';
 
-const mockAuthor = (
-  name = 'mock author',
-  url = 'mock author url',
-): AuthorDto => ({
-  name: name,
-  url: url,
-});
-const mockBook = (
-  title = 'mock title',
-  authors = [mockAuthor()],
-  url = 'https://mock-url.com?suffix',
-  genres = ['Mock genre 1', 'Mock genre 2'],
-): Book => ({
-  title: title,
-  authors: authors,
-  url: url,
-  genres: genres,
-});
-const mockAuthors = [
-  mockAuthor(),
-  mockAuthor('mock author2', 'url2'),
-  mockAuthor('mock author3', 'url3'),
-];
-const mockBooks = [
-  mockBook(),
-  mockBook('mock title 2', [mockAuthors[1]], 'https://mock-url2.com', []),
-  mockBook('mock title3', [mockAuthors[2]], 'httsp://mock-url3.com', [
-    'mock genre3',
-  ]),
-];
-const mockBookDocs = [
-  { _id: 'uuid', ...mockBooks[0] },
-  { _id: 'uuid2', ...mockBooks[1] },
-  { _id: 'uuid3', ...mockBooks[2] },
-];
 describe('BooksService', () => {
   let service: BooksService;
 
@@ -104,13 +74,13 @@ describe('BooksService', () => {
   });
   describe('findByUrl', () => {
     it('should return a book with that url', async () => {
-      const actual = await service.findBooksByUrl(mockBooks[1].url);
-      expect(actual).toEqual([mockBookDocs[1]]);
+      const actual = await service.findBookByUrl(mockBooks[1].url);
+      expect(actual).toEqual(mockBookDocs[1]);
     });
 
-    it('should return an empty array if not found', async () => {
-      const actual = await service.findBooksByUrl('random url');
-      expect(actual).toEqual([]);
+    it('should return null if no book found', async () => {
+      const actual = await service.findBookByUrl('random url');
+      expect(actual).toEqual(null);
     });
   });
 

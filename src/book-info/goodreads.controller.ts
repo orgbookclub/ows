@@ -15,7 +15,7 @@ export class GoodreadsController {
     @Query('q') query: string,
     @Query('k') k = 5,
   ): Promise<Array<BookDto>> {
-    return this.goodreadsService.searchBooks(query, k);
+    return await this.goodreadsService.searchBooks(query, k);
   }
 
   @Get('book')
@@ -24,7 +24,7 @@ export class GoodreadsController {
     if (bookList.length == 0) {
       throw new NotFoundException('Could not find a book by that query');
     }
-    return this.goodreadsService.getBook(bookList[0].url);
+    return await this.goodreadsService.getBook(bookList[0].url);
   }
 
   @Get('quotes')
@@ -32,6 +32,6 @@ export class GoodreadsController {
     @Query('k') k = 5,
     @Query('q') query?: string,
   ): Promise<Array<string>> {
-    return this.goodreadsService.getQuotes(k, query);
+    return await this.goodreadsService.getQuotes(k, query);
   }
 }

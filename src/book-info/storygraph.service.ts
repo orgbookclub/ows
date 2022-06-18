@@ -14,7 +14,7 @@ export class StorygraphService {
   constructor(private httpService: HttpService) {
     //
   }
-  private SG_BASE_URL = 'https://app.thestorygraph.com';
+  public SG_BASE_URL = 'https://app.thestorygraph.com';
   private parser = StorygraphParser;
 
   async searchBooks(query: string, k: number): Promise<BookDto[]> {

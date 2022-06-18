@@ -11,7 +11,6 @@ export class BookRepository extends BaseRepository<Book> {
     super();
   }
   async create(item: Book) {
-    Logger.debug(item);
     return await this.bookModel.create(item);
   }
   async get(id: string) {

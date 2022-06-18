@@ -9,7 +9,7 @@ export class GoodreadsParser extends Parser {
     super(url, body);
   }
 
-  parseSearchPage(k: number): BookDto[] {
+  public parseSearchPage(k: number): BookDto[] {
     try {
       const tableRows = this.soup('table[class=tableList]')
         .children('tbody')
@@ -19,15 +19,8 @@ export class GoodreadsParser extends Parser {
       throw new InternalServerErrorException();
     }
   }
-  private extractBooksFromRows(tableRows, k: number) {
-    const bookList: Array<BookDto> = [];
-    for (let i = 0; i < Math.min(tableRows.length, k); i++) {
-      const book = this.parseSearchResult(this.soup(tableRows[i]));
-      bookList.push(book);
-    }
-    return bookList;
-  }
-  parseBookPage(): GoodreadsBookDto {
+
+  public parseBookPage(): GoodreadsBookDto {
     try {
       const coverUrl = this.soup('img[id=coverImage]').attr('src');
       const metaCol = this.soup('div #metacol');
@@ -56,20 +49,7 @@ export class GoodreadsParser extends Parser {
     }
   }
 
-  parseSearchResult(result): BookDto {
-    const td = result.find('td[width=100%]');
-    const url = this.extractUrl(td.children('a'));
-    const title = this.extractTitle(td.children('a'));
-    const authors = this.extractAuthors(td.find('a[class=authorName]'));
-    return {
-      title: title,
-      authors: authors,
-      url: url,
-      genres: [],
-    };
-  }
-
-  parseQuotesPage(k: number) {
+  public parseQuotesPage(k: number) {
     try {
       const quotes = [];
       const quoteDivs = this.soup('div[class=quoteText]');
@@ -83,11 +63,33 @@ export class GoodreadsParser extends Parser {
     }
   }
 
-  extractUrl(field) {
+  private parseSearchResult(result): BookDto {
+    const td = result.find('td[width=100%]');
+    const url = this.extractUrl(td.children('a'));
+    const title = this.extractTitle(td.children('a'));
+    const authors = this.extractAuthors(td.find('a[class=authorName]'));
+    return {
+      title: title,
+      authors: authors,
+      url: url,
+      genres: [],
+    };
+  }
+
+  private extractBooksFromRows(tableRows, k: number) {
+    const bookList: Array<BookDto> = [];
+    for (let i = 0; i < Math.min(tableRows.length, k); i++) {
+      const book = this.parseSearchResult(this.soup(tableRows[i]));
+      bookList.push(book);
+    }
+    return bookList;
+  }
+
+  private extractUrl(field) {
     return `https://www.goodreads.com${field.attr('href').split('?')[0]}`;
   }
 
-  extractAuthors(authorArray): Array<AuthorDto> {
+  private extractAuthors(authorArray): Array<AuthorDto> {
     const authors: Array<AuthorDto> = [];
     for (let i = 0; i < authorArray.length; i++) {
       const author = this.soup(authorArray[i]).text().trim();
@@ -97,7 +99,7 @@ export class GoodreadsParser extends Parser {
     return authors;
   }
 
-  extractBookMetaInfo(metaCol) {
+  private extractBookMetaInfo(metaCol) {
     const bookMeta = metaCol.find('div[id=bookMeta]');
     const avgRating = extractRating();
     const numRatings = extractNumRatings();
@@ -135,7 +137,7 @@ export class GoodreadsParser extends Parser {
     }
   }
 
-  extractDescription(metaCol) {
+  private extractDescription(metaCol) {
     try {
       return metaCol
         .find('div[id=description]')
@@ -148,7 +150,7 @@ export class GoodreadsParser extends Parser {
     }
   }
 
-  extractPages(metaCol): number {
+  private extractPages(metaCol): number {
     try {
       const pageStr = metaCol.find('span[itemprop=numberOfPages]').text();
       return parseInt(pageStr.split(' ')[0]);
@@ -157,7 +159,7 @@ export class GoodreadsParser extends Parser {
     }
   }
 
-  extractGenres() {
+  private extractGenres() {
     try {
       const genres = [];
       const genreList = this.soup(
@@ -173,7 +175,7 @@ export class GoodreadsParser extends Parser {
     }
   }
 
-  extractTitleAndSeries(metaCol) {
+  private extractTitleAndSeries(metaCol) {
     const titleText = metaCol.find('h1[id=bookTitle]').text().trim();
     const seriesText = metaCol.find('h2[id=bookSeries]').text().trim();
     return { titleText, seriesText };
