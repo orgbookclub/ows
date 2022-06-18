@@ -5,7 +5,7 @@ import { StorygraphService } from './storygraph.service';
 import {
   mockSearchResultsFromSG,
   mockBookResultFromSG,
-} from '../utils/mockValues';
+} from '../utils/mockBookValues';
 
 describe('StorygraphController', () => {
   let storygraphController: StorygraphController;

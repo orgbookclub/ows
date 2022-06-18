@@ -7,7 +7,7 @@ import {
   mockBook,
   mockAuthors,
   mockBooks,
-} from '../utils/mockValues';
+} from '../utils/mockBookValues';
 import { Book } from './schemas/book.schema';
 
 describe('BooksService', () => {

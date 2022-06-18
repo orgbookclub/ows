@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import {
   mockSearchResultsFromSG,
   mockBookResultFromSG,
-} from '../../utils/mockValues';
+} from '../../utils/mockBookValues';
 import { StorygraphParser } from './storygraph-parser';
 
 describe('StorygraphParser', () => {

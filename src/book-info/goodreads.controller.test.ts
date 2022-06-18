@@ -6,7 +6,7 @@ import {
   mockSearchResultsFromGR,
   mockBookResultFromGR,
   mockQuoteResultsFromGR,
-} from '../utils/mockValues';
+} from '../utils/mockBookValues';
 
 describe('GoodreadsController', () => {
   let goodreadsController: GoodreadsController;

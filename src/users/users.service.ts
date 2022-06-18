@@ -1,26 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
+import { UserRepository } from '../repositories/user.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(private repository: UserRepository) {
+    Logger.debug('Initialized UsersService');
+  }
+  async create(createUserDto: CreateUserDto) {
+    const user = await this.findOne(createUserDto.id);
+    if (user != null) {
+      throw new ForbiddenException('User already exists!');
+    }
+    return await this.repository.create(createUserDto);
   }
 
-  findAll() {
+  async findAll() {
     return `This action returns all users`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string) {
+    const users = await this.repository.find({ id: id });
+    if (users.length == 0) {
+      return null;
+    }
+    return users[0];
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: number) {
+  async remove(id: string) {
     return `This action removes a #${id} user`;
   }
 }

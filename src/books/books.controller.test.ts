@@ -11,7 +11,7 @@ import {
   mockBookResultFromSG,
   mockSearchResultsFromGR,
   mockSearchResultsFromSG,
-} from '../utils/mockValues';
+} from '../utils/mockBookValues';
 import { Book } from './schemas/book.schema';
 import { GoodreadsService } from '../book-info/goodreads.service';
 import { StorygraphService } from '../book-info/storygraph.service';
