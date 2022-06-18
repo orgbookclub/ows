@@ -1,1 +1,3 @@
-export class ProfileDto {}
+export class ProfileDto {
+  bio: string;
+}

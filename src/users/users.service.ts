@@ -1,9 +1,4 @@
-import {
-  ForbiddenException,
-  Injectable,
-  Logger,
-  NotFoundException,
-} from '@nestjs/common';
+import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -22,7 +17,7 @@ export class UsersService {
   }
 
   async findAll() {
-    return `This action returns all users`;
+    return await this.repository.getAll();
   }
 
   async findOne(id: string) {
@@ -34,10 +29,11 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    return await this.repository.update(id, updateUserDto);
   }
 
   async remove(id: string) {
-    return `This action removes a #${id} user`;
+    await this.repository.delete(id);
+    return true;
   }
 }

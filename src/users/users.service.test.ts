@@ -32,10 +32,15 @@ describe('UsersService', () => {
 
   describe('create', () => {
     it('should create a user', async () => {
-      const user = mockUser(
-        'mockUserId',
-        'mockUserName'
-      )
+      const user = mockUser('newUserId', 'newUser');
+      const actual = await service.create(user);
+      expect(actual).toEqual({ _id: 'mock random uuid', ...user });
+    });
+
+    it('should throw an error if user already exists', async () => {
+      await expect(service.create(mockUser())).rejects.toThrow(
+        'User already exists!',
+      );
     });
   });
 });
