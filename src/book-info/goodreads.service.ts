@@ -3,6 +3,7 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
+  Logger,
   ServiceUnavailableException,
 } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
@@ -12,9 +13,9 @@ import { GoodreadsParser } from './parsers/goodreads-parser';
 @Injectable()
 export class GoodreadsService {
   constructor(private httpService: HttpService) {
-    //
+    Logger.debug('Initialized GoodreadsService');
   }
-  private GR_BASE_URL = 'https://www.goodreads.com';
+  public GR_BASE_URL = 'https://www.goodreads.com';
   private parser = GoodreadsParser;
 
   async searchBooks(query: string, k: number): Promise<BookDto[]> {

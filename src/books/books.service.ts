@@ -14,8 +14,8 @@ export class BooksService {
     Logger.debug('Initialized BooksService');
   }
   async createBook(createBookDto: CreateBookDto) {
-    const books = await this.findBooksByUrl(createBookDto.url);
-    if (books.length) {
+    const book = await this.findBookByUrl(createBookDto.url);
+    if (book != null) {
       throw new ForbiddenException('Book already exists!');
     }
     return this.repository.create(createBookDto);
@@ -29,12 +29,15 @@ export class BooksService {
     return await this.repository.get(id);
   }
 
-  async findBooksByUrl(url: string) {
+  async findBookByUrl(url: string) {
     const books = await this.repository.find({ url: url });
+    if (books.length == 0) {
+      return null;
+    }
     if (books.length > 1) {
       throw new InternalServerErrorException('Multiple books found');
     }
-    return books;
+    return books[0];
   }
 
   async updateBook(id: string, updateBookDto: UpdateBookDto) {
