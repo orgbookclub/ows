@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MockRepository } from '../repositories/mock.repository';
 import { UserRepository } from '../repositories/user.repository';
-import { mockUserDocs } from '../utils/mockUserValues';
+import { mockUser, mockUserDocs } from '../utils/mockUserValues';
 import { User } from './schemas/user.schema';
 import { UsersService } from './users.service';
 
@@ -28,5 +28,14 @@ describe('UsersService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  describe('create', () => {
+    it('should create a user', async () => {
+      const user = mockUser(
+        'mockUserId',
+        'mockUserName'
+      )
+    });
   });
 });
