@@ -72,6 +72,7 @@ describe('BooksService', () => {
       expect(actual).toBeUndefined();
     });
   });
+
   describe('findByUrl', () => {
     it('should return a book with that url', async () => {
       const actual = await service.findBookByUrl(mockBooks[1].url);

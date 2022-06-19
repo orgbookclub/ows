@@ -13,20 +13,20 @@ export class BookRepository extends BaseRepository<Book> {
     return await this.bookModel.create(item);
   }
   async get(id: string) {
-    return this.bookModel.findById(id).exec();
+    return await this.bookModel.findById(id).exec();
   }
   async getAll() {
-    return this.bookModel.find().exec();
+    return await this.bookModel.find().exec();
   }
   async find(query: any) {
-    return this.bookModel.find(query).exec();
+    return await this.bookModel.find(query).exec();
   }
   async update(id: string, updateDto) {
-    return this.bookModel.findByIdAndUpdate(id, updateDto, {
+    return await this.bookModel.findByIdAndUpdate(id, updateDto, {
       returnDocument: 'after',
     });
   }
   async delete(id: string) {
-    return this.bookModel.findByIdAndRemove(id);
+    return await this.bookModel.findByIdAndRemove(id);
   }
 }

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MockRepository } from '../repositories/mock.repository';
 import { UserRepository } from '../repositories/user.repository';
-import { mockUser, mockUserDocs } from '../utils/mockUserValues';
+import { mockUser, mockUserDocs, mockUsers } from '../utils/mockUserValues';
 import { User } from './schemas/user.schema';
 import { UsersService } from './users.service';
 
@@ -41,6 +41,42 @@ describe('UsersService', () => {
       await expect(service.create(mockUser())).rejects.toThrow(
         'User already exists!',
       );
+    });
+  });
+
+  describe('findAll', () => {
+    it('should return the list of all users', async () => {
+      const actual = await service.findAll();
+      expect(actual).toEqual(mockUserDocs);
+    });
+  });
+
+  describe('findOne', () => {
+    it('should return one user', async () => {
+      const actual = await service.findOne(mockUsers[0].id);
+      expect(actual).toEqual(mockUserDocs[0]);
+    });
+
+    it('should return null if no user found', async () => {
+      const actual = await service.findOne('random id');
+      expect(actual).toBeNull();
+    });
+  });
+
+  describe('update', () => {
+    it('should update the name of the user', async () => {
+      await service.update(mockUserDocs[0]._id, { name: 'updated username' });
+      const updatedUser = await service.findOne(mockUsers[0].id);
+      expect(updatedUser.name).toEqual('updated username');
+    });
+  });
+
+  describe('remove', () => {
+    it('should delete the user', async () => {
+      const id = mockUsers[1].id;
+      await service.remove(mockUserDocs[1]._id);
+      const user = await service.findOne(id);
+      expect(user).toBeNull();
     });
   });
 });

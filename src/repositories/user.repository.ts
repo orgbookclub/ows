@@ -13,20 +13,20 @@ export class UserRepository extends BaseRepository<User> {
     return await this.userModel.create(item);
   }
   async get(id: string) {
-    return this.userModel.findById(id).exec();
+    return await this.userModel.findById(id).exec();
   }
   async getAll() {
-    return this.userModel.find().exec();
+    return await this.userModel.find().exec();
   }
   async find(query: any) {
-    return this.userModel.find(query).exec();
+    return await this.userModel.find(query).exec();
   }
   async update(id: string, updateDto) {
-    return this.userModel.findByIdAndUpdate(id, updateDto, {
+    return await this.userModel.findByIdAndUpdate(id, updateDto, {
       returnDocument: 'after',
     });
   }
   async delete(id: string) {
-    return this.userModel.findByIdAndRemove(id);
+    return await this.userModel.findByIdAndRemove(id);
   }
 }

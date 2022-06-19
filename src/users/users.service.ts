@@ -1,4 +1,9 @@
-import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -24,6 +29,9 @@ export class UsersService {
     const users = await this.repository.find({ id: id });
     if (users.length == 0) {
       return null;
+    }
+    if (users.length > 1) {
+      throw new InternalServerErrorException('Multiple users found');
     }
     return users[0];
   }
