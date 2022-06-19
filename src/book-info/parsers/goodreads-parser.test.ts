@@ -4,7 +4,7 @@ import {
   mockBookResultFromGR,
   mockQuoteResultsFromGR,
   mockSearchResultsFromGR,
-} from '../../utils/mockValues';
+} from '../../utils/mockBookValues';
 
 describe('GoodreadsParser', () => {
   let goodreadsParser: GoodreadsParser;

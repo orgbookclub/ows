@@ -112,7 +112,11 @@ export class StorygraphParser extends Parser {
     function extractRating() {
       try {
         return parseFloat(
-          leftPane.find("span[class='average-star-rating']").text().split(' ')[0].trim(),
+          leftPane
+            .find("span[class='average-star-rating']")
+            .text()
+            .split(' ')[0]
+            .trim(),
         );
       } catch {
         return 0;

@@ -7,7 +7,7 @@ import {
   mockBook,
   mockAuthors,
   mockBooks,
-} from '../utils/mockValues';
+} from '../utils/mockBookValues';
 import { Book } from './schemas/book.schema';
 
 describe('BooksService', () => {
@@ -72,6 +72,7 @@ describe('BooksService', () => {
       expect(actual).toBeUndefined();
     });
   });
+
   describe('findByUrl', () => {
     it('should return a book with that url', async () => {
       const actual = await service.findBookByUrl(mockBooks[1].url);

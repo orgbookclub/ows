@@ -18,11 +18,11 @@ export class BooksService {
     if (book != null) {
       throw new ForbiddenException('Book already exists!');
     }
-    return this.repository.create(createBookDto);
+    return await this.repository.create(createBookDto);
   }
 
   async getAllBooks() {
-    return this.repository.getAll();
+    return await this.repository.getAll();
   }
 
   async getBook(id: string) {
