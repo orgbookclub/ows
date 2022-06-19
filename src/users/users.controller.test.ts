@@ -43,15 +43,15 @@ describe('UsersController', () => {
   });
 
   describe('findAll', () => {
-    it('should return all books', async () => {
+    it('should return all users', async () => {
       const actual = await controller.findAll();
       expect(actual).toEqual(mockUserDocs);
     });
   });
 
   describe('findOne', () => {
-    it('should return a book', async () => {
-      const actual = await controller.findOne(mockUsers[0].id);
+    it('should return a user', async () => {
+      const actual = await controller.findOne(mockUserDocs[0]._id);
       expect(actual).toEqual(mockUserDocs[0]);
     });
 
@@ -66,14 +66,14 @@ describe('UsersController', () => {
       await controller.update(mockUserDocs[0]._id, {
         name: 'updated username',
       });
-      const updatedUser = await controller.findOne(mockUsers[0].id);
+      const updatedUser = await controller.findOne(mockUserDocs[0]._id);
       expect(updatedUser.name).toEqual('updated username');
     });
   });
 
   describe('remove', () => {
     it('should delete the user', async () => {
-      const id = mockUsers[1].id;
+      const id = mockUserDocs[1]._id;
       await controller.remove(mockUserDocs[1]._id);
       const user = await controller.findOne(id);
       expect(user).toBeNull();

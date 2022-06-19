@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MockRepository } from '../repositories/mock.repository';
 import { UserRepository } from '../repositories/user.repository';
-import { mockUser, mockUserDocs, mockUsers } from '../utils/mockUserValues';
+import { mockUser, mockUserDocs } from '../utils/mockUserValues';
 import { User } from './schemas/user.schema';
 import { UsersService } from './users.service';
 
@@ -53,7 +53,7 @@ describe('UsersService', () => {
 
   describe('findOne', () => {
     it('should return one user', async () => {
-      const actual = await service.findOne(mockUsers[0].id);
+      const actual = await service.findOne(mockUserDocs[0]._id);
       expect(actual).toEqual(mockUserDocs[0]);
     });
 
@@ -66,14 +66,14 @@ describe('UsersService', () => {
   describe('update', () => {
     it('should update the name of the user', async () => {
       await service.update(mockUserDocs[0]._id, { name: 'updated username' });
-      const updatedUser = await service.findOne(mockUsers[0].id);
+      const updatedUser = await service.findOne(mockUserDocs[0]._id);
       expect(updatedUser.name).toEqual('updated username');
     });
   });
 
   describe('remove', () => {
     it('should delete the user', async () => {
-      const id = mockUsers[1].id;
+      const id = mockUserDocs[1]._id;
       await service.remove(mockUserDocs[1]._id);
       const user = await service.findOne(id);
       expect(user).toBeNull();

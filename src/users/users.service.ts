@@ -14,7 +14,7 @@ export class UsersService {
     Logger.debug('Initialized UsersService');
   }
   async create(createUserDto: CreateUserDto) {
-    const user = await this.findOne(createUserDto.id);
+    const user = await this.findOneByUserId(createUserDto.id);
     if (user != null) {
       throw new ForbiddenException('User already exists!');
     }
@@ -25,8 +25,19 @@ export class UsersService {
     return await this.repository.getAll();
   }
 
-  async findOne(id: string) {
+  async findOneByUserId(id: string) {
     const users = await this.repository.find({ id: id });
+    if (users.length == 0) {
+      return null;
+    }
+    if (users.length > 1) {
+      throw new InternalServerErrorException('Multiple users found');
+    }
+    return users[0];
+  }
+
+  async findOne(id: string) {
+    const users = await this.repository.find({ _id: id });
     if (users.length == 0) {
       return null;
     }
