@@ -26,7 +26,7 @@
     "@nestjs/config": "^2.1.0",
     "@nestjs/core": "^8.4.7",
     "@nestjs/mongoose": "^9.1.1",
-    "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/platform-express": "^8.4.7",
     "@nestjs/swagger": "^5.2.1",
     "cheerio": "^1.0.0-rc.12",
     "mongoose": "^6.4.0",
