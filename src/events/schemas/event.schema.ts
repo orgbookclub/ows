@@ -32,7 +32,7 @@ export class Event {
   })
   type: keyof typeof EventType;
 
-  @Prop([DateRange])
+  @Prop(DateRange)
   dates: DateRange;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })

@@ -1,11 +1,13 @@
 import { Book } from '../../books/schemas/book.schema';
-import { UserDto } from '../../users/dto/user.dto';
+import { User } from '../../users/schemas/user.schema';
 import { EventStatus } from './event-status';
 import { EventType } from './event-type';
+
 export class DateRange {
   startDate: Date;
   endDate: Date;
 }
+
 export class EventDto {
   id: string;
   name: string;
@@ -13,13 +15,11 @@ export class EventDto {
   status: keyof typeof EventStatus;
   type: keyof typeof EventType;
   dates: DateRange;
-  // User related
-  requestedBy: UserDto;
-  interested: UserDto[];
-  participators: UserDto[];
-  leaders: UserDto[];
+  requestedBy: User;
+  interested: User[];
+  participators: User[];
+  leaders: User[];
   notes: string;
-  // Floats?
   readerPoints: number;
   leaderPoints: number;
 }
