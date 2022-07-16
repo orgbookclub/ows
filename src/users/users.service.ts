@@ -13,6 +13,7 @@ export class UsersService {
   constructor(private repository: UserRepository) {
     Logger.debug('Initialized UsersService');
   }
+
   async create(createUserDto: CreateUserDto) {
     const user = await this.findOneByUserId(createUserDto.id);
     if (user != null) {

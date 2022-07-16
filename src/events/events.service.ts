@@ -11,22 +11,22 @@ export class EventsService {
 
   async create(createEventDto: CreateEventDto) {
     return await this.repository.create(createEventDto);
-    return 'This action adds a new event';
   }
 
   async findAll() {
-    return `This action returns all events`;
+    return await this.repository.getAll();
   }
 
   async findOne(id: string) {
-    return `This action returns a #${id} event`;
+    return await this.repository.find({ id: id });
   }
 
   async update(id: string, updateEventDto: UpdateEventDto) {
-    return `This action updates a #${id} event`;
+    return await this.repository.update(id, updateEventDto);
   }
 
   async remove(id: string) {
-    return `This action removes a #${id} event`;
+    await this.repository.delete(id);
+    return true;
   }
 }

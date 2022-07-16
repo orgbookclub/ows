@@ -1,4 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { EventRepository } from '../repositories/event.repository';
+import { MockRepository } from '../repositories/mock.repository';
 import { EventsService } from './events.service';
 
 describe('EventsService', () => {
@@ -6,7 +8,13 @@ describe('EventsService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [EventsService],
+      providers: [
+        {
+          provide: EventRepository,
+          useValue: new MockRepository<Event>([]),
+        },
+        EventsService,
+      ],
     }).compile();
 
     service = module.get<EventsService>(EventsService);
