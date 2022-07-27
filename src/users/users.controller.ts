@@ -31,17 +31,17 @@ export class UsersController {
   }
 
   @Get('findOne')
-  findOne(@Query('id') id: string) {
+  findOne(@Query('id') id: number) {
     return this.usersService.findOne(id);
   }
 
   @Patch('update')
-  update(@Query('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  update(@Query('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
 
   @Delete('remove')
-  remove(@Query('id') id: string) {
+  remove(@Query('id') id: number) {
     return this.usersService.remove(id);
   }
 }

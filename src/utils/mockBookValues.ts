@@ -1,4 +1,5 @@
 import { AuthorDto } from '../books/dto/author.dto';
+import { BookDto } from '../books/dto/book.dto';
 import { Book } from '../books/schemas/book.schema';
 
 const mockAuthor = (
@@ -13,7 +14,7 @@ export const mockBook = (
   authors = [mockAuthor()],
   url = 'https://mock-url.com?suffix',
   genres = ['Mock genre 1', 'Mock genre 2'],
-): Book => ({
+): BookDto => ({
   title: title,
   authors: authors,
   url: url,
@@ -32,9 +33,9 @@ export const mockBooks = [
   ]),
 ];
 export const mockBookDocs = [
-  { _id: 'uuid', ...mockBooks[0] },
-  { _id: 'uuid2', ...mockBooks[1] },
-  { _id: 'uuid3', ...mockBooks[2] },
+  { _id: 'uuid', id: 1, ...mockBooks[0] },
+  { _id: 'uuid2', id: 2, ...mockBooks[1] },
+  { _id: 'uuid3', id: 3, ...mockBooks[2] },
 ];
 
 export const mockSearchResultsFromGR = [

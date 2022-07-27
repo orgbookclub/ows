@@ -15,7 +15,7 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    const user = await this.findOneByUserId(createUserDto.id);
+    const user = await this.findOneByUserId(createUserDto.userId);
     if (user != null) {
       throw new ForbiddenException('User already exists!');
     }
@@ -26,7 +26,18 @@ export class UsersService {
     return await this.repository.getAll();
   }
 
-  async findOneByUserId(id: string) {
+  async findOneByUserId(id: number) {
+    const users = await this.repository.find({ userId: id });
+    if (users.length == 0) {
+      return null;
+    }
+    if (users.length > 1) {
+      throw new InternalServerErrorException('Multiple users found');
+    }
+    return users[0];
+  }
+
+  async findOne(id: number) {
     const users = await this.repository.find({ id: id });
     if (users.length == 0) {
       return null;
@@ -37,22 +48,11 @@ export class UsersService {
     return users[0];
   }
 
-  async findOne(id: string) {
-    const users = await this.repository.find({ _id: id });
-    if (users.length == 0) {
-      return null;
-    }
-    if (users.length > 1) {
-      throw new InternalServerErrorException('Multiple users found');
-    }
-    return users[0];
-  }
-
-  async update(id: string, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto) {
     return await this.repository.update(id, updateUserDto);
   }
 
-  async remove(id: string) {
+  async remove(id: number) {
     await this.repository.delete(id);
     return true;
   }

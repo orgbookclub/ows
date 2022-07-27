@@ -30,9 +30,9 @@ describe('UsersController', () => {
 
   describe('create', () => {
     it('should create a user', async () => {
-      const user = mockUser('newUserId', 'newUser');
+      const user = mockUser(23, 'newUser');
       const actual = await controller.create(user);
-      expect(actual).toEqual({ _id: 'mock random uuid', ...user });
+      expect(actual).toEqual({ _id: 'mock random uuid', id: 69, ...user });
     });
 
     it('should throw an exception if user already exists', async () => {
@@ -51,30 +51,30 @@ describe('UsersController', () => {
 
   describe('findOne', () => {
     it('should return a user', async () => {
-      const actual = await controller.findOne(mockUserDocs[0]._id);
+      const actual = await controller.findOne(mockUserDocs[0].id);
       expect(actual).toEqual(mockUserDocs[0]);
     });
 
     it('should return null if not found', async () => {
-      const actual = await controller.findOne('random id');
+      const actual = await controller.findOne(99);
       expect(actual).toBeNull();
     });
   });
 
   describe('update', () => {
     it('should update the name of the user', async () => {
-      await controller.update(mockUserDocs[0]._id, {
+      await controller.update(mockUserDocs[0].id, {
         name: 'updated username',
       });
-      const updatedUser = await controller.findOne(mockUserDocs[0]._id);
+      const updatedUser = await controller.findOne(mockUserDocs[0].id);
       expect(updatedUser.name).toEqual('updated username');
     });
   });
 
   describe('remove', () => {
     it('should delete the user', async () => {
-      const id = mockUserDocs[1]._id;
-      await controller.remove(mockUserDocs[1]._id);
+      const id = mockUserDocs[1].id;
+      await controller.remove(mockUserDocs[1].id);
       const user = await controller.findOne(id);
       expect(user).toBeNull();
     });
