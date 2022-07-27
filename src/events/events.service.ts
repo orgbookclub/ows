@@ -17,15 +17,15 @@ export class EventsService {
     return await this.repository.getAll();
   }
 
-  async findOne(id: string) {
+  async findOne(id: number) {
     return await this.repository.find({ id: id });
   }
 
-  async update(id: string, updateEventDto: UpdateEventDto) {
+  async update(id: number, updateEventDto: UpdateEventDto) {
     return await this.repository.update(id, updateEventDto);
   }
 
-  async remove(id: string) {
+  async remove(id: number) {
     await this.repository.delete(id);
     return true;
   }

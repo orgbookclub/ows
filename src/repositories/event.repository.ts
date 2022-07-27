@@ -1,5 +1,6 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { CreateEventDto } from '../events/dto/create-event.dto';
 import { Event, EventDocument } from '../events/schemas/event.schema';
 import { BaseRepository } from './base.repository';
 
@@ -9,10 +10,10 @@ export class EventRepository extends BaseRepository<Event> {
   ) {
     super();
   }
-  async create(item: Event) {
+  async create(item: CreateEventDto) {
     return await this.eventModel.create(item);
   }
-  async get(id: string) {
+  async get(id: number) {
     return await this.eventModel.findById(id).exec();
   }
   async getAll() {
@@ -21,12 +22,12 @@ export class EventRepository extends BaseRepository<Event> {
   async find(query: any) {
     return await this.eventModel.find(query).exec();
   }
-  async update(id: string, updateDto) {
+  async update(id: number, updateDto) {
     return await this.eventModel.findByIdAndUpdate(id, updateDto, {
       returnDocument: 'after',
     });
   }
-  async delete(id: string) {
+  async delete(id: number) {
     return await this.eventModel.findByIdAndRemove(id);
   }
 }

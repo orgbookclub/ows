@@ -4,12 +4,19 @@ import { Book } from '../../books/schemas/book.schema';
 import { User } from '../../users/schemas/user.schema';
 import { EventStatus } from '../dto/event-status';
 import { EventType } from '../dto/event-type';
-import { DateRange } from '../dto/event.dto';
+import { DateRange } from '../dto/dateRange';
+import { Participant } from '../dto/participant';
 
 export type EventDocument = Event & Document;
 
 @Schema()
 export class Event {
+  @Prop({
+    type: Number,
+    unique: true,
+  })
+  id: number;
+
   @Prop()
   name: string;
 
@@ -41,20 +48,28 @@ export class Event {
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
   interested: User[];
 
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
-  participators: User[];
+  @Prop({
+    type: [
+      {
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        points: Number,
+      },
+    ],
+  })
+  readers: Participant[];
 
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
-  leaders: User[];
+  @Prop({
+    type: [
+      {
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        points: Number,
+      },
+    ],
+  })
+  leaders: Participant[];
 
   @Prop()
   notes: string;
-
-  @Prop()
-  readerPoints: number;
-
-  @Prop()
-  leaderPoints: number;
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);

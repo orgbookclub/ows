@@ -31,17 +31,17 @@ export class EventsController {
   }
 
   @Get('findOne')
-  findOne(@Query('id') id: string) {
+  findOne(@Query('id') id: number) {
     return this.eventsService.findOne(id);
   }
 
   @Patch('update')
-  update(@Query('id') id: string, @Body() updateEventDto: UpdateEventDto) {
+  update(@Query('id') id: number, @Body() updateEventDto: UpdateEventDto) {
     return this.eventsService.update(id, updateEventDto);
   }
 
   @Delete('remove')
-  remove(@Query('id') id: string) {
+  remove(@Query('id') id: number) {
     return this.eventsService.remove(id);
   }
 }
