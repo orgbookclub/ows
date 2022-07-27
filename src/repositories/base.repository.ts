@@ -1,8 +1,8 @@
 export abstract class BaseRepository<T> {
   abstract create(item: T);
-  abstract get(id: string);
+  abstract get(id);
   abstract getAll();
   abstract find(query);
-  abstract update(id: string, updateDto);
-  abstract delete(id: string);
+  abstract update(id, updateDto);
+  abstract delete(id);
 }
