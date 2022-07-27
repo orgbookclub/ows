@@ -6,6 +6,12 @@ export type BookDocument = Book & Document;
 
 @Schema()
 export class Book {
+  @Prop({
+    type: Number,
+    unique: true,
+  })
+  id: number;
+
   @Prop()
   title: string;
 

@@ -52,7 +52,7 @@ describe('BooksController', () => {
         [],
       );
       const actual = await controller.createBookFromDto(book);
-      expect(actual).toEqual({ _id: 'mock random uuid', ...book });
+      expect(actual).toEqual({ _id: 'mock random uuid', id: 69, ...book });
     });
   });
 
@@ -69,6 +69,7 @@ describe('BooksController', () => {
       const actual = await controller.createBookFromUrl(sampleUrl);
       expect(actual).toEqual({
         _id: 'mock random uuid',
+        id: 69,
         ...mockBookResultFromGR,
       });
     });
@@ -86,6 +87,7 @@ describe('BooksController', () => {
       const actual = await controller.createBookFromUrl(sampleUrl);
       expect(actual).toEqual({
         _id: 'mock random uuid',
+        id: 69,
         ...mockBookResultFromSG,
       });
     });

@@ -25,7 +25,7 @@ export class BooksService {
     return await this.repository.getAll();
   }
 
-  async getBook(id: string) {
+  async getBook(id: number) {
     return await this.repository.get(id);
   }
 
@@ -40,11 +40,11 @@ export class BooksService {
     return books[0];
   }
 
-  async updateBook(id: string, updateBookDto: UpdateBookDto) {
+  async updateBook(id: number, updateBookDto: UpdateBookDto) {
     return await this.repository.update(id, updateBookDto);
   }
 
-  async deleteBook(id: string) {
+  async deleteBook(id: number) {
     await this.repository.delete(id);
     return true;
   }
