@@ -6,7 +6,7 @@ import {
   Patch,
   Delete,
   Logger,
-  Query,
+  Param,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -20,28 +20,28 @@ export class UsersController {
     Logger.debug('Initialized UsersController');
   }
 
-  @Post('create')
+  @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
-  @Get('findAll')
+  @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
-  @Get('findOne')
-  findOne(@Query('id') id: number) {
-    return this.usersService.findOne(id);
+  @Get(':userid')
+  findOneByUserId(@Param('id') id: number) {
+    return this.usersService.findOneByUserId(id);
   }
 
-  @Patch('update')
-  update(@Query('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
 
-  @Delete('remove')
-  remove(@Query('id') id: number) {
+  @Delete(':id')
+  remove(@Param('id') id: string) {
     return this.usersService.remove(id);
   }
 }

@@ -13,7 +13,7 @@ export class UserRepository extends BaseRepository<User> {
   async create(item: CreateUserDto) {
     return await this.userModel.create(item);
   }
-  async get(id: number) {
+  async get(id: string) {
     return await this.userModel.findById(id).exec();
   }
   async getAll() {
@@ -22,12 +22,12 @@ export class UserRepository extends BaseRepository<User> {
   async find(query: any) {
     return await this.userModel.find(query).exec();
   }
-  async update(id: number, updateDto) {
+  async update(id: string, updateDto) {
     return await this.userModel.findByIdAndUpdate(id, updateDto, {
       returnDocument: 'after',
     });
   }
-  async delete(id: number) {
+  async delete(id: string) {
     return await this.userModel.findByIdAndRemove(id);
   }
 }

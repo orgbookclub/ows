@@ -9,9 +9,6 @@ export class User {
     type: Number,
     unique: true,
   })
-  id: number;
-
-  @Prop()
   userId: number;
 
   @Prop()

@@ -34,7 +34,7 @@ describe('UsersService', () => {
     it('should create a user', async () => {
       const user = mockUser(23, 'newUser');
       const actual = await service.create(user);
-      expect(actual).toEqual({ _id: 'mock random uuid', id: 69, ...user });
+      expect(actual).toEqual({ _id: 'mock random uuid', ...user });
     });
 
     it('should throw an error if user already exists', async () => {
@@ -53,28 +53,28 @@ describe('UsersService', () => {
 
   describe('findOne', () => {
     it('should return one user', async () => {
-      const actual = await service.findOne(mockUserDocs[0].id);
+      const actual = await service.findOne(mockUserDocs[0]._id);
       expect(actual).toEqual(mockUserDocs[0]);
     });
 
     it('should return null if no user found', async () => {
-      const actual = await service.findOne(99);
+      const actual = await service.findOne('randId');
       expect(actual).toBeNull();
     });
   });
 
   describe('update', () => {
     it('should update the name of the user', async () => {
-      await service.update(mockUserDocs[0].id, { name: 'updated username' });
-      const updatedUser = await service.findOne(mockUserDocs[0].id);
+      await service.update(mockUserDocs[0]._id, { name: 'updated username' });
+      const updatedUser = await service.findOne(mockUserDocs[0]._id);
       expect(updatedUser.name).toEqual('updated username');
     });
   });
 
   describe('remove', () => {
     it('should delete the user', async () => {
-      const id = mockUserDocs[1].id;
-      await service.remove(mockUserDocs[1].id);
+      const id = mockUserDocs[1]._id;
+      await service.remove(mockUserDocs[1]._id);
       const user = await service.findOne(id);
       expect(user).toBeNull();
     });

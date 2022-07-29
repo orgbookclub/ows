@@ -13,7 +13,7 @@ export class EventRepository extends BaseRepository<Event> {
   async create(item: CreateEventDto) {
     return await this.eventModel.create(item);
   }
-  async get(id: number) {
+  async get(id: string) {
     return await this.eventModel.findById(id).exec();
   }
   async getAll() {
@@ -22,12 +22,12 @@ export class EventRepository extends BaseRepository<Event> {
   async find(query: any) {
     return await this.eventModel.find(query).exec();
   }
-  async update(id: number, updateDto) {
+  async update(id: string, updateDto) {
     return await this.eventModel.findByIdAndUpdate(id, updateDto, {
       returnDocument: 'after',
     });
   }
-  async delete(id: number) {
+  async delete(id: string) {
     return await this.eventModel.findByIdAndRemove(id);
   }
 }

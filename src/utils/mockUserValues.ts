@@ -24,7 +24,7 @@ export const mockUsers = [
 ];
 
 export const mockUserDocs = [
-  { _id: 'uuid', id: 1, ...mockUsers[0] },
-  { _id: 'uuid2', id: 2, ...mockUsers[1] },
-  { _id: 'uuid3', id: 3, ...mockUsers[2] },
+  { _id: 'uuid', ...mockUsers[0] },
+  { _id: 'uuid2', ...mockUsers[1] },
+  { _id: 'uuid3', ...mockUsers[2] },
 ];

@@ -11,12 +11,6 @@ export type EventDocument = Event & Document;
 
 @Schema()
 export class Event {
-  @Prop({
-    type: Number,
-    unique: true,
-  })
-  id: number;
-
   @Prop()
   name: string;
 

@@ -3,24 +3,13 @@ import { BookRepository } from '../repositories/book.repository';
 import { MockRepository } from '../repositories/mock.repository';
 import { BooksController } from './books.controller';
 import { BooksService } from './books.service';
-import {
-  mockAuthors,
-  mockBook,
-  mockBookDocs,
-  mockBookResultFromGR,
-  mockBookResultFromSG,
-  mockSearchResultsFromGR,
-  mockSearchResultsFromSG,
-} from '../utils/mockBookValues';
+import { mockAuthors, mockBook, mockBookDocs } from '../utils/mockBookValues';
 import { Book } from './schemas/book.schema';
-import { GoodreadsService } from '../book-info/goodreads.service';
-import { StorygraphService } from '../book-info/storygraph.service';
 import { BookInfoModule } from '../book-info/book-info.module';
 
 describe('BooksController', () => {
   let controller: BooksController;
-  let goodreadsService: GoodreadsService;
-  let storygraphService: StorygraphService;
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [BookInfoModule],
@@ -34,8 +23,6 @@ describe('BooksController', () => {
       ],
     }).compile();
 
-    goodreadsService = module.get<GoodreadsService>(GoodreadsService);
-    storygraphService = module.get<StorygraphService>(StorygraphService);
     controller = module.get<BooksController>(BooksController);
   });
 
@@ -52,44 +39,7 @@ describe('BooksController', () => {
         [],
       );
       const actual = await controller.createBookFromDto(book);
-      expect(actual).toEqual({ _id: 'mock random uuid', id: 69, ...book });
-    });
-  });
-
-  describe('createBookFromUrl', () => {
-    it('should create a book from GR', async () => {
-      const sampleUrl =
-        'https://www.goodreads.com/book/show/30165203-american-gods';
-      jest
-        .spyOn(goodreadsService, 'searchBooks')
-        .mockImplementation(async () => mockSearchResultsFromGR);
-      jest
-        .spyOn(goodreadsService, 'getBook')
-        .mockImplementation(async () => mockBookResultFromGR);
-      const actual = await controller.createBookFromUrl(sampleUrl);
-      expect(actual).toEqual({
-        _id: 'mock random uuid',
-        id: 69,
-        ...mockBookResultFromGR,
-      });
-    });
-
-    it('should create a book from SG', async () => {
-      const sampleUrl =
-        'https://app.thestorygraph.com/books/9fd55617-3c71-458c-ad60-2d963964c351';
-      jest
-        .spyOn(storygraphService, 'searchBooks')
-        .mockImplementation(async () => mockSearchResultsFromSG);
-      jest
-        .spyOn(storygraphService, 'getBook')
-        .mockImplementation(async () => mockBookResultFromSG);
-
-      const actual = await controller.createBookFromUrl(sampleUrl);
-      expect(actual).toEqual({
-        _id: 'mock random uuid',
-        id: 69,
-        ...mockBookResultFromSG,
-      });
+      expect(actual).toEqual({ _id: 'mock random uuid', ...book });
     });
   });
 });

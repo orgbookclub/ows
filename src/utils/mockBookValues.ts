@@ -33,9 +33,9 @@ export const mockBooks = [
   ]),
 ];
 export const mockBookDocs = [
-  { _id: 'uuid', id: 1, ...mockBooks[0] },
-  { _id: 'uuid2', id: 2, ...mockBooks[1] },
-  { _id: 'uuid3', id: 3, ...mockBooks[2] },
+  { _id: 'uuid', ...mockBooks[0] },
+  { _id: 'uuid2', ...mockBooks[1] },
+  { _id: 'uuid3', ...mockBooks[2] },
 ];
 
 export const mockSearchResultsFromGR = [

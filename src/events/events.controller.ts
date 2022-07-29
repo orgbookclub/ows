@@ -6,7 +6,7 @@ import {
   Patch,
   Delete,
   Logger,
-  Query,
+  Param,
 } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-event.dto';
@@ -20,28 +20,36 @@ export class EventsController {
     Logger.debug('Initialized EventsController');
   }
 
-  @Post('create')
+  @Post()
   create(@Body() createEventDto: CreateEventDto) {
     return this.eventsService.create(createEventDto);
   }
 
-  @Get('findAll')
+  @Post(':url')
+  createFromUrl(
+    @Param('url') url: string,
+    @Body() createEventDto: CreateEventDto,
+  ) {
+    return this.eventsService.createFromUrl(url, createEventDto);
+  }
+
+  @Get()
   findAll() {
     return this.eventsService.findAll();
   }
 
-  @Get('findOne')
-  findOne(@Query('id') id: number) {
+  @Get(':id')
+  findOne(@Param('id') id: string) {
     return this.eventsService.findOne(id);
   }
 
-  @Patch('update')
-  update(@Query('id') id: number, @Body() updateEventDto: UpdateEventDto) {
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto) {
     return this.eventsService.update(id, updateEventDto);
   }
 
-  @Delete('remove')
-  remove(@Query('id') id: number) {
+  @Delete(':id')
+  remove(@Param('id') id: string): Promise<boolean> {
     return this.eventsService.remove(id);
   }
 }

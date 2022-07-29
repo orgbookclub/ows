@@ -37,8 +37,8 @@ export class UsersService {
     return users[0];
   }
 
-  async findOne(id: number) {
-    const users = await this.repository.find({ id: id });
+  async findOne(id: string) {
+    const users = await this.repository.find({ _id: id });
     if (users.length == 0) {
       return null;
     }
@@ -48,11 +48,11 @@ export class UsersService {
     return users[0];
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     return await this.repository.update(id, updateUserDto);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     await this.repository.delete(id);
     return true;
   }
