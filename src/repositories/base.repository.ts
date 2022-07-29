@@ -1,5 +1,5 @@
 export abstract class BaseRepository<T> {
-  abstract create(item: T);
+  abstract create(item);
   abstract get(id);
   abstract getAll();
   abstract find(query);

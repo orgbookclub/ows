@@ -63,7 +63,7 @@ export class Event {
   leaders: Participant[];
 
   @Prop()
-  notes: string;
+  description: string;
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);

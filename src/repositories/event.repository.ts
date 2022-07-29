@@ -14,7 +14,7 @@ export class EventRepository extends BaseRepository<Event> {
     return await this.eventModel.create(item);
   }
   async get(id: string) {
-    return await this.eventModel.findById(id).exec();
+    return await this.eventModel.findById(id);
   }
   async getAll() {
     return await this.eventModel.find().exec();
