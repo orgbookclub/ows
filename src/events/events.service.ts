@@ -30,7 +30,7 @@ export class EventsService {
   }
 
   async findOne(id: string) {
-    return await this.repository.find({ id: id });
+    return await this.repository.get(id);
   }
 
   async update(id: string, updateEventDto: UpdateEventDto) {

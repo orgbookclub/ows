@@ -1,6 +1,5 @@
 import { AuthorDto } from '../books/dto/author.dto';
 import { BookDto } from '../books/dto/book.dto';
-import { Book } from '../books/schemas/book.schema';
 
 const mockAuthor = (
   name = 'mock author',

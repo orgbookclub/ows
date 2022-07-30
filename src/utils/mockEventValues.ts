@@ -2,7 +2,6 @@ import { DateRange } from '../events/dto/dateRange';
 import { EventStatus } from '../events/dto/event-status';
 import { EventType } from '../events/dto/event-type';
 import { EventDto } from '../events/dto/event.dto';
-import { Event } from '../events/schemas/event.schema';
 import { mockBookDocs } from './mockBookValues';
 import { mockUserDocs } from './mockUserValues';
 
@@ -44,8 +43,9 @@ export const mockEvents: EventDto[] = [
   mockEvent('mockEvent#3'),
 ];
 
-export const mockEventDocs: Event[] = [
+export const mockEventDocs = [
   {
+    _id: "mockId#1",
     book: mockBookDocs[0],
     requestedBy: [mockUserDocs[0]],
     interested: [mockUserDocs[0], mockUserDocs[1]],
@@ -53,6 +53,7 @@ export const mockEventDocs: Event[] = [
     ...mockEvent[0],
   },
   {
+    _id: "mockId#2",
     book: mockBookDocs[0],
     requestedBy: [mockUserDocs[0]],
     interested: [mockUserDocs[0], mockUserDocs[1]],
@@ -60,6 +61,7 @@ export const mockEventDocs: Event[] = [
     ...mockEvent[0],
   },
   {
+    _id: "mockId#3",
     book: mockBookDocs[0],
     requestedBy: [mockUserDocs[0]],
     interested: [mockUserDocs[0], mockUserDocs[1]],

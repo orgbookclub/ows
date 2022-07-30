@@ -52,4 +52,41 @@ describe('EventsService', () => {
       expect(actual).toEqual({ _id: 'mock random uuid', ...event });
     });
   });
+
+  describe('findAll', () => {
+    it('should return all events', async () => {
+      const actual = await service.findAll();
+      expect(actual).toEqual(mockEventDocs);
+    });
+  });
+
+  describe('findOne', () => {
+    it('should return an event', async () => {
+      const actual = await service.findOne(mockEventDocs[0]._id);
+      expect(actual).toEqual(mockEventDocs[0]);
+    });
+
+    it('should return null if no book found', async () => {
+      const randId = 'randId';
+      const actual = await service.findOne(randId);
+      expect(actual).toBeUndefined();
+    });
+  });
+
+  describe('update', () => {
+    it('should update the name of the event', async () => {
+      await service.update(mockEventDocs[0]._id, { name: 'updated name' });
+      const updatedEvent = await service.findOne(mockEventDocs[0]._id);
+      expect(updatedEvent.name).toEqual('updated name');
+    });
+  });
+
+  describe('remove', () => {
+    it('should delete the event', async () => {
+      const id = mockEventDocs[0]._id;
+      await service.remove(id);
+      const book = await service.findOne(id);
+      expect(book).toBeUndefined();
+    });
+  });
 });
