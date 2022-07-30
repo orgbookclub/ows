@@ -7,14 +7,23 @@ import {
   mockBook,
   mockAuthors,
   mockBooks,
+  mockSearchResultsFromGR,
+  mockBookResultFromGR,
+  mockSearchResultsFromSG,
+  mockBookResultFromSG,
 } from '../utils/mockBookValues';
 import { Book } from './schemas/book.schema';
+import { GoodreadsService } from '../book-info/goodreads.service';
+import { StorygraphService } from '../book-info/storygraph.service';
+import { BookInfoModule } from '../book-info/book-info.module';
 
 describe('BooksService', () => {
   let service: BooksService;
-
+  let goodreadsService: GoodreadsService;
+  let storygraphService: StorygraphService;
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [BookInfoModule],
       providers: [
         {
           provide: BookRepository,
@@ -24,6 +33,8 @@ describe('BooksService', () => {
       ],
     }).compile();
 
+    goodreadsService = module.get<GoodreadsService>(GoodreadsService);
+    storygraphService = module.get<StorygraphService>(StorygraphService);
     service = module.get<BooksService>(BooksService);
   });
 
@@ -54,6 +65,40 @@ describe('BooksService', () => {
     });
   });
 
+  describe('createBookFromUrl', () => {
+    it('should create a book from GR', async () => {
+      const sampleUrl =
+        'https://www.goodreads.com/book/show/30165203-american-gods';
+      jest
+        .spyOn(goodreadsService, 'searchBooks')
+        .mockImplementation(async () => mockSearchResultsFromGR);
+      jest
+        .spyOn(goodreadsService, 'getBook')
+        .mockImplementation(async () => mockBookResultFromGR);
+      const actual = await service.createBookFromUrl(sampleUrl);
+      expect(actual).toEqual({
+        _id: 'mock random uuid',
+        ...mockBookResultFromGR,
+      });
+    });
+
+    it('should create a book from SG', async () => {
+      const sampleUrl =
+        'https://app.thestorygraph.com/books/9fd55617-3c71-458c-ad60-2d963964c351';
+      jest
+        .spyOn(storygraphService, 'searchBooks')
+        .mockImplementation(async () => mockSearchResultsFromSG);
+      jest
+        .spyOn(storygraphService, 'getBook')
+        .mockImplementation(async () => mockBookResultFromSG);
+
+      const actual = await service.createBookFromUrl(sampleUrl);
+      expect(actual).toEqual({
+        _id: 'mock random uuid',
+        ...mockBookResultFromSG,
+      });
+    });
+  });
   describe('findAll', () => {
     it('should return all books', async () => {
       const actual = await service.getAllBooks();
@@ -68,7 +113,8 @@ describe('BooksService', () => {
     });
 
     it('should return null if no book found', async () => {
-      const actual = await service.getBook('random id');
+      const randId = 'randId';
+      const actual = await service.getBook(randId);
       expect(actual).toBeUndefined();
     });
   });

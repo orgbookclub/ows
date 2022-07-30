@@ -13,8 +13,9 @@ export class UsersService {
   constructor(private repository: UserRepository) {
     Logger.debug('Initialized UsersService');
   }
+
   async create(createUserDto: CreateUserDto) {
-    const user = await this.findOneByUserId(createUserDto.id);
+    const user = await this.findOneByUserId(createUserDto.userId);
     if (user != null) {
       throw new ForbiddenException('User already exists!');
     }
@@ -25,8 +26,8 @@ export class UsersService {
     return await this.repository.getAll();
   }
 
-  async findOneByUserId(id: string) {
-    const users = await this.repository.find({ id: id });
+  async findOneByUserId(id: number) {
+    const users = await this.repository.find({ userId: id });
     if (users.length == 0) {
       return null;
     }

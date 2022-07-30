@@ -1,17 +1,17 @@
 import { ProfileDto } from '../users/dto/profile.dto';
-import { User } from '../users/schemas/user.schema';
+import { UserDto } from '../users/dto/user.dto';
 
 const mockProfile = (bio = 'mock bio'): ProfileDto => ({
   bio: bio,
 });
 
 export const mockUser = (
-  id = 'uniqueId',
+  userId = 1,
   name = 'username',
   profile = mockProfile(),
   joinDate = new Date(),
-): User => ({
-  id: id,
+): UserDto => ({
+  userId: userId,
   name: name,
   profile: profile,
   joinDate: joinDate,
@@ -19,8 +19,8 @@ export const mockUser = (
 
 export const mockUsers = [
   mockUser(),
-  mockUser('uniqueId#2', 'username#2', mockProfile('mockBio#2')),
-  mockUser('uniqueId#3', 'username#3', mockProfile('mockBio#3')),
+  mockUser(2, 'username#2', mockProfile('mockBio#2')),
+  mockUser(3, 'username#3', mockProfile('mockBio#3')),
 ];
 
 export const mockUserDocs = [

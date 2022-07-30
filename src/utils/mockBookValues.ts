@@ -1,5 +1,5 @@
 import { AuthorDto } from '../books/dto/author.dto';
-import { Book } from '../books/schemas/book.schema';
+import { BookDto } from '../books/dto/book.dto';
 
 const mockAuthor = (
   name = 'mock author',
@@ -13,7 +13,7 @@ export const mockBook = (
   authors = [mockAuthor()],
   url = 'https://mock-url.com?suffix',
   genres = ['Mock genre 1', 'Mock genre 2'],
-): Book => ({
+): BookDto => ({
   title: title,
   authors: authors,
   url: url,

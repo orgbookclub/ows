@@ -4,13 +4,19 @@ import {
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common';
+import { GoodreadsService } from '../book-info/goodreads.service';
+import { StorygraphService } from '../book-info/storygraph.service';
 import { BookRepository } from '../repositories/book.repository';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 
 @Injectable()
 export class BooksService {
-  constructor(private repository: BookRepository) {
+  constructor(
+    private repository: BookRepository,
+    private readonly goodreadsService: GoodreadsService,
+    private readonly storygraphService: StorygraphService,
+  ) {
     Logger.debug('Initialized BooksService');
   }
   async createBook(createBookDto: CreateBookDto) {
@@ -21,6 +27,15 @@ export class BooksService {
     return await this.repository.create(createBookDto);
   }
 
+  async createBookFromUrl(url: string) {
+    let book: CreateBookDto;
+    if (url.startsWith(this.goodreadsService.GR_BASE_URL)) {
+      book = await this.goodreadsService.getBook(url);
+    } else if (url.startsWith(this.storygraphService.SG_BASE_URL)) {
+      book = await this.storygraphService.getBook(url);
+    }
+    return await this.createBook(book);
+  }
   async getAllBooks() {
     return await this.repository.getAll();
   }
