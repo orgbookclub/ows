@@ -3,45 +3,53 @@ import { ApiTags } from "@nestjs/swagger";
 
 import { BookDto } from "../books/dto/book.dto";
 
+import { StorygraphBookDto } from "./dto/storygraph-book.dto";
 import { StorygraphService } from "./storygraph.service";
 
 /**
- *
+ * The Storygraph Controller.
  */
 @ApiTags("Storygraph")
 @Controller("api/storygraph")
 export class StorygraphController {
   /**
+   * Creates an instance of @see StorygraphController.
    *
-   * @param bookInfoService
+   * @param {StorygraphService} storygraphService The service.
    */
-  constructor(private bookInfoService: StorygraphService) {
+  constructor(private storygraphService: StorygraphService) {
     //
   }
 
   /**
+   * Endpoint for searching books from Storygraph.
    *
-   * @param query
-   * @param k
+   * @param {string} query The query string. Can be book title, author, or ISBN.
+   * @param {number} k The maximum number of search results.
+   * @returns {Promise<BookDto[]>} An array of @see BookDto objects.
    */
   @Get("search")
   async searchBooks(
     @Query("q") query: string,
     @Query("k") k = 5,
   ): Promise<Array<BookDto>> {
-    return await this.bookInfoService.searchBooks(query, k);
+    return await this.storygraphService.searchBooks(query, k);
   }
 
   /**
+   * Searches for, and gets the details of a single book.
    *
-   * @param query
+   * @param {string} query The query string.
+   * @returns {Promise<StorygraphBookDto>} The book details.
    */
   @Get("book")
-  async searchAndGetBook(@Query("q") query: string) {
-    const bookList = await this.bookInfoService.searchBooks(query, 1);
+  async searchAndGetBook(
+    @Query("q") query: string,
+  ): Promise<StorygraphBookDto> {
+    const bookList = await this.storygraphService.searchBooks(query, 1);
     if (bookList.length === 0) {
       throw new NotFoundException("Could not find a book by that query");
     }
-    return await this.bookInfoService.getBook(bookList[0].url);
+    return await this.storygraphService.getBook(bookList[0].url);
   }
 }

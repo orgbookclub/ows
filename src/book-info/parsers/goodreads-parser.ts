@@ -7,21 +7,25 @@ import { GoodreadsBookDto } from "../dto/goodreads-book.dto";
 import { Parser } from "./parser";
 
 /**
- *
+ * A Parser for parsing Goodreads pages.
+ * An extension of @see Parser class.
  */
 export class GoodreadsParser extends Parser {
   /**
+   * Creates an instance of  @see GoodreadsParser .
    *
-   * @param url
-   * @param body
+   * @param {string} url The URL of the page.
+   * @param {any} body The content of the page to parse.
    */
   constructor(url: string, body: any) {
     super(url, body);
   }
 
   /**
+   * Parses the body treating it as a search page result.
    *
-   * @param k
+   * @param {number} k Maximum number of results to parse.
+   * @returns {BookDto[]} A list of @see BookDto objects.
    */
   public parseSearchPage(k: number): BookDto[] {
     try {
@@ -35,7 +39,9 @@ export class GoodreadsParser extends Parser {
   }
 
   /**
+   * Parses the body treating it as a book page.
    *
+   * @returns {GoodreadsBookDto} An object containing the details of the book.
    */
   public parseBookPage(): GoodreadsBookDto {
     try {
@@ -67,12 +73,14 @@ export class GoodreadsParser extends Parser {
   }
 
   /**
+   * Parses the body treating it as a quotes page.
    *
-   * @param k
+   * @param {number} k Maximum number of quotes to return.
+   * @returns {string[]} An array of quotes.
    */
-  public parseQuotesPage(k: number) {
+  public parseQuotesPage(k: number): string[] {
     try {
-      const quotes = [];
+      const quotes: string[] = [];
       const quoteDivs = this.soup("div[class=quoteText]");
       for (let i = 0; i < Math.min(quoteDivs.length, k); i++) {
         const quote = this.soup(quoteDivs[i]).text().trim();
@@ -85,13 +93,15 @@ export class GoodreadsParser extends Parser {
   }
 
   /**
+   * Parses a particular search result to extract the Title, Url, and Authors.
    *
-   * @param result
+   * @param {any} result A search result.
+   * @returns {BookDto} A @see BookDto object.
    */
-  private parseSearchResult(result): BookDto {
+  private parseSearchResult(result: any): BookDto {
     const td = result.find("td[width=100%]");
     const url = this.extractUrl(td.children("a"));
-    const title = this.extractTitle(td.children("a"));
+    const title = this.extractText(td.children("a"));
     const authors = this.extractAuthors(td.find("a[class=authorName]"));
     return {
       title: title,
@@ -102,11 +112,13 @@ export class GoodreadsParser extends Parser {
   }
 
   /**
+   * Parses book information from the table rows element in the page.
    *
-   * @param tableRows
-   * @param k
+   * @param {any} tableRows The table rows from the HTML page.
+   * @param {number} k The maximum number of rows to parse.
+   * @returns {BookDto[]} An array of @see BookDto objects.
    */
-  private extractBooksFromRows(tableRows, k: number) {
+  private extractBooksFromRows(tableRows: any, k: number): BookDto[] {
     const bookList: Array<BookDto> = [];
     for (let i = 0; i < Math.min(tableRows.length, k); i++) {
       const book = this.parseSearchResult(this.soup(tableRows[i]));
@@ -116,18 +128,22 @@ export class GoodreadsParser extends Parser {
   }
 
   /**
+   * Parses and creates a valid GR url from the given field.
    *
-   * @param field
+   * @param {any} field The given field.
+   * @returns {string} A Valid GR Url.
    */
-  private extractUrl(field) {
+  private extractUrl(field: any): string {
     return `https://www.goodreads.com${field.attr("href").split("?")[0]}`;
   }
 
   /**
+   * Extracts the author name and url from the authors element.
    *
-   * @param authorArray
+   * @param {any} authorArray The element containing author information.
+   * @returns {AuthorDto[]} An array of @see AuthorDto objects.
    */
-  private extractAuthors(authorArray): Array<AuthorDto> {
+  private extractAuthors(authorArray: any): Array<AuthorDto> {
     const authors: Array<AuthorDto> = [];
     for (let i = 0; i < authorArray.length; i++) {
       const author = this.soup(authorArray[i]).text().trim();
@@ -138,10 +154,12 @@ export class GoodreadsParser extends Parser {
   }
 
   /**
+   * Extracts avg rating, number of ratings, and number of reviews from the given field.
    *
-   * @param metaCol
+   * @param {any} metaCol The section containing book metadata information.
+   * @returns {any} An object containing the values.
    */
-  private extractBookMetaInfo(metaCol) {
+  private extractBookMetaInfo(metaCol: any): any {
     const bookMeta = metaCol.find("div[id=bookMeta]");
     const avgRating = extractRating();
     const numRatings = extractNumRatings();
@@ -180,10 +198,12 @@ export class GoodreadsParser extends Parser {
   }
 
   /**
+   * Extracts the book description from the given field.
    *
-   * @param metaCol
+   * @param {any} metaCol The field containing book metadata information.
+   * @returns {string} The description of the book.
    */
-  private extractDescription(metaCol) {
+  private extractDescription(metaCol: any): string {
     try {
       return metaCol
         .find("div[id=description]")
@@ -197,10 +217,12 @@ export class GoodreadsParser extends Parser {
   }
 
   /**
+   * Extracts the number of pages from the given field.
    *
-   * @param metaCol
+   * @param {any} metaCol The field containing book metadata information.
+   * @returns {number} The number of pages in the book.
    */
-  private extractPages(metaCol): number {
+  private extractPages(metaCol: any): number {
     try {
       const pageStr = metaCol.find("span[itemprop=numberOfPages]").text();
       return parseInt(pageStr.split(" ")[0]);
@@ -210,9 +232,11 @@ export class GoodreadsParser extends Parser {
   }
 
   /**
+   * Extracts the genres of the book.
    *
+   * @returns {string[]} A array of genres.
    */
-  private extractGenres() {
+  private extractGenres(): string[] {
     try {
       const genres = [];
       const genreList = this.soup(
@@ -229,10 +253,12 @@ export class GoodreadsParser extends Parser {
   }
 
   /**
+   * Extracts the book title and series information (if any).
    *
-   * @param metaCol
+   * @param {any} metaCol The field containing book metadata information.
+   * @returns {any} Title and series information.
    */
-  private extractTitleAndSeries(metaCol) {
+  private extractTitleAndSeries(metaCol: any): any {
     const titleText = metaCol.find("h1[id=bookTitle]").text().trim();
     const seriesText = metaCol.find("h2[id=bookSeries]").text().trim();
     return { titleText, seriesText };

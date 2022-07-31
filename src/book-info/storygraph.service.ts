@@ -3,6 +3,7 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
+  Logger,
   ServiceUnavailableException,
 } from "@nestjs/common";
 import { lastValueFrom } from "rxjs";
@@ -10,25 +11,32 @@ import { lastValueFrom } from "rxjs";
 import { StorygraphParser } from "../book-info/parsers/storygraph-parser";
 import { BookDto } from "../books/dto/book.dto";
 
+import { StorygraphBookDto } from "./dto/storygraph-book.dto";
+
 /**
- *
+ * The Storygraph Service.
+ * Responsible for making HTTP Calls to SG,
+ * and using @see StorygraphParser to parse information.
  */
 @Injectable()
 export class StorygraphService {
   /**
+   * Creates an instance of @see StorygraphService .
    *
-   * @param httpService
+   * @param {HttpService} httpService The HTTP Service.
    */
   constructor(private httpService: HttpService) {
-    //
+    Logger.debug("Initialized StorygraphService");
   }
   public SG_BASE_URL = "https://app.thestorygraph.com";
   private parser = StorygraphParser;
 
   /**
+   * For searching books from Storygraph.
    *
-   * @param query
-   * @param k
+   * @param {string} query The query string. Can be book title, author, or ISBN.
+   * @param {number} k The maximum number of search results.
+   * @returns {Promise<BookDto[]>} An array of @see BookDto objects.
    */
   async searchBooks(query: string, k: number): Promise<BookDto[]> {
     const url = `${this.SG_BASE_URL}/browse?search_term=${query}`;
@@ -42,10 +50,12 @@ export class StorygraphService {
   }
 
   /**
+   * Gets the details of a single book from SG.
    *
-   * @param url
+   * @param {string} url The URL of the book page.
+   * @returns {Promise<StorygraphBookDto>} The details of the book.
    */
-  async getBook(url: string) {
+  async getBook(url: string): Promise<StorygraphBookDto> {
     if (!url.startsWith(`${this.SG_BASE_URL}/books`)) {
       throw new HttpException("Invalid URL", HttpStatus.BAD_REQUEST);
     }

@@ -7,7 +7,7 @@ import { StorygraphController } from "./storygraph.controller";
 import { StorygraphService } from "./storygraph.service";
 
 /**
- *
+ * Module for fetching Book information from external sources like Goodreads & Storygraph.
  */
 @Module({
   imports: [HttpModule],
