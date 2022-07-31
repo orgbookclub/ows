@@ -1,31 +1,48 @@
-import { InternalServerErrorException } from '@nestjs/common';
-import { AuthorDto } from '../../books/dto/author.dto';
-import { BookDto } from '../../books/dto/book.dto';
-import { GoodreadsBookDto } from '../dto/goodreads-book.dto';
-import { Parser } from './parser';
+import { InternalServerErrorException } from "@nestjs/common";
 
+import { AuthorDto } from "../../books/dto/author.dto";
+import { BookDto } from "../../books/dto/book.dto";
+import { GoodreadsBookDto } from "../dto/goodreads-book.dto";
+
+import { Parser } from "./parser";
+
+/**
+ *
+ */
 export class GoodreadsParser extends Parser {
+  /**
+   *
+   * @param url
+   * @param body
+   */
   constructor(url: string, body: any) {
     super(url, body);
   }
 
+  /**
+   *
+   * @param k
+   */
   public parseSearchPage(k: number): BookDto[] {
     try {
-      const tableRows = this.soup('table[class=tableList]')
-        .children('tbody')
-        .children('tr');
+      const tableRows = this.soup("table[class=tableList]")
+        .children("tbody")
+        .children("tr");
       return this.extractBooksFromRows(tableRows, k);
     } catch {
       throw new InternalServerErrorException();
     }
   }
 
+  /**
+   *
+   */
   public parseBookPage(): GoodreadsBookDto {
     try {
-      const coverUrl = this.soup('img[id=coverImage]').attr('src');
-      const metaCol = this.soup('div #metacol');
+      const coverUrl = this.soup("img[id=coverImage]").attr("src");
+      const metaCol = this.soup("div #metacol");
       const { titleText, seriesText } = this.extractTitleAndSeries(metaCol);
-      const authors = this.extractAuthors(metaCol.find('a[class=authorName]'));
+      const authors = this.extractAuthors(metaCol.find("a[class=authorName]"));
       const { avgRating, numRatings, numReviews } =
         this.extractBookMetaInfo(metaCol);
       const description = this.extractDescription(metaCol);
@@ -49,10 +66,14 @@ export class GoodreadsParser extends Parser {
     }
   }
 
+  /**
+   *
+   * @param k
+   */
   public parseQuotesPage(k: number) {
     try {
       const quotes = [];
-      const quoteDivs = this.soup('div[class=quoteText]');
+      const quoteDivs = this.soup("div[class=quoteText]");
       for (let i = 0; i < Math.min(quoteDivs.length, k); i++) {
         const quote = this.soup(quoteDivs[i]).text().trim();
         quotes.push(quote);
@@ -63,11 +84,15 @@ export class GoodreadsParser extends Parser {
     }
   }
 
+  /**
+   *
+   * @param result
+   */
   private parseSearchResult(result): BookDto {
-    const td = result.find('td[width=100%]');
-    const url = this.extractUrl(td.children('a'));
-    const title = this.extractTitle(td.children('a'));
-    const authors = this.extractAuthors(td.find('a[class=authorName]'));
+    const td = result.find("td[width=100%]");
+    const url = this.extractUrl(td.children("a"));
+    const title = this.extractTitle(td.children("a"));
+    const authors = this.extractAuthors(td.find("a[class=authorName]"));
     return {
       title: title,
       authors: authors,
@@ -76,6 +101,11 @@ export class GoodreadsParser extends Parser {
     };
   }
 
+  /**
+   *
+   * @param tableRows
+   * @param k
+   */
   private extractBooksFromRows(tableRows, k: number) {
     const bookList: Array<BookDto> = [];
     for (let i = 0; i < Math.min(tableRows.length, k); i++) {
@@ -85,22 +115,34 @@ export class GoodreadsParser extends Parser {
     return bookList;
   }
 
+  /**
+   *
+   * @param field
+   */
   private extractUrl(field) {
-    return `https://www.goodreads.com${field.attr('href').split('?')[0]}`;
+    return `https://www.goodreads.com${field.attr("href").split("?")[0]}`;
   }
 
+  /**
+   *
+   * @param authorArray
+   */
   private extractAuthors(authorArray): Array<AuthorDto> {
     const authors: Array<AuthorDto> = [];
     for (let i = 0; i < authorArray.length; i++) {
       const author = this.soup(authorArray[i]).text().trim();
-      const authorUrl = this.soup(authorArray[i]).attr('href').split('?')[0];
+      const authorUrl = this.soup(authorArray[i]).attr("href").split("?")[0];
       authors.push({ name: author, url: authorUrl });
     }
     return authors;
   }
 
+  /**
+   *
+   * @param metaCol
+   */
   private extractBookMetaInfo(metaCol) {
-    const bookMeta = metaCol.find('div[id=bookMeta]');
+    const bookMeta = metaCol.find("div[id=bookMeta]");
     const avgRating = extractRating();
     const numRatings = extractNumRatings();
     const numReviews = extractNumReviews();
@@ -109,7 +151,7 @@ export class GoodreadsParser extends Parser {
     function extractNumReviews() {
       try {
         return parseInt(
-          bookMeta.find('meta[itemprop=reviewCount]').attr('content'),
+          bookMeta.find("meta[itemprop=reviewCount]").attr("content"),
         );
       } catch {
         return 0;
@@ -119,7 +161,7 @@ export class GoodreadsParser extends Parser {
     function extractNumRatings() {
       try {
         return parseInt(
-          bookMeta.find('meta[itemprop=ratingCount]').attr('content'),
+          bookMeta.find("meta[itemprop=ratingCount]").attr("content"),
         );
       } catch {
         return 0;
@@ -129,7 +171,7 @@ export class GoodreadsParser extends Parser {
     function extractRating() {
       try {
         return parseFloat(
-          bookMeta.find('span[itemprop=ratingValue]').text().trim(),
+          bookMeta.find("span[itemprop=ratingValue]").text().trim(),
         );
       } catch {
         return 0;
@@ -137,28 +179,39 @@ export class GoodreadsParser extends Parser {
     }
   }
 
+  /**
+   *
+   * @param metaCol
+   */
   private extractDescription(metaCol) {
     try {
       return metaCol
-        .find('div[id=description]')
-        .children('span')
+        .find("div[id=description]")
+        .children("span")
         .last()
         .text()
         .trim();
     } catch {
-      return 'No description available';
+      return "No description available";
     }
   }
 
+  /**
+   *
+   * @param metaCol
+   */
   private extractPages(metaCol): number {
     try {
-      const pageStr = metaCol.find('span[itemprop=numberOfPages]').text();
-      return parseInt(pageStr.split(' ')[0]);
+      const pageStr = metaCol.find("span[itemprop=numberOfPages]").text();
+      return parseInt(pageStr.split(" ")[0]);
     } catch {
       return 0;
     }
   }
 
+  /**
+   *
+   */
   private extractGenres() {
     try {
       const genres = [];
@@ -175,9 +228,13 @@ export class GoodreadsParser extends Parser {
     }
   }
 
+  /**
+   *
+   * @param metaCol
+   */
   private extractTitleAndSeries(metaCol) {
-    const titleText = metaCol.find('h1[id=bookTitle]').text().trim();
-    const seriesText = metaCol.find('h2[id=bookSeries]').text().trim();
+    const titleText = metaCol.find("h1[id=bookTitle]").text().trim();
+    const seriesText = metaCol.find("h2[id=bookSeries]").text().trim();
     return { titleText, seriesText };
   }
 }

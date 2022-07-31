@@ -1,5 +1,8 @@
-import { AuthorDto } from './author.dto';
+import { AuthorDto } from "./author.dto";
 
+/**
+ *
+ */
 export class BookDto {
   title: string;
   authors: Array<AuthorDto>;

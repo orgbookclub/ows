@@ -1,3 +1,6 @@
+/**
+ *
+ */
 export abstract class BaseRepository<T> {
   abstract create(item);
   abstract get(id);

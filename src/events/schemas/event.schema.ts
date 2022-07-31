@@ -1,20 +1,24 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose from 'mongoose';
-import { Book } from '../../books/schemas/book.schema';
-import { User } from '../../users/schemas/user.schema';
-import { EventStatus } from '../dto/event-status';
-import { EventType } from '../dto/event-type';
-import { DateRange } from '../dto/dateRange';
-import { Participant } from '../dto/participant';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import mongoose from "mongoose";
+
+import { Book } from "../../books/schemas/book.schema";
+import { User } from "../../users/schemas/user.schema";
+import { DateRange } from "../dto/dateRange";
+import { EventStatus } from "../dto/event-status";
+import { EventType } from "../dto/event-type";
+import { Participant } from "../dto/participant";
 
 export type EventDocument = Event & Document;
 
+/**
+ *
+ */
 @Schema()
 export class Event {
   @Prop()
   name: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Book' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "Book" })
   book: Book;
 
   @Prop({
@@ -36,16 +40,16 @@ export class Event {
   @Prop(DateRange)
   dates: DateRange;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "User" })
   requestedBy: User;
 
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }] })
   interested: User[];
 
   @Prop({
     type: [
       {
-        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         points: Number,
       },
     ],
@@ -55,7 +59,7 @@ export class Event {
   @Prop({
     type: [
       {
-        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         points: Number,
       },
     ],

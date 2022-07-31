@@ -1,7 +1,11 @@
-import { Module } from '@nestjs/common';
-import { BookListsService } from './book-lists.service';
-import { BookListsController } from './book-lists.controller';
+import { Module } from "@nestjs/common";
 
+import { BookListsController } from "./book-lists.controller";
+import { BookListsService } from "./book-lists.service";
+
+/**
+ *
+ */
 @Module({
   controllers: [BookListsController],
   providers: [BookListsService],

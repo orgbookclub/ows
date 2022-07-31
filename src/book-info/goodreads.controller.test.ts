@@ -1,14 +1,16 @@
-import { HttpModule } from '@nestjs/axios';
-import { Test } from '@nestjs/testing';
-import { GoodreadsController } from './goodreads.controller';
-import { GoodreadsService } from './goodreads.service';
+import { HttpModule } from "@nestjs/axios";
+import { Test } from "@nestjs/testing";
+
 import {
   mockSearchResultsFromGR,
   mockBookResultFromGR,
   mockQuoteResultsFromGR,
-} from '../utils/mockBookValues';
+} from "../utils/mockBookValues";
 
-describe('GoodreadsController', () => {
+import { GoodreadsController } from "./goodreads.controller";
+import { GoodreadsService } from "./goodreads.service";
+
+describe("GoodreadsController", () => {
   let goodreadsController: GoodreadsController;
   let goodreadsService: GoodreadsService;
 
@@ -24,47 +26,47 @@ describe('GoodreadsController', () => {
       moduleRef.get<GoodreadsController>(GoodreadsController);
   });
 
-  describe('searchBooks', () => {
-    it('should return a list of books', async () => {
+  describe("searchBooks", () => {
+    it("should return a list of books", async () => {
       const expected = mockSearchResultsFromGR;
       jest
-        .spyOn(goodreadsService, 'searchBooks')
+        .spyOn(goodreadsService, "searchBooks")
         .mockImplementation(async () => expected);
-      const actual = await goodreadsController.searchBooks('american gods', 5);
+      const actual = await goodreadsController.searchBooks("american gods", 5);
       expect(actual).toEqual(expected);
     });
   });
 
-  describe('searchAndG  etBook', () => {
-    it('should return a book object', async () => {
+  describe("searchAndG  etBook", () => {
+    it("should return a book object", async () => {
       const expected = mockBookResultFromGR;
       jest
-        .spyOn(goodreadsService, 'searchBooks')
+        .spyOn(goodreadsService, "searchBooks")
         .mockImplementation(async () => mockSearchResultsFromGR);
       jest
-        .spyOn(goodreadsService, 'getBook')
+        .spyOn(goodreadsService, "getBook")
         .mockImplementation(async () => expected);
       const actual = await goodreadsController.searchAndGetBook(
-        'american gods',
+        "american gods",
       );
       expect(actual).toEqual(expected);
     });
 
-    it('should throw an exception if no books are found', async () => {
+    it("should throw an exception if no books are found", async () => {
       jest
-        .spyOn(goodreadsService, 'searchBooks')
+        .spyOn(goodreadsService, "searchBooks")
         .mockImplementation(async () => []);
       await expect(
-        goodreadsController.searchAndGetBook('mock invalid query'),
-      ).rejects.toThrow('Could not find a book by that query');
+        goodreadsController.searchAndGetBook("mock invalid query"),
+      ).rejects.toThrow("Could not find a book by that query");
     });
   });
 
-  describe('getQuotes', () => {
-    it('should return a list of quotes', async () => {
+  describe("getQuotes", () => {
+    it("should return a list of quotes", async () => {
       const expected = mockQuoteResultsFromGR;
       jest
-        .spyOn(goodreadsService, 'getQuotes')
+        .spyOn(goodreadsService, "getQuotes")
         .mockImplementation(async () => expected);
       const actual = await goodreadsController.getQuotes(5);
       expect(actual).toEqual(expected);

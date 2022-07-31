@@ -1,7 +1,10 @@
-import { DateRange } from './dateRange';
-import { EventStatus } from './event-status';
-import { EventType } from './event-type';
+import { DateRange } from "./dateRange";
+import { EventStatus } from "./event-status";
+import { EventType } from "./event-type";
 
+/**
+ *
+ */
 export class EventDto {
   name: string;
   book: string;
