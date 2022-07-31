@@ -3,9 +3,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
 
 import { BookInfoModule } from "./book-info/book-info.module";
-import { BookListsModule } from "./book-lists/book-lists.module";
 import { BooksModule } from "./books/books.module";
-import { EventGroupsModule } from "./event-groups/event-groups.module";
 import { EventsModule } from "./events/events.module";
 import { ReviewsModule } from "./reviews/reviews.module";
 import { UsersModule } from "./users/users.module";
@@ -30,8 +28,6 @@ import { UsersModule } from "./users/users.module";
     EventsModule,
     UsersModule,
     ReviewsModule,
-    BookListsModule,
-    EventGroupsModule,
   ],
   controllers: [],
   providers: [],
