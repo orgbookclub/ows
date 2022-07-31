@@ -1,8 +1,12 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ProfileDto } from '../dto/profile.dto';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+
+import { ProfileDto } from "../dto/profile.dto";
 
 export type UserDocument = User & Document;
 
+/**
+ *
+ */
 @Schema()
 export class User {
   @Prop({

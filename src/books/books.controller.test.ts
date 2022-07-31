@@ -1,13 +1,15 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { BookRepository } from '../repositories/book.repository';
-import { MockRepository } from '../repositories/mock.repository';
-import { BooksController } from './books.controller';
-import { BooksService } from './books.service';
-import { mockAuthors, mockBook, mockBookDocs } from '../utils/mockBookValues';
-import { Book } from './schemas/book.schema';
-import { BookInfoModule } from '../book-info/book-info.module';
+import { Test, TestingModule } from "@nestjs/testing";
 
-describe('BooksController', () => {
+import { BookInfoModule } from "../book-info/book-info.module";
+import { BookRepository } from "../repositories/book.repository";
+import { MockRepository } from "../repositories/mock.repository";
+import { mockAuthors, mockBook, mockBookDocs } from "../utils/mockBookValues";
+
+import { BooksController } from "./books.controller";
+import { BooksService } from "./books.service";
+import { Book } from "./schemas/book.schema";
+
+describe("BooksController", () => {
   let controller: BooksController;
 
   beforeEach(async () => {
@@ -26,20 +28,20 @@ describe('BooksController', () => {
     controller = module.get<BooksController>(BooksController);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(controller).toBeDefined();
   });
 
-  describe('createBookFromDto', () => {
-    it('should create a book', async () => {
+  describe("createBookFromDto", () => {
+    it("should create a book", async () => {
       const book = mockBook(
-        'new book title',
+        "new book title",
         [mockAuthors[0]],
-        'https://new-url.com',
+        "https://new-url.com",
         [],
       );
       const actual = await controller.createBookFromDto(book);
-      expect(actual).toEqual({ _id: 'mock random uuid', ...book });
+      expect(actual).toEqual({ _id: "mock random uuid", ...book });
     });
   });
 });

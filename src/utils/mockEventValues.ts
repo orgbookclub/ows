@@ -1,20 +1,34 @@
-import { DateRange } from '../events/dto/dateRange';
-import { EventStatus } from '../events/dto/event-status';
-import { EventType } from '../events/dto/event-type';
-import { EventDto } from '../events/dto/event.dto';
-import { mockBookDocs } from './mockBookValues';
-import { mockUserDocs } from './mockUserValues';
+import { DateRange } from "../events/dto/dateRange";
+import { EventStatus } from "../events/dto/event-status";
+import { EventType } from "../events/dto/event-type";
+import { EventDto } from "../events/dto/event.dto";
+
+import { mockBookDocs } from "./mockBookValues";
+import { mockUserDocs } from "./mockUserValues";
 
 const mockDateRange = (
-  startDate = new Date('2022-01-01'),
-  endDate = new Date('2022-02-01'),
+  startDate = new Date("2022-01-01"),
+  endDate = new Date("2022-02-01"),
 ): DateRange => ({
   startDate: startDate,
   endDate: endDate,
 });
 
+/**
+ *
+ * @param name
+ * @param book
+ * @param status
+ * @param type
+ * @param dates
+ * @param requestedBy
+ * @param interested
+ * @param readers
+ * @param leaders
+ * @param description
+ */
 export const mockEvent = (
-  name = 'mockEvent',
+  name = "mockEvent",
   book = mockBookDocs[0]._id,
   status = EventStatus.Requested,
   type = EventType.BuddyRead,
@@ -23,7 +37,8 @@ export const mockEvent = (
   interested = [mockUserDocs[0]._id, mockUserDocs[1]._id],
   readers = [],
   leaders = [mockUserDocs[0]._id],
-  description = 'mock event description',
+  description = "mock event description",
+  threads = [],
 ): EventDto => ({
   name: name,
   book: book,
@@ -35,12 +50,13 @@ export const mockEvent = (
   readers: readers,
   leaders: leaders,
   description: description,
+  threads: threads,
 });
 
 export const mockEvents: EventDto[] = [
   mockEvent(),
-  mockEvent('mockEvent#2'),
-  mockEvent('mockEvent#3'),
+  mockEvent("mockEvent#2"),
+  mockEvent("mockEvent#3"),
 ];
 
 export const mockEventDocs = [

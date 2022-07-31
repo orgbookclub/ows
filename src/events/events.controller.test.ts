@@ -1,13 +1,15 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { BooksService } from '../books/books.service';
-import { EventRepository } from '../repositories/event.repository';
-import { MockRepository } from '../repositories/mock.repository';
-import { UsersService } from '../users/users.service';
-import { mockEventDocs } from '../utils/mockEventValues';
-import { EventsController } from './events.controller';
-import { EventsService } from './events.service';
+import { Test, TestingModule } from "@nestjs/testing";
 
-describe('EventsController', () => {
+import { BooksService } from "../books/books.service";
+import { EventRepository } from "../repositories/event.repository";
+import { MockRepository } from "../repositories/mock.repository";
+import { UsersService } from "../users/users.service";
+import { mockEventDocs } from "../utils/mockEventValues";
+
+import { EventsController } from "./events.controller";
+import { EventsService } from "./events.service";
+
+describe("EventsController", () => {
   let controller: EventsController;
 
   beforeEach(async () => {
@@ -33,7 +35,7 @@ describe('EventsController', () => {
     controller = module.get<EventsController>(EventsController);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(controller).toBeDefined();
   });
 });

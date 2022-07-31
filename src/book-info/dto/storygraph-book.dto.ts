@@ -1,5 +1,8 @@
-import { BookDto } from '../../books/dto/book.dto';
+import { BookDto } from "../../books/dto/book.dto";
 
+/**
+ * Dto for a Storygraph Book.
+ */
 export class StorygraphBookDto extends BookDto {
   series: string;
   coverUrl: string;

@@ -1,3 +1,6 @@
-import { EventDto } from './event.dto';
+import { EventDto } from "./event.dto";
 
+/**
+ *
+ */
 export class CreateEventDto extends EventDto {}

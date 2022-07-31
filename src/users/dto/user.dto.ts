@@ -1,5 +1,8 @@
-import { ProfileDto } from './profile.dto';
+import { ProfileDto } from "./profile.dto";
 
+/**
+ *
+ */
 export class UserDto {
   userId: number;
 
