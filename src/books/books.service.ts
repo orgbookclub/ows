@@ -36,7 +36,7 @@ export class BooksService {
    */
   async createBook(createBookDto: CreateBookDto) {
     const book = await this.findBookByUrl(createBookDto.url);
-    if (book != null) {
+    if (book !== null) {
       throw new ForbiddenException("Book already exists!");
     }
     return await this.repository.create(createBookDto);
@@ -76,7 +76,7 @@ export class BooksService {
    */
   async findBookByUrl(url: string) {
     const books = await this.repository.find({ url: url });
-    if (books.length == 0) {
+    if (books.length === 0) {
       return null;
     }
     if (books.length > 1) {

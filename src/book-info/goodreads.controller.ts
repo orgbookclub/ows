@@ -39,7 +39,7 @@ export class GoodreadsController {
   @Get("book")
   async searchAndGetBook(@Query("q") query: string) {
     const bookList = await this.goodreadsService.searchBooks(query, 1);
-    if (bookList.length == 0) {
+    if (bookList.length === 0) {
       throw new NotFoundException("Could not find a book by that query");
     }
     return await this.goodreadsService.getBook(bookList[0].url);

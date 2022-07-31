@@ -29,7 +29,7 @@ export class UsersService {
    */
   async create(createUserDto: CreateUserDto) {
     const user = await this.findOneByUserId(createUserDto.userId);
-    if (user != null) {
+    if (user !== null) {
       throw new ForbiddenException("User already exists!");
     }
     return await this.repository.create(createUserDto);
@@ -48,7 +48,7 @@ export class UsersService {
    */
   async findOneByUserId(id: number) {
     const users = await this.repository.find({ userId: id });
-    if (users.length == 0) {
+    if (users.length === 0) {
       return null;
     }
     if (users.length > 1) {
@@ -63,7 +63,7 @@ export class UsersService {
    */
   async findOne(id: string) {
     const users = await this.repository.find({ _id: id });
-    if (users.length == 0) {
+    if (users.length === 0) {
       return null;
     }
     if (users.length > 1) {

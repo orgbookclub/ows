@@ -23,7 +23,9 @@ export class BookListsController {
    *
    * @param bookListsService
    */
-  constructor(private readonly bookListsService: BookListsService) {}
+  constructor(private readonly bookListsService: BookListsService) {
+    //
+  }
 
   /**
    *

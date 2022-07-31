@@ -174,7 +174,7 @@ export class StorygraphParser extends Parser {
     const titleText = metaCol.find("h3 > a").first().text().trim();
     const pFields = metaCol.find("p");
     let seriesText = "";
-    if (pFields.length == 2) {
+    if (pFields.length === 2) {
       seriesText = pFields.first().text().trim();
     }
     return { titleText, seriesText };
@@ -211,8 +211,8 @@ export class StorygraphParser extends Parser {
     const fields = [];
     let field = "";
     for (let i = 0; i < childFields.length; i++) {
-      if (i % 2 == 0) {
-        if (field != "") {
+      if (i % 2 === 0) {
+        if (field !== "") {
           fields.push(field);
           field = "";
         }
@@ -221,7 +221,7 @@ export class StorygraphParser extends Parser {
         field += `(${this.soup(childFields[i]).text().trim()})`;
       }
     }
-    if (field != "") {
+    if (field !== "") {
       fields.push(field);
     }
     return fields;

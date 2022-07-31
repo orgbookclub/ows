@@ -23,7 +23,9 @@ export class ReviewsController {
    *
    * @param reviewsService
    */
-  constructor(private readonly reviewsService: ReviewsService) {}
+  constructor(private readonly reviewsService: ReviewsService) {
+    //
+  }
 
   /**
    *

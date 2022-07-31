@@ -23,7 +23,9 @@ export class EventGroupsController {
    *
    * @param eventGroupsService
    */
-  constructor(private readonly eventGroupsService: EventGroupsService) {}
+  constructor(private readonly eventGroupsService: EventGroupsService) {
+    //
+  }
 
   /**
    *

@@ -39,7 +39,7 @@ export class EventsService {
   async createFromUrl(url: string, createEventDto: CreateEventDto) {
     let book = null;
     book = await this.booksService.findBookByUrl(url);
-    if (book == null) book = await this.booksService.createBookFromUrl(url);
+    if (book === null) book = await this.booksService.createBookFromUrl(url);
     createEventDto.book = book;
     return await this.repository.create(createEventDto);
   }
