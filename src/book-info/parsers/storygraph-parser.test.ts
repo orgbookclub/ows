@@ -9,7 +9,7 @@ import { StorygraphParser } from "./storygraph-parser";
 
 describe("StorygraphParser", () => {
   let parser: StorygraphParser;
-  const SAMPLE_DIR_PATH = "src/book-info/samples/";
+  const SAMPLE_DIR_PATH = "src/utils/mockBookSamples/";
   const MOCK_SEARCH_PAGE = "sg-search.html";
   const MOCK_BOOK_PAGE = "sg-book.html";
 

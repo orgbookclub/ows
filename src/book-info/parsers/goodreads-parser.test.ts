@@ -10,7 +10,7 @@ import { GoodreadsParser } from "./goodreads-parser";
 
 describe("GoodreadsParser", () => {
   let goodreadsParser: GoodreadsParser;
-  const SAMPLE_DIR_PATH = "src/book-info/samples/";
+  const SAMPLE_DIR_PATH = "src/utils/mockBookSamples/";
   const MOCK_SEARCH_PAGE = "gr-search.html";
   const MOCK_BOOK_PAGE = "gr-book.html";
 
