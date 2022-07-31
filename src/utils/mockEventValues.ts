@@ -38,6 +38,7 @@ export const mockEvent = (
   readers = [],
   leaders = [mockUserDocs[0]._id],
   description = "mock event description",
+  threads = [],
 ): EventDto => ({
   name: name,
   book: book,
@@ -49,6 +50,7 @@ export const mockEvent = (
   readers: readers,
   leaders: leaders,
   description: description,
+  threads: threads,
 });
 
 export const mockEvents: EventDto[] = [

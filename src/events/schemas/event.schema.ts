@@ -21,6 +21,9 @@ export class Event {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "Book" })
   book: Book;
 
+  @Prop({ type: [{ type: String }] })
+  threads: string[];
+
   @Prop({
     type: String,
     required: true,

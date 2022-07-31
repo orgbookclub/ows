@@ -8,6 +8,7 @@ import { EventType } from "./event-type";
 export class EventDto {
   name: string;
   book: string;
+  threads: string[];
   status: keyof typeof EventStatus;
   type: keyof typeof EventType;
   dates: DateRange;
