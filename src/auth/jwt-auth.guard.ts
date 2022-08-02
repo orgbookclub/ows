@@ -4,6 +4,7 @@ import {
   Injectable,
   SetMetadata,
 } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { Reflector } from "@nestjs/core";
 import { AuthGuard } from "@nestjs/passport";
 
@@ -24,7 +25,7 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
    *
    * @param {Reflector} reflector A reflector. See documentation for more details.
    */
-  constructor(private reflector: Reflector) {
+  constructor(private configService: ConfigService, private reflector: Reflector) {
     super();
   }
 
@@ -38,7 +39,7 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
       context.getHandler(),
       context.getClass(),
     ]);
-    if (skipAuth) {
+    if (skipAuth || this.configService.get<string>("ENV") === "dev") {
       return true;
     }
     return super.canActivate(context);
