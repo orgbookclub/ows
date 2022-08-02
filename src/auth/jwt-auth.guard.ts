@@ -1,12 +1,20 @@
-import { ExecutionContext, Injectable, SetMetadata } from "@nestjs/common";
+import {
+  CustomDecorator,
+  ExecutionContext,
+  Injectable,
+  SetMetadata,
+} from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { AuthGuard } from "@nestjs/passport";
 
 export const SKIP_AUTH = "skipAuth";
 /**
+ * A custom decorator for skipping JWT authentication flow.
  *
+ * @returns {CustomDecorator<string>} A custom decorator.
  */
-export const SkipAuth = () => SetMetadata(SKIP_AUTH, true);
+export const SkipAuth = (): CustomDecorator<string> =>
+  SetMetadata(SKIP_AUTH, true);
 /**
  *
  */
@@ -14,7 +22,7 @@ export const SkipAuth = () => SetMetadata(SKIP_AUTH, true);
 export class JwtAuthGuard extends AuthGuard("jwt") {
   /**
    *
-   * @param reflector
+   * @param {Reflector} reflector A reflector. See documentation for more details.
    */
   constructor(private reflector: Reflector) {
     super();
@@ -22,14 +30,15 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
 
   /**
    *
-   * @param context
+   * @param {ExecutionContext} context The execution context.
+   * @returns {any} A boolean indicating whether method can skip auth or not.
    */
-  canActivate(context: ExecutionContext) {
-    const isPublic = this.reflector.getAllAndOverride<boolean>(SKIP_AUTH, [
+  canActivate(context: ExecutionContext): any {
+    const skipAuth = this.reflector.getAllAndOverride<boolean>(SKIP_AUTH, [
       context.getHandler(),
       context.getClass(),
     ]);
-    if (isPublic) {
+    if (skipAuth) {
       return true;
     }
     return super.canActivate(context);

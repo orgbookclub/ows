@@ -10,6 +10,7 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 export class JwtStrategy extends PassportStrategy(Strategy) {
   /**
    *
+   * @param {ConfigService} configService The global config service.
    */
   constructor(private configService: ConfigService) {
     super({
@@ -21,9 +22,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   /**
    *
-   * @param payload
+   * @param {any} payload The payload.
+   * @returns {Promise<any>} Trivial response containing client ID.
    */
-  async validate(payload: any) {
+  async validate(payload: any): Promise<any> {
     return { clientId: payload.sub };
   }
 }

@@ -6,7 +6,13 @@ import { JwtService } from "@nestjs/jwt";
  */
 @Injectable()
 export class AuthService {
-  constructor(private jwtService: JwtService) {}
+  /**
+   *
+   * @param {JwtService} jwtService The JWT Service.
+   */
+  constructor(private jwtService: JwtService) {
+    Logger.debug("Initialized AuthService");
+  }
 
   /**
    *
@@ -27,8 +33,12 @@ export class AuthService {
     }
   }
 
-  public async getAccessToken(client: string) {
-    const payload = { sub: client };
+  /**
+   *
+   * @param {string} clientId The client ID.
+   */
+  public async getAccessToken(clientId: string) {
+    const payload = { sub: clientId };
     return {
       // eslint-disable-next-line camelcase
       access_token: this.jwtService.sign(payload),

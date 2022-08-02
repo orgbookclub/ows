@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { Strategy } from "passport-oauth2-client-password";
+
 import { AuthService } from "./auth.service";
 
 /**
@@ -10,6 +11,7 @@ import { AuthService } from "./auth.service";
 export class ClientPasswordStrategy extends PassportStrategy(Strategy) {
   /**
    *
+   * @param {AuthService} authService The auth service.
    */
   constructor(private authService: AuthService) {
     super();
