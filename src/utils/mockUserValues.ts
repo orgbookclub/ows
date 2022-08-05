@@ -6,11 +6,13 @@ const mockProfile = (bio = "mock bio"): ProfileDto => ({
 });
 
 /**
+ * Creates a mock user object.
  *
- * @param userId
- * @param name
- * @param profile
- * @param joinDate
+ * @param {number} userId The user Id.
+ * @param {string} name The user name.
+ * @param {ProfileDto} profile The profile Dto object.
+ * @param {Date} joinDate The joining date of the user.
+ * @returns {UserDto} The userDto object.
  */
 export const mockUser = (
   userId = 1,
