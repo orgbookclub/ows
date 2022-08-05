@@ -23,9 +23,13 @@ export const SkipAuth = (): CustomDecorator<string> =>
 export class JwtAuthGuard extends AuthGuard("jwt") {
   /**
    *
+   * @param {ConfigService} configService The global config service.
    * @param {Reflector} reflector A reflector. See documentation for more details.
    */
-  constructor(private configService: ConfigService, private reflector: Reflector) {
+  constructor(
+    private configService: ConfigService,
+    private reflector: Reflector,
+  ) {
     super();
   }
 
