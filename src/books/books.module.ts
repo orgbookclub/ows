@@ -9,7 +9,8 @@ import { BooksService } from "./books.service";
 import { Book, BookSchema } from "./schemas/book.schema";
 
 /**
- *
+ * The Books Module.
+ * This module is responsible for interaction with the @see Book documents in the database.
  */
 @Module({
   imports: [
