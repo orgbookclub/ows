@@ -8,7 +8,8 @@ import { UsersController } from "./users.controller";
 import { UsersService } from "./users.service";
 
 /**
- *
+ * The Users Module.
+ * This module is responsible for interaction with the @see User documents in the database.
  */
 @Module({
   imports: [

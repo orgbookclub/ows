@@ -15,22 +15,25 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 import { UsersService } from "./users.service";
 
 /**
- *
+ * The Users Controller.
+ * This interacts with the @see User objects stored in the database.
  */
 @ApiTags("Users")
 @Controller("api/users")
 export class UsersController {
   /**
+   * Initializes an instance of UsersController.
    *
-   * @param usersService
+   * @param {UsersService} usersService The users service.
    */
   constructor(private readonly usersService: UsersService) {
     Logger.debug("Initialized UsersController");
   }
 
   /**
+   * Creates a user from the given Dto object.
    *
-   * @param createUserDto
+   * @param {CreateUserDto} createUserDto The Dto object.
    */
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
@@ -38,7 +41,7 @@ export class UsersController {
   }
 
   /**
-   *
+   * Gets all user documents from the database.
    */
   @Get()
   async findAll() {
@@ -46,18 +49,20 @@ export class UsersController {
   }
 
   /**
+   * Gets a user from the user Id.
    *
-   * @param id
+   * @param {number} userId The user ID of the user. NOT the Object ID.
    */
   @Get(":userid")
-  async findOneByUserId(@Param("id") id: number) {
-    return await this.usersService.findOneByUserId(id);
+  async findOneByUserId(@Param("id") userId: number) {
+    return await this.usersService.findOneByUserId(userId);
   }
 
   /**
+   * Updates a user with the given Id.
    *
-   * @param id
-   * @param updateUserDto
+   * @param {string} id The object ID.
+   * @param {UpdateUserDto} updateUserDto The dto object.
    */
   @Patch(":id")
   async update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
@@ -65,8 +70,9 @@ export class UsersController {
   }
 
   /**
+   * Deletes a user with the given Id.
    *
-   * @param id
+   * @param {string} id The object ID.
    */
   @Delete(":id")
   async remove(@Param("id") id: string) {
