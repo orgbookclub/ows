@@ -17,6 +17,7 @@ describe("EventsService", () => {
         {
           provide: BooksService,
           useValue: {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             findBookByUrl: async (url: string) => {
               return null;
             },

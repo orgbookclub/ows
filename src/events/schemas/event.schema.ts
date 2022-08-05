@@ -11,7 +11,7 @@ import { Participant } from "../dto/participant";
 export type EventDocument = Event & Document;
 
 /**
- *
+ * The class representing an Event in the database.
  */
 @Schema()
 export class Event {

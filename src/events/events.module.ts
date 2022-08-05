@@ -10,7 +10,8 @@ import { EventsService } from "./events.service";
 import { Event, EventSchema } from "./schemas/event.schema";
 
 /**
- *
+ * The Events Module.
+ * This module is responsible for interacting with the @see Event documents in the database.
  */
 @Module({
   imports: [
