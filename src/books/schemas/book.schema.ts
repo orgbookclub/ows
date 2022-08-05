@@ -6,7 +6,8 @@ import { AuthorDto } from "../dto/author.dto";
 export type BookDocument = Book & Document;
 
 /**
- *
+ * The class representing a Book in the database.
+ * Can contain both StoryGraph & Goodreads books.
  */
 @Schema()
 export class Book {

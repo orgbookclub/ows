@@ -11,21 +11,23 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 
 /**
- *
+ * The Users Service.
  */
 @Injectable()
 export class UsersService {
   /**
+   * Initializes an instance of UsersService.
    *
-   * @param repository
+   * @param {UserRepository} repository Repository for handling all DB operations.
    */
   constructor(private repository: UserRepository) {
     Logger.debug("Initialized UsersService");
   }
 
   /**
+   * Creates a user from the given Dto object.
    *
-   * @param createUserDto
+   * @param {CreateUserDto} createUserDto The Dto object.
    */
   async create(createUserDto: CreateUserDto) {
     const user = await this.findOneByUserId(createUserDto.userId);
@@ -36,18 +38,19 @@ export class UsersService {
   }
 
   /**
-   *
+   * Gets all user documents from the database.
    */
   async findAll() {
     return await this.repository.getAll();
   }
 
   /**
+   * Gets a user from the user Id.
    *
-   * @param id
+   * @param {number} userId The user ID of the user. NOT the Object ID.
    */
-  async findOneByUserId(id: number) {
-    const users = await this.repository.find({ userId: id });
+  async findOneByUserId(userId: number) {
+    const users = await this.repository.find({ userId: userId });
     if (users.length === 0) {
       return null;
     }
@@ -58,8 +61,9 @@ export class UsersService {
   }
 
   /**
+   * Gets a user from the Id.
    *
-   * @param id
+   * @param {string} id The Object ID.
    */
   async findOne(id: string) {
     const users = await this.repository.find({ _id: id });
@@ -73,17 +77,19 @@ export class UsersService {
   }
 
   /**
+   * Updates a user with the given Id.
    *
-   * @param id
-   * @param updateUserDto
+   * @param {string} id The object ID.
+   * @param {UpdateUserDto} updateUserDto The dto object.
    */
   async update(id: string, updateUserDto: UpdateUserDto) {
     return await this.repository.update(id, updateUserDto);
   }
 
   /**
+   * Deletes a user with the given Id.
    *
-   * @param id
+   * @param {string} id The object ID.
    */
   async remove(id: string) {
     await this.repository.delete(id);

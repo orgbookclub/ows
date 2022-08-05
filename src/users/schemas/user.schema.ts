@@ -5,7 +5,7 @@ import { ProfileDto } from "../dto/profile.dto";
 export type UserDocument = User & Document;
 
 /**
- *
+ * The class representing a User in the database.
  */
 @Schema()
 export class User {

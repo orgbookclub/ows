@@ -13,15 +13,16 @@ import { CreateBookDto } from "./dto/create-book.dto";
 import { UpdateBookDto } from "./dto/update-book.dto";
 
 /**
- *
+ * The Books Service.
  */
 @Injectable()
 export class BooksService {
   /**
+   * Initializes an instance of BooksService.
    *
-   * @param repository
-   * @param goodreadsService
-   * @param storygraphService
+   * @param {BookRepository} repository The repository which handles DB operations.
+   * @param {GoodreadsService} goodreadsService Service for fetching Book info from Goodreads.
+   * @param {StorygraphService} storygraphService Service for fetching Book info from Storygraph.
    */
   constructor(
     private repository: BookRepository,
@@ -30,9 +31,11 @@ export class BooksService {
   ) {
     Logger.debug("Initialized BooksService");
   }
+
   /**
+   * Creates a book from the given Dto object.
    *
-   * @param createBookDto
+   * @param {CreateBookDto} createBookDto The Dto object.
    */
   async createBook(createBookDto: CreateBookDto) {
     const book = await this.findBookByUrl(createBookDto.url);
@@ -43,8 +46,9 @@ export class BooksService {
   }
 
   /**
+   * Creates a book from a given URL.
    *
-   * @param url
+   * @param {string} url A Valid GR or SG URL.
    */
   async createBookFromUrl(url: string) {
     let book: CreateBookDto;
@@ -55,24 +59,28 @@ export class BooksService {
     }
     return await this.createBook(book);
   }
+
   /**
-   *
+   * Gets all book documents from the DB.
    */
   async getAllBooks() {
     return await this.repository.getAll();
   }
 
   /**
+   * Gets the book with the given ID from the database.
    *
-   * @param id
+   * @param {string} id The object ID of the document.
    */
   async getBook(id: string) {
     return await this.repository.get(id);
   }
 
   /**
+   * Gets the book with the given URL from the database.
+   * Throws an error if multiple books with the same URL are found.
    *
-   * @param url
+   * @param {string} url The URL of the book.
    */
   async findBookByUrl(url: string) {
     const books = await this.repository.find({ url: url });
@@ -86,17 +94,19 @@ export class BooksService {
   }
 
   /**
+   * Updates the book document with the given ID.
    *
-   * @param id
-   * @param updateBookDto
+   * @param {string} id The Object ID of the document.
+   * @param {UpdateBookDto} updateBookDto The Dto object which contains the updated fields.
    */
   async updateBook(id: string, updateBookDto: UpdateBookDto) {
     return await this.repository.update(id, updateBookDto);
   }
 
   /**
+   * Deletes a book document with the given ID.
    *
-   * @param id
+   * @param {string} id The object ID of the document.
    */
   async deleteBook(id: string) {
     await this.repository.delete(id);
