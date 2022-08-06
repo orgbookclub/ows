@@ -1,6 +1,6 @@
 import { EventDto } from "./event.dto";
 
 /**
- *
+ * Dto object used when an event is created.
  */
 export class CreateEventDto extends EventDto {}

@@ -8,24 +8,28 @@ const mockAuthor = (
   name: name,
   url: url,
 });
+
 /**
+ * Creates a mock bookDto object.
  *
- * @param title
- * @param authors
- * @param url
- * @param genres
+ * @param {string} title Title of the book.
+ * @param {AuthorDto[]} authors List of authors.
+ * @param {string} url The url.
+ * @param {string[]} genres List of genres.
+ * @returns {BookDto} A Book Dto object.
  */
 export const mockBook = (
   title = "mock title",
-  authors = [mockAuthor()],
+  authors: AuthorDto[] = [mockAuthor()],
   url = "https://mock-url.com?suffix",
-  genres = ["Mock genre 1", "Mock genre 2"],
+  genres: string[] = ["Mock genre 1", "Mock genre 2"],
 ): BookDto => ({
   title: title,
   authors: authors,
   url: url,
   genres: genres,
 });
+
 export const mockAuthors = [
   mockAuthor(),
   mockAuthor("mock author2", "url2"),

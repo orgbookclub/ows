@@ -15,22 +15,25 @@ import { UpdateEventDto } from "./dto/update-event.dto";
 import { EventsService } from "./events.service";
 
 /**
- *
+ * The Events controller.
+ * Responsible for interacting with @see Event documents in the database.
  */
 @ApiTags("Events")
 @Controller("api/events")
 export class EventsController {
   /**
+   * Initializes an instance of Events Controller.
    *
-   * @param eventsService
+   * @param {EventsService} eventsService The events service.
    */
   constructor(private readonly eventsService: EventsService) {
     Logger.debug("Initialized EventsController");
   }
 
   /**
+   * Creates an event from the Dto object.
    *
-   * @param createEventDto
+   * @param {CreateEventDto} createEventDto The Dto object.
    */
   @Post()
   async create(@Body() createEventDto: CreateEventDto) {
@@ -38,9 +41,10 @@ export class EventsController {
   }
 
   /**
+   * Creates an event from the book URL and Dto object.
    *
-   * @param url
-   * @param createEventDto
+   * @param {string} url A valid GR or SG URL.
+   * @param {CreateEventDto} createEventDto The Dto object.
    */
   @Post(":url")
   async createFromUrl(
@@ -51,7 +55,7 @@ export class EventsController {
   }
 
   /**
-   *
+   * Gets all event documents from the database.
    */
   @Get()
   async findAll() {
@@ -59,8 +63,9 @@ export class EventsController {
   }
 
   /**
+   * Gets the event document with the given ID from the database.
    *
-   * @param id
+   * @param {string} id The object ID of the document.
    */
   @Get(":id")
   async findOne(@Param("id") id: string) {
@@ -68,9 +73,10 @@ export class EventsController {
   }
 
   /**
+   * Updates the event with the given ID and Dto in the database.
    *
-   * @param id
-   * @param updateEventDto
+   * @param {string} id The object ID.
+   * @param {UpdateEventDto} updateEventDto The dto object.
    */
   @Patch(":id")
   async update(
@@ -81,8 +87,9 @@ export class EventsController {
   }
 
   /**
+   * Deletes the event document from the DB.
    *
-   * @param id
+   * @param {string} id The object ID of the event document to remove.
    */
   @Delete(":id")
   async remove(@Param("id") id: string) {

@@ -1,3 +1,7 @@
+/* eslint-disable jsdoc/require-param-type */
+/* eslint-disable jsdoc/require-param-description */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable jsdoc/require-returns */
 import {
   Controller,
   Get,
