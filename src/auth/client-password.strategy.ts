@@ -5,11 +5,12 @@ import { Strategy } from "passport-oauth2-client-password";
 import { AuthService } from "./auth.service";
 
 /**
- *
+ * Strategy for validating the Client Credentials auth flow.
  */
 @Injectable()
 export class ClientPasswordStrategy extends PassportStrategy(Strategy) {
   /**
+   * Initializes an instance of ClientPasswordStrategy.
    *
    * @param {AuthService} authService The auth service.
    */

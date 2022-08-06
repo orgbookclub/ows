@@ -2,11 +2,12 @@ import { Injectable, Logger } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 
 /**
- *
+ * The Auth service.
  */
 @Injectable()
 export class AuthService {
   /**
+   * Initializes an instance of AuthService.
    *
    * @param {JwtService} jwtService The JWT Service.
    */
@@ -15,9 +16,11 @@ export class AuthService {
   }
 
   /**
+   * Checks whether the given clientID & clientSecret are valid.
    *
    * @param {string} clientId The client ID.
    * @param {string} clientSecret The client secret.
+   * @returns {string} Valid clientID or null.
    */
   public async validateClient(clientId: string, clientSecret: string) {
     try {
@@ -34,8 +37,10 @@ export class AuthService {
   }
 
   /**
+   * Creates and returns an access token.
    *
    * @param {string} clientId The client ID.
+   * @returns {Promise<any>} An access token JSON object.
    */
   public async getAccessToken(clientId: string) {
     const payload = { sub: clientId };

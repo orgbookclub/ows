@@ -16,12 +16,14 @@ export const SKIP_AUTH = "skipAuth";
  */
 export const SkipAuth = (): CustomDecorator<string> =>
   SetMetadata(SKIP_AUTH, true);
+
 /**
- *
+ * Guard for restricting access to endpoints without a valid access token.
  */
 @Injectable()
 export class JwtAuthGuard extends AuthGuard("jwt") {
   /**
+   * Initializes an instance of JwtAuthGuard.
    *
    * @param {ConfigService} configService The global config service.
    * @param {Reflector} reflector A reflector. See documentation for more details.
@@ -34,6 +36,8 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
   }
 
   /**
+   * Handles additional logic for checking if the Guard should pass/fail.
+   * Hardcoded to skip auth for dev environment.
    *
    * @param {ExecutionContext} context The execution context.
    * @returns {any} A boolean indicating whether method can skip auth or not.

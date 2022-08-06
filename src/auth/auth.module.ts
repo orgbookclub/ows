@@ -11,7 +11,8 @@ import { JwtAuthGuard } from "./jwt-auth.guard";
 import { JwtStrategy } from "./jwt.strategy";
 
 /**
- *
+ * The Auth Module.
+ * Responsible for handling authentication, and auth guards.
  */
 @Module({
   imports: [
