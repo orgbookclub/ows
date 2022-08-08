@@ -31,7 +31,7 @@
     "@nestjs/platform-express": "^8.4.7",
     "@nestjs/swagger": "^5.2.1",
     "@sentry/node": "^7.8.0",
-    "@sentry/tracing": "^7.8.0",
+    "@sentry/tracing": "^7.9.0",
     "cheerio": "^1.0.0-rc.12",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.0",
