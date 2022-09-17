@@ -29,6 +29,7 @@ export class GoodreadsService {
     Logger.debug("Initialized GoodreadsService");
   }
   public GR_BASE_URL = "https://www.goodreads.com";
+  public GR_BASE_URL2 = "https://goodreads.com";
   private parser = GoodreadsParser;
 
   /**
@@ -56,7 +57,10 @@ export class GoodreadsService {
    * @returns {Promise<GoodreadsBookDto>} The details of the book.
    */
   async getBook(url: string): Promise<GoodreadsBookDto> {
-    if (!url.startsWith(`${this.GR_BASE_URL}/book`)) {
+    if (
+      !url.startsWith(`${this.GR_BASE_URL}`) &&
+      !url.startsWith(`${this.GR_BASE_URL2}`)
+    ) {
       throw new HttpException("Invalid URL", HttpStatus.BAD_REQUEST);
     }
     const response = await lastValueFrom(this.httpService.get(url));
