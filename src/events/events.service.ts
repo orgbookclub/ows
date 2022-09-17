@@ -1,6 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 
 import { BooksService } from "../books/books.service";
+import { BookDocument } from "../books/schemas/book.schema";
 import { EventRepository } from "../repositories/event.repository";
 
 import { CreateEventDto } from "./dto/create-event.dto";
@@ -40,10 +41,10 @@ export class EventsService {
    * @param {CreateEventDto} createEventDto The Dto object.
    */
   async createFromUrl(url: string, createEventDto: CreateEventDto) {
-    let book = null;
+    let book: BookDocument;
     book = await this.booksService.findBookByUrl(url);
     if (book === null) book = await this.booksService.createBookFromUrl(url);
-    createEventDto.book = book;
+    createEventDto.book = book._id;
     return await this.repository.create(createEventDto);
   }
 

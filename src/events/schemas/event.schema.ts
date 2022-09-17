@@ -43,10 +43,24 @@ export class Event {
   @Prop(DateRange)
   dates: DateRange;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "User" })
+  @Prop({
+    type: [
+      {
+        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        points: Number,
+      },
+    ],
+  })
   requestedBy: User;
 
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }] })
+  @Prop({
+    type: [
+      {
+        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        points: Number,
+      },
+    ],
+  })
   interested: User[];
 
   @Prop({
