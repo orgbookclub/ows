@@ -51,10 +51,10 @@ export class UsersController {
   /**
    * Gets a user from the user Id.
    *
-   * @param {number} userId The user ID of the user. NOT the Object ID.
+   * @param {string} userId The user ID of the user. NOT the Object ID.
    */
   @Get(":userid")
-  async findOneByUserId(@Param("id") userId: number) {
+  async findOneByUserId(@Param("id") userId: string) {
     return await this.usersService.findOneByUserId(userId);
   }
 

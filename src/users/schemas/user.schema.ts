@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document } from "mongoose";
 
 import { ProfileDto } from "../dto/profile.dto";
 
@@ -10,10 +11,9 @@ export type UserDocument = User & Document;
 @Schema()
 export class User {
   @Prop({
-    type: Number,
     unique: true,
   })
-  userId: number;
+  userId: string;
 
   @Prop()
   name: string;

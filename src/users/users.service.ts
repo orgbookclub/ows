@@ -47,9 +47,9 @@ export class UsersService {
   /**
    * Gets a user from the user Id.
    *
-   * @param {number} userId The user ID of the user. NOT the Object ID.
+   * @param {string} userId The user ID of the user. NOT the Object ID.
    */
-  async findOneByUserId(userId: number) {
+  async findOneByUserId(userId: string) {
     const users = await this.repository.find({ userId: userId });
     if (users.length === 0) {
       return null;
