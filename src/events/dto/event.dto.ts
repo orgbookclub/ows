@@ -1,4 +1,4 @@
-import { DateRange } from "./dateRange";
+import { DateRange } from "./date-range.dto";
 import { EventStatus } from "./event-status";
 import { EventType } from "./event-type";
 
@@ -9,8 +9,8 @@ export class EventDto {
   name: string;
   book: string;
   threads: string[];
-  status: keyof typeof EventStatus;
-  type: keyof typeof EventType;
+  status: EventStatus;
+  type: EventType;
   dates: DateRange;
   requestedBy: string;
   interested: string[];

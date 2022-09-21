@@ -1,5 +1,5 @@
 import { BookDto } from "../books/dto/book.dto";
-import { DateRange } from "../events/dto/dateRange";
+import { DateRange } from "../events/dto/date-range.dto";
 import { EventStatus } from "../events/dto/event-status";
 import { EventType } from "../events/dto/event-type";
 import { EventDto } from "../events/dto/event.dto";
