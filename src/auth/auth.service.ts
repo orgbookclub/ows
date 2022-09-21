@@ -25,7 +25,7 @@ export class AuthService {
   public async validateClient(clientId: string, clientSecret: string) {
     try {
       if (
-        clientId === "greggClientId" &&
+        clientId === "813059297990148096" &&
         clientSecret === "greggClientSecret"
       ) {
         return clientId;
