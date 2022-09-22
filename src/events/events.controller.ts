@@ -59,6 +59,7 @@ export class EventsController {
 
   /**
    * Gets all event documents from the database.
+   *
    * @returns {Promise<EventDocument[]>} A list of event documents.
    */
   @Get()
