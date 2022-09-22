@@ -1,5 +1,11 @@
-import { Controller, Get, NotFoundException, Query } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import {
+  Controller,
+  Get,
+  Logger,
+  NotFoundException,
+  Query,
+} from "@nestjs/common";
+import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { BookDto } from "../books/dto/book.dto";
 
@@ -18,7 +24,7 @@ export class StorygraphController {
    * @param {StorygraphService} storygraphService The service.
    */
   constructor(private storygraphService: StorygraphService) {
-    //
+    Logger.debug("Initialized StorygraphController");
   }
 
   /**
@@ -29,10 +35,11 @@ export class StorygraphController {
    * @returns {Promise<BookDto[]>} An array of @see BookDto objects.
    */
   @Get("search")
+  @ApiOkResponse({ type: [BookDto] })
   async searchBooks(
     @Query("q") query: string,
     @Query("k") k = 5,
-  ): Promise<Array<BookDto>> {
+  ): Promise<BookDto[]> {
     return await this.storygraphService.searchBooks(query, k);
   }
 
@@ -43,6 +50,7 @@ export class StorygraphController {
    * @returns {Promise<StorygraphBookDto>} The book details.
    */
   @Get("book")
+  @ApiOkResponse({ type: StorygraphBookDto })
   async searchAndGetBook(
     @Query("q") query: string,
   ): Promise<StorygraphBookDto> {

@@ -1,5 +1,11 @@
-import { Controller, Get, NotFoundException, Query } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import {
+  Controller,
+  Get,
+  Logger,
+  NotFoundException,
+  Query,
+} from "@nestjs/common";
+import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { BookDto } from "../books/dto/book.dto";
 
@@ -18,7 +24,7 @@ export class GoodreadsController {
    * @param {GoodreadsService} goodreadsService The service.
    */
   constructor(private goodreadsService: GoodreadsService) {
-    //
+    Logger.debug("Initialized Goodreads Controller");
   }
 
   /**
@@ -29,6 +35,9 @@ export class GoodreadsController {
    * @returns {Promise<BookDto[]>} An array of @see BookDto objects.
    */
   @Get("search")
+  @ApiOkResponse({
+    type: [BookDto],
+  })
   async searchBooks(
     @Query("q") query: string,
     @Query("k") k: number,
@@ -43,6 +52,7 @@ export class GoodreadsController {
    * @returns {Promise<GoodreadsBookDto>} The book details.
    */
   @Get("book")
+  @ApiOkResponse({ type: GoodreadsBookDto })
   async searchAndGetBook(@Query("q") query: string): Promise<GoodreadsBookDto> {
     const bookList = await this.goodreadsService.searchBooks(query, 1);
     if (bookList.length === 0) {
@@ -56,12 +66,14 @@ export class GoodreadsController {
    *
    * @param {number} k The maximum number of results.
    * @param {string} query The query string.
+   * @returns {string[]} A list of quotes.
    */
   @Get("quotes")
+  @ApiOkResponse({ type: [String] })
   async getQuotes(
     @Query("k") k = 5,
     @Query("q") query?: string,
-  ): Promise<Array<string>> {
+  ): Promise<string[]> {
     return await this.goodreadsService.getQuotes(k, query);
   }
 }

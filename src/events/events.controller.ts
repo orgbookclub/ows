@@ -8,11 +8,12 @@ import {
   Logger,
   Param,
 } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { CreateEventDto } from "./dto/create-event.dto";
 import { UpdateEventDto } from "./dto/update-event.dto";
 import { EventsService } from "./events.service";
+import { Event, EventDocument } from "./schemas/event.schema";
 
 /**
  * The Events controller.
@@ -34,9 +35,10 @@ export class EventsController {
    * Creates an event from the Dto object.
    *
    * @param {CreateEventDto} createEventDto The Dto object.
+   * @returns {Promise<EventDocument>} An event document.
    */
   @Post()
-  async create(@Body() createEventDto: CreateEventDto) {
+  async create(@Body() createEventDto: CreateEventDto): Promise<EventDocument> {
     return await this.eventsService.create(createEventDto);
   }
 
@@ -45,20 +47,22 @@ export class EventsController {
    *
    * @param {string} url A valid GR or SG URL.
    * @param {CreateEventDto} createEventDto The Dto object.
+   * @returns {Promise<EventDocument>} An event document.
    */
   @Post(":url")
   async createFromUrl(
     @Param("url") url: string,
     @Body() createEventDto: CreateEventDto,
-  ) {
+  ): Promise<EventDocument> {
     return await this.eventsService.createFromUrl(url, createEventDto);
   }
 
   /**
    * Gets all event documents from the database.
+   * @returns {Promise<EventDocument[]>} A list of event documents.
    */
   @Get()
-  async findAll() {
+  async findAll(): Promise<EventDocument[]> {
     return await this.eventsService.findAll();
   }
 
@@ -66,9 +70,10 @@ export class EventsController {
    * Gets the event document with the given ID from the database.
    *
    * @param {string} id The object ID of the document.
+   * @returns {Promise<EventDocument>} An event document.
    */
   @Get(":id")
-  async findOne(@Param("id") id: string) {
+  async findOne(@Param("id") id: string): Promise<EventDocument> {
     return await this.eventsService.findOne(id);
   }
 
@@ -77,12 +82,13 @@ export class EventsController {
    *
    * @param {string} id The object ID.
    * @param {UpdateEventDto} updateEventDto The dto object.
+   * @returns {Promise<EventDocument>} The updated event document.
    */
   @Patch(":id")
   async update(
     @Param("id") id: string,
     @Body() updateEventDto: UpdateEventDto,
-  ) {
+  ): Promise<EventDocument> {
     return await this.eventsService.update(id, updateEventDto);
   }
 
@@ -90,9 +96,11 @@ export class EventsController {
    * Deletes the event document from the DB.
    *
    * @param {string} id The object ID of the event document to remove.
+   * @returns {Promise<boolean>} Boolean indicating if doc is deleted.
    */
   @Delete(":id")
-  async remove(@Param("id") id: string) {
+  @ApiOkResponse({ type: Boolean })
+  async remove(@Param("id") id: string): Promise<boolean> {
     return await this.eventsService.remove(id);
   }
 }

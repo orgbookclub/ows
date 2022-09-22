@@ -15,7 +15,7 @@ export class Book {
   title: string;
 
   @Prop([AuthorDto])
-  authors: Array<AuthorDto>;
+  authors: AuthorDto[];
 
   @Prop({
     type: String,
@@ -25,7 +25,7 @@ export class Book {
   url: string;
 
   @Prop([String])
-  genres: Array<string>;
+  genres: string[];
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book);
