@@ -13,7 +13,7 @@ import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { CreateEventDto } from "./dto/create-event.dto";
 import { UpdateEventDto } from "./dto/update-event.dto";
 import { EventsService } from "./events.service";
-import { Event, EventDocument } from "./schemas/event.schema";
+import { EventDocument } from "./schemas/event.schema";
 
 /**
  * The Events controller.
