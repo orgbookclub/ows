@@ -3,6 +3,7 @@ import { ApiTags } from "@nestjs/swagger";
 
 import { BooksService } from "./books.service";
 import { CreateBookDto } from "./dto/create-book.dto";
+import { BookDocument } from "./schemas/book.schema";
 
 /**
  * The Books controller.
@@ -24,9 +25,12 @@ export class BooksController {
    * Creates a book from the given Dto object.
    *
    * @param {CreateBookDto} createBookDto The Dto object.
+   * @returns {Promise<BookDocument>} A Book document.
    */
   @Post()
-  async createBookFromDto(@Body() createBookDto: CreateBookDto) {
+  async createBookFromDto(
+    @Body() createBookDto: CreateBookDto,
+  ): Promise<BookDocument> {
     return await this.booksService.createBook(createBookDto);
   }
 
@@ -34,9 +38,10 @@ export class BooksController {
    * Creates a book from the given valid URL.
    *
    * @param {string} url A valid Goodreads or Storygraph URL.
+   * @returns {Promise<BookDocument>} A Book document.
    */
   @Post(":url")
-  async createBookFromUrl(@Param("url") url: string) {
+  async createBookFromUrl(@Param("url") url: string): Promise<BookDocument> {
     return await this.booksService.createBookFromUrl(url);
   }
 }

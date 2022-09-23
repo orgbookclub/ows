@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 
 import { Book } from "../../books/schemas/book.schema";
 import { User } from "../../users/schemas/user.schema";
-import { DateRange } from "../dto/dateRange";
+import { DateRange } from "../dto/date-range.dto";
 import { EventStatus } from "../dto/event-status";
 import { EventType } from "../dto/event-type";
-import { Participant } from "../dto/participant";
+import { Participant } from "../dto/participant.dto";
 
 export type EventDocument = Event & Document;
 
