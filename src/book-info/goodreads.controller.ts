@@ -65,7 +65,7 @@ export class GoodreadsController {
    * Searches quotes from Goodreads.
    *
    * @param {number} k The maximum number of results.
-   * @param {string} query The query string.
+   * @param {string?} query The query string.
    * @returns {string[]} A list of quotes.
    */
   @Get("quotes")
