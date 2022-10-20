@@ -37,7 +37,7 @@ describe("GoodreadsController", () => {
     });
   });
 
-  describe("searchAndG  etBook", () => {
+  describe("searchAndGetBook", () => {
     it("should return a book object", async () => {
       const expected = mockBookResultFromGR;
       jest
