@@ -648,10 +648,10 @@
   dependencies:
     axios "0.27.2"
 
-"@nestjs/cli@^9.1.3":
-  version "9.1.3"
-  resolved "https://registry.yarnpkg.com/@nestjs/cli/-/cli-9.1.3.tgz#b1891268e20ecc1b55d730ec3013f1a3683fca64"
-  integrity sha512-ILACqDDrplvOb7HwCFJCvghMyXSHPwhqzxzant4AwYzu3BGsZVQG7TRNPxu+qfHZH6o4EBglpBwkb+8vbnVBKA==
+"@nestjs/cli@^9.1.4":
+  version "9.1.4"
+  resolved "https://registry.yarnpkg.com/@nestjs/cli/-/cli-9.1.4.tgz#a5a88d02d90a5eff279aa00af3c84ff74882e63c"
+  integrity sha512-cvN4DcLzaqFzKRmpU3tOeLmw7+1p4XXsFLyWgteId0Szf6cAk5KJpD5jl2Kw7f39vNw9Pss8yiJ1q1CD/fcbwQ==
   dependencies:
     "@angular-devkit/core" "14.2.2"
     "@angular-devkit/schematics" "14.2.2"
@@ -1056,10 +1056,10 @@
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-1.3.2.tgz#93e25bf9ee75fe0fd80b594bc4feb0e862111b5a"
   integrity sha512-YATxVxgRqNH6nHEIsvg6k2Boc1JHI9ZbH5iWFFv/MTkchz3b1ieGDa5T0a9RznNdI0KhVbdbWSN+KWWrQZRxTw==
 
-"@types/node@*", "@types/node@^18.7.23":
-  version "18.7.23"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.23.tgz#75c580983846181ebe5f4abc40fe9dfb2d65665f"
-  integrity sha512-DWNcCHolDq0ZKGizjx2DZjR/PqsYwAcYUJmfMWqtVU2MBMG5Mo+xFZrhGId5r/O5HOuMPyQEcM6KUBp5lBZZBg==
+"@types/node@*", "@types/node@^18.11.3":
+  version "18.11.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.3.tgz#78a6d7ec962b596fc2d2ec102c4dd3ef073fea6a"
+  integrity sha512-fNjDQzzOsZeKZu5NATgXUPsaFaTxeRgFXoosrHivTl8RGeV733OLawXsGfEk9a8/tySyZUyiZ6E8LcjPFZ2y1A==
 
 "@types/oauth2orize@^1.8.10":
   version "1.8.10"
@@ -1082,10 +1082,10 @@
     "@types/express" "*"
     "@types/passport" "*"
 
-"@types/passport-jwt@^3.0.6":
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/@types/passport-jwt/-/passport-jwt-3.0.6.tgz#41cc8b5803d5f5f06eb33e19c453b42716def4f1"
-  integrity sha512-cmAAMIRTaEwpqxlrZyiEY9kdibk94gP5KTF8AT1Ra4rWNZYHNMreqhKUEeC5WJtuN5SJZjPQmV+XO2P5PlnvNQ==
+"@types/passport-jwt@^3.0.7":
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@types/passport-jwt/-/passport-jwt-3.0.7.tgz#ef8d8160dd9f4a3426aec031080cce9538b044a3"
+  integrity sha512-qRQ4qlww1Yhs3IaioDKrsDNmKy6gLDLgFsGwpCnc2YqWovO2Oxu9yCQdWHMJafQ7UIuOba4C4/TNXcGkQfEjlQ==
   dependencies:
     "@types/express" "*"
     "@types/jsonwebtoken" "*"
@@ -4357,10 +4357,10 @@ mongodb@^4.10.0:
   optionalDependencies:
     saslprep "^1.0.3"
 
-mongoose@^6.6.2:
-  version "6.6.2"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-6.6.2.tgz#162d651ee830f06c6fd2c8a5886646a5828c0458"
-  integrity sha512-SrB0DgB1Ime/xh4Tr2yLkFKO5Aa/FrDyAo/ILGDWM5qjhZdhl7HKftiQPibwywC3rTkeU4nc2yuPYKFLBYCBWA==
+mongoose@^6.6.5:
+  version "6.6.5"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-6.6.5.tgz#fcc7ba9594db711b3d4d7a1b3522c5dbc8f0bf52"
+  integrity sha512-iA/oDpWOc+K2QYzA4Eq7Z1oUBQOz9FGDmUwPLgw872Bfs/qizA5Db+gJorAn+TnnGu3VoCK8iP4Y+TECUelwjA==
   dependencies:
     bson "^4.6.5"
     kareem "2.4.1"
@@ -5725,10 +5725,15 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
-typescript@4.8.3, typescript@^4.7.4:
+typescript@4.8.3:
   version "4.8.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.8.3.tgz#d59344522c4bc464a65a730ac695007fdb66dd88"
   integrity sha512-goMHfm00nWPa8UvR/CPSvykqf6dVV8x/dp0c5mFTMTIu0u0FlGWRioyy7Nn0PGAdHxpJZnuO/ut+PpQ8UiHAig==
+
+typescript@^4.8.4:
+  version "4.8.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.8.4.tgz#c464abca159669597be5f96b8943500b238e60e6"
+  integrity sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==
 
 uid2@0.0.x:
   version "0.0.4"

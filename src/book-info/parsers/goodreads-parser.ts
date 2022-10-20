@@ -83,7 +83,7 @@ export class GoodreadsParser extends Parser {
       const quotes: string[] = [];
       const quoteDivs = this.soup("div[class=quoteText]");
       for (let i = 0; i < Math.min(quoteDivs.length, k); i++) {
-        const quote = this.soup(quoteDivs[i]).text().trim();
+        const quote = this.soup(quoteDivs[i]).text().split("//")[0].trim();
         quotes.push(quote);
       }
       return quotes;
