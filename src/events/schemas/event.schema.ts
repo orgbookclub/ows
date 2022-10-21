@@ -30,7 +30,7 @@ export class Event {
     enum: EventStatus,
     default: EventStatus.Requested,
   })
-  status: keyof typeof EventStatus;
+  status: EventStatus;
 
   @Prop({
     type: String,
@@ -38,7 +38,7 @@ export class Event {
     enum: EventType,
     default: EventType.BuddyRead,
   })
-  type: keyof typeof EventType;
+  type: EventType;
 
   @Prop(DateRange)
   dates: DateRange;

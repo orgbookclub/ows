@@ -1,10 +1,13 @@
 import { Injectable, Logger } from "@nestjs/common";
+import { FilterQuery } from "mongoose";
 
 import { BooksService } from "../books/books.service";
 import { EventRepository } from "../repositories/event.repository";
 
 import { CreateEventDto } from "./dto/create-event.dto";
+import { EventFilter } from "./dto/event-filter.dto";
 import { UpdateEventDto } from "./dto/update-event.dto";
+import { Event } from "./schemas/event.schema";
 
 /**
  * The Events Service.
@@ -48,10 +51,13 @@ export class EventsService {
   }
 
   /**
-   * Gets all event documents from the database.
+   * Gets all event documents from the database which satisfy the filter conditions.
+   *
+   * @param {EventFilter} filter Filter.
    */
-  async findAll() {
-    return await this.repository.getAll();
+  async findMany(filter: EventFilter) {
+    const query: FilterQuery<Event> = this.getFilterQuery(filter);
+    return await this.repository.find(query);
   }
 
   /**
@@ -81,5 +87,46 @@ export class EventsService {
   async remove(id: string) {
     await this.repository.delete(id);
     return true;
+  }
+
+  /**
+   * Converts the filter into a MongoDB compatible format.
+   *
+   * @param {EventFilter} filter The filter from the request.
+   * @returns {FilterQuery<Event>}  A MongoDB FilterQuery object.
+   */
+  private getFilterQuery(filter: EventFilter): FilterQuery<Event> {
+    const query: FilterQuery<Event> = {};
+    filter.name && (query.name = filter.name);
+    filter.bookId && (query.book = filter.bookId);
+    filter.threads && (query.threads = { $in: filter.threads });
+    filter.status && (query.status = filter.status);
+    filter.type && (query.type = filter.type);
+    filter.startDateBefore &&
+      (query["dates.startDate"] = {
+        $lte: new Date(filter.startDateBefore),
+        ...query["dates.startDate"],
+      });
+    filter.startDateAfter &&
+      (query["dates.startDate"] = {
+        $gte: new Date(filter.startDateAfter),
+        ...query["dates.startDate"],
+      });
+    filter.endDateBefore &&
+      (query["dates.endDate"] = {
+        $lte: new Date(filter.endDateBefore),
+        ...query["dates.endDate"],
+      });
+    filter.endDateAfter &&
+      (query["dates.endDate"] = {
+        $gte: new Date(filter.endDateAfter),
+        ...query["dates.endDate"],
+      });
+    filter.requestedByIds &&
+      (query.requestedBy = { $in: filter.requestedByIds });
+    filter.interestedIds && (query.interested = { $in: filter.interestedIds });
+    filter.readerIds && (query.readers = { $in: filter.readerIds });
+    filter.leaderIds && (query.leaders = { $in: filter.leaderIds });
+    return query;
   }
 }
