@@ -56,7 +56,7 @@ export class EventsService {
    * @param {EventFilter} filter Filter.
    */
   async findMany(filter: EventFilter) {
-    const query: FilterQuery<Event> = this.getFilterQuery(filter);
+    const query: FilterQuery<Event> = await this.getFilterQuery(filter);
     return await this.repository.find(query);
   }
 
@@ -93,12 +93,23 @@ export class EventsService {
    * Converts the filter into a MongoDB compatible format.
    *
    * @param {EventFilter} filter The filter from the request.
-   * @returns {FilterQuery<Event>}  A MongoDB FilterQuery object.
+   * @returns {Promise<FilterQuery<Event>>}  A MongoDB FilterQuery object.
    */
-  private getFilterQuery(filter: EventFilter): FilterQuery<Event> {
+  private async getFilterQuery(
+    filter: EventFilter,
+  ): Promise<FilterQuery<Event>> {
     const query: FilterQuery<Event> = {};
     filter.name && (query.name = filter.name);
-    filter.bookId && (query.book = filter.bookId);
+    if (filter.bookSearchQuery) {
+      const books = await this.booksService.findBooks(filter.bookSearchQuery);
+      if (books.length > 0) {
+        if (!filter.bookIds) {
+          filter.bookIds = [];
+        }
+        books.forEach((book) => filter.bookIds.push(book._id.toString()));
+      }
+    }
+    filter.bookIds && (query.book = { $in: filter.bookIds });
     filter.threads && (query.threads = { $in: filter.threads });
     filter.status && (query.status = filter.status);
     filter.type && (query.type = filter.type);

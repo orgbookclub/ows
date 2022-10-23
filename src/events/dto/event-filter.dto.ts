@@ -6,7 +6,8 @@ import { EventType } from "./event-type";
  */
 export class EventFilter {
   name?: string;
-  bookId?: string;
+  bookSearchQuery?: string;
+  bookIds?: string[];
   threads?: string[];
   status?: EventStatus;
   type?: EventType;

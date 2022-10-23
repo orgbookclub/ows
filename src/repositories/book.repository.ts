@@ -68,7 +68,7 @@ export class BookRepository extends BaseRepository<BookDocument> {
    * @param {UpdateBookDto} updateDto The updated doc.
    * @returns {Promise<BookDocument>} The result document (after update).
    */
-  async update(id: string, updateDto: UpdateBookDto) {
+  async update(id: string, updateDto: UpdateBookDto): Promise<BookDocument> {
     return await this.bookModel.findByIdAndUpdate(id, updateDto, {
       returnDocument: "after",
     });
