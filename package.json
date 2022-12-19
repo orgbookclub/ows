@@ -50,7 +50,7 @@
     "@nestjs/cli": "^9.1.4",
     "@nestjs/schematics": "^9.0.3",
     "@nestjs/testing": "^8.2.6",
-    "@types/express": "^4.17.14",
+    "@types/express": "^4.17.15",
     "@types/jest": "27.4.0",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/oauth2orize": "^1.8.10",
