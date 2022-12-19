@@ -34,7 +34,7 @@
     "@sentry/tracing": "^7.27.0",
     "cheerio": "^1.0.0-rc.12",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.7.0",
+    "mongoose": "^6.8.0",
     "oauth2orize": "^1.11.1",
     "passport": "^0.6.0",
     "passport-http": "^0.3.0",
