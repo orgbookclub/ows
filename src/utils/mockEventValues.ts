@@ -3,7 +3,7 @@ import { DateRange } from "../events/dto/date-range.dto";
 import { EventStatus } from "../events/dto/event-status";
 import { EventType } from "../events/dto/event-type";
 import { EventDto } from "../events/dto/event.dto";
-import { Participant } from "../events/dto/participant";
+import { Participant } from "../events/dto/participant.dto";
 
 import { mockBookDocs } from "./mockBookValues";
 import { mockUserDocs } from "./mockUserValues";

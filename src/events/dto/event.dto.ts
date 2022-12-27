@@ -1,7 +1,7 @@
 import { DateRange } from "./date-range.dto";
 import { EventStatus } from "./event-status";
 import { EventType } from "./event-type";
-import { Participant } from "./participant";
+import { Participant } from "./participant.dto";
 
 /**
  * Dto object which stores info for an event.

@@ -5,7 +5,7 @@ import { MongoClient } from "mongodb";
 import { BooksService } from "../books/books.service";
 import { EventStatus } from "../events/dto/event-status";
 import { EventType } from "../events/dto/event-type";
-import { Participant } from "../events/dto/participant";
+import { Participant } from "../events/dto/participant.dto";
 import { EventsService } from "../events/events.service";
 import { EventDocument } from "../events/schemas/event.schema";
 import { UsersService } from "../users/users.service";

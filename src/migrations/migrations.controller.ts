@@ -32,7 +32,7 @@ export class MigrationsController {
   /**
    * Migrates a single event doc from older schema to newer one.
    *
-   * @param {object} oldEventDoc
+   * @param {object} oldEventDoc The db document representing the event in the old db format.
    */
   @Post()
   async migrateEvent(@Body() oldEventDoc: EventDto) {
