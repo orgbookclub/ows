@@ -167,14 +167,16 @@ export class MigrationsService {
   /**
    * Returns a list of participant objects from the user Ids and their score.
    *
-   * @param {string[]} userIds A list of user ids.
+   * @param {string[]|Set<string>} userIds A list or set of user ids.
    * @param {number} score The score for the user for the event.
    * @returns {Participant[]} A list of participant objects.
    */
-  private async getParticipants(userIds: string[], score: number) {
+  private async getParticipants(
+    userIds: string[] | Set<string>,
+    score: number,
+  ) {
     const participants: Participant[] = [];
-    for (let i = 0; i < userIds.length; i++) {
-      const userId = userIds[i];
+    for (const userId of userIds) {
       const userDoc = await this.getUserDoc(userId);
       participants.push({
         user: userDoc._id,
