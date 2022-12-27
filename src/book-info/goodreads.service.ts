@@ -28,8 +28,7 @@ export class GoodreadsService {
   constructor(private httpService: HttpService) {
     Logger.debug("Initialized GoodreadsService");
   }
-  public GR_BASE_URL = "https://www.goodreads.com";
-  public GR_BASE_URL2 = "https://goodreads.com";
+  public GR_BASE_URLS = ["https://www.goodreads.com", "https://goodreads.com"];
   private parser = GoodreadsParser;
 
   /**
@@ -40,7 +39,7 @@ export class GoodreadsService {
    * @returns {Promise<BookDto[]>} An array of @see BookDto objects.
    */
   async searchBooks(query: string, k: number): Promise<BookDto[]> {
-    const url = `${this.GR_BASE_URL}/search?query=${query}&search_type=books`;
+    const url = `${this.GR_BASE_URLS[0]}/search?query=${query}&search_type=books`;
     const response = await lastValueFrom(this.httpService.get(url));
     if (!response) {
       throw new ServiceUnavailableException();
@@ -57,10 +56,7 @@ export class GoodreadsService {
    * @returns {Promise<GoodreadsBookDto>} The details of the book.
    */
   async getBook(url: string): Promise<GoodreadsBookDto> {
-    if (
-      !url.startsWith(`${this.GR_BASE_URL}`) &&
-      !url.startsWith(`${this.GR_BASE_URL2}`)
-    ) {
+    if (!this.GR_BASE_URLS.some((x) => url.startsWith(x))) {
       throw new HttpException("Invalid URL", HttpStatus.BAD_REQUEST);
     }
     const response = await lastValueFrom(this.httpService.get(url));
@@ -78,7 +74,7 @@ export class GoodreadsService {
    * @param {string} query The query string.
    */
   async getQuotes(k: number, query?: string) {
-    let url = `${this.GR_BASE_URL}/quotes`;
+    let url = `${this.GR_BASE_URLS[0]}/quotes`;
     if (query) {
       url = url + `/search?q=${query}`;
     }
