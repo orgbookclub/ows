@@ -136,15 +136,15 @@ export class EventsService {
       });
     filter.participantIds &&
       (query["$or"] = [
-        { $in: filter.requestedByIds },
-        { $in: filter.interestedIds },
-        { $in: filter.readerIds },
-        { $in: filter.leaderIds },
+        { "requestedBy.user": { $in: filter.participantIds } },
+        { "interested.user": { $in: filter.participantIds } },
+        { "readers.user": { $in: filter.participantIds } },
+        { "leaders.user": { $in: filter.participantIds } },
       ]);
     filter.requestedByIds &&
       (query["requestedBy.user"] = { $in: filter.requestedByIds });
     filter.interestedIds &&
-      (query["interested.users"] = { $in: filter.interestedIds });
+      (query["interested.user"] = { $in: filter.interestedIds });
     filter.readerIds && (query["readers.user"] = { $in: filter.readerIds });
     filter.leaderIds && (query["leaders.user"] = { $in: filter.leaderIds });
     return query;
