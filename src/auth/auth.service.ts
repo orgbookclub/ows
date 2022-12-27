@@ -1,4 +1,5 @@
 import { Injectable, Logger } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 
 /**
@@ -9,9 +10,13 @@ export class AuthService {
   /**
    * Initializes an instance of AuthService.
    *
+   * @param {ConfigService} configService The config service.
    * @param {JwtService} jwtService The JWT Service.
    */
-  constructor(private jwtService: JwtService) {
+  constructor(
+    private configService: ConfigService,
+    private jwtService: JwtService,
+  ) {
     Logger.debug("Initialized AuthService");
   }
 
@@ -25,8 +30,8 @@ export class AuthService {
   public async validateClient(clientId: string, clientSecret: string) {
     try {
       if (
-        clientId === "greggClientId" &&
-        clientSecret === "greggClientSecret"
+        clientId === this.configService.get<string>("GREGG_CLIENT_ID") &&
+        clientSecret === this.configService.get<string>("GREGG_CLIENT_SECRET")
       ) {
         return clientId;
       }
