@@ -2,10 +2,10 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document } from "mongoose";
 
 import { Book } from "../../books/schemas/book.schema";
-import { DateRange } from "../dto/dateRange";
+import { DateRange } from "../dto/date-range.dto";
 import { EventStatus } from "../dto/event-status";
 import { EventType } from "../dto/event-type";
-import { Participant } from "../dto/participant";
+import { Participant } from "../dto/participant.dto";
 
 export type EventDocument = Event & Document;
 
@@ -29,7 +29,7 @@ export class Event {
     enum: EventStatus,
     default: EventStatus.Requested,
   })
-  status: keyof typeof EventStatus;
+  status: EventStatus;
 
   @Prop({
     type: String,
@@ -37,7 +37,7 @@ export class Event {
     enum: EventType,
     default: EventType.BuddyRead,
   })
-  type: keyof typeof EventType;
+  type: EventType;
 
   @Prop(DateRange)
   dates: DateRange;

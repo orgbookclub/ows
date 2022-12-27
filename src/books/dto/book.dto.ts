@@ -6,7 +6,7 @@ import { AuthorDto } from "./author.dto";
  */
 export class BookDto {
   title: string;
-  authors: Array<AuthorDto>;
+  authors: AuthorDto[];
   url: string;
-  genres: Array<string>;
+  genres: string[];
 }

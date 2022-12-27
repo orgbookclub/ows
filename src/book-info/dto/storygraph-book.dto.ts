@@ -1,5 +1,10 @@
 import { BookDto } from "../../books/dto/book.dto";
 
+class QuestionAnswerDto {
+  question: string;
+  answer: string;
+}
+
 /**
  * Dto for a Storygraph Book.
  */
@@ -8,9 +13,9 @@ export class StorygraphBookDto extends BookDto {
   coverUrl: string;
   avgRating: number;
   warnings: string;
-  moods: Array<string>;
-  pace: Array<string>;
-  quesAns: any;
+  moods: string[];
+  pace: string[];
+  quesAns: QuestionAnswerDto[];
   description: string;
-  genres: Array<string>;
+  genres: string[];
 }
