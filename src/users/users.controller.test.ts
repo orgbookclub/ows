@@ -32,7 +32,7 @@ describe("UsersController", () => {
 
   describe("create", () => {
     it("should create a user", async () => {
-      const user = mockUser(23, "newUser");
+      const user = mockUser("23", "newUser");
       const actual = await controller.create(user);
       expect(actual).toEqual({ _id: "mock random uuid", ...user });
     });
@@ -58,7 +58,7 @@ describe("UsersController", () => {
     });
 
     it("should return null if not found", async () => {
-      const actual = await controller.findOneByUserId(99);
+      const actual = await controller.findOneByUserId("99");
       expect(actual).toBeNull();
     });
   });

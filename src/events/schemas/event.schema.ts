@@ -1,8 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
 
 import { Book } from "../../books/schemas/book.schema";
-import { User } from "../../users/schemas/user.schema";
 import { DateRange } from "../dto/date-range.dto";
 import { EventStatus } from "../dto/event-status";
 import { EventType } from "../dto/event-type";
@@ -43,11 +42,23 @@ export class Event {
   @Prop(DateRange)
   dates: DateRange;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "User" })
-  requestedBy: User;
+  @Prop({
+    type: {
+      user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      points: Number,
+    },
+  })
+  requestedBy: Participant;
 
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }] })
-  interested: User[];
+  @Prop({
+    type: [
+      {
+        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        points: Number,
+      },
+    ],
+  })
+  interested: Participant[];
 
   @Prop({
     type: [

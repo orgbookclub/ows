@@ -55,7 +55,7 @@ export class BooksService {
    */
   async createBookFromUrl(url: string): Promise<BookDocument> {
     let book: CreateBookDto;
-    if (url.startsWith(this.goodreadsService.GR_BASE_URL)) {
+    if (this.goodreadsService.GR_BASE_URLS.some((x) => url.startsWith(x))) {
       book = await this.goodreadsService.getBook(url);
     } else if (url.startsWith(this.storygraphService.SG_BASE_URL)) {
       book = await this.storygraphService.getBook(url);

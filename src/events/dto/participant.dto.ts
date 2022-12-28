@@ -1,9 +1,8 @@
-import { User } from "../../users/schemas/user.schema";
-
 /**
  * Class which stores information of an event participant.
  */
 export class Participant {
-  user: User;
+  /** The object ID of the user (not the user ID). */
+  user: string;
   points: number;
 }
