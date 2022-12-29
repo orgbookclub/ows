@@ -135,10 +135,11 @@ export class EventsService {
         ...query["dates.endDate"],
       });
     filter.requestedByIds &&
-      (query.requestedBy = { $in: filter.requestedByIds });
-    filter.interestedIds && (query.interested = { $in: filter.interestedIds });
-    filter.readerIds && (query.readers = { $in: filter.readerIds });
-    filter.leaderIds && (query.leaders = { $in: filter.leaderIds });
+      (query["requestedBy.user"] = { $in: filter.requestedByIds });
+    filter.interestedIds &&
+      (query["interested.users"] = { $in: filter.interestedIds });
+    filter.readerIds && (query["readers.user"] = { $in: filter.readerIds });
+    filter.leaderIds && (query["leaders.user"] = { $in: filter.leaderIds });
     return query;
   }
 }
