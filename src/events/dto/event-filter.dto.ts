@@ -15,6 +15,7 @@ export class EventFilter {
   startDateAfter?: Date;
   endDateBefore?: Date;
   endDateAfter?: Date;
+  participantIds?: string[];
   requestedByIds?: string[];
   interestedIds?: string[];
   readerIds?: string[];

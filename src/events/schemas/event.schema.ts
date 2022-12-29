@@ -7,6 +7,12 @@ import { EventStatus } from "../dto/event-status";
 import { EventType } from "../dto/event-type";
 import { Participant } from "../dto/participant.dto";
 
+const participantSchema = {
+  _id: false,
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  points: Number,
+};
+
 export type EventDocument = Event & Document;
 
 /**
@@ -43,40 +49,22 @@ export class Event {
   dates: DateRange;
 
   @Prop({
-    type: {
-      user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-      points: Number,
-    },
+    type: participantSchema,
   })
   requestedBy: Participant;
 
   @Prop({
-    type: [
-      {
-        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        points: Number,
-      },
-    ],
+    type: [participantSchema],
   })
   interested: Participant[];
 
   @Prop({
-    type: [
-      {
-        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        points: Number,
-      },
-    ],
+    type: [participantSchema],
   })
   readers: Participant[];
 
   @Prop({
-    type: [
-      {
-        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        points: Number,
-      },
-    ],
+    type: [participantSchema],
   })
   leaders: Participant[];
 

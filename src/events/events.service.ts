@@ -134,6 +134,13 @@ export class EventsService {
         $gte: new Date(filter.endDateAfter),
         ...query["dates.endDate"],
       });
+    filter.participantIds &&
+      (query["$or"] = [
+        { $in: filter.requestedByIds },
+        { $in: filter.interestedIds },
+        { $in: filter.readerIds },
+        { $in: filter.leaderIds },
+      ]);
     filter.requestedByIds &&
       (query["requestedBy.user"] = { $in: filter.requestedByIds });
     filter.interestedIds &&
