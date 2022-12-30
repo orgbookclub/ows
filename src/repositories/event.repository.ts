@@ -42,6 +42,7 @@ export class EventRepository extends BaseRepository<EventDocument> {
     return await this.eventModel
       .findById(id)
       .populate("book")
+      .populate("requestedBy.user")
       .populate("readers.user")
       .populate("leaders.user")
       .populate("interested.user");
@@ -63,7 +64,13 @@ export class EventRepository extends BaseRepository<EventDocument> {
    * @returns {Promise<EventDocument[]>} The result document list.
    */
   async find(query: any): Promise<EventDocument[]> {
-    return await this.eventModel.find(query).populate("book").exec();
+    return await this.eventModel
+      .find(query)
+      .populate("book")
+      .populate("requestedBy.user")
+      .populate("readers.user")
+      .populate("leaders.user")
+      .populate("interested.user");
   }
 
   /**
