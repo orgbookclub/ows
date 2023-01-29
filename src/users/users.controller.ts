@@ -55,11 +55,13 @@ export class UsersController {
   /**
    * Gets a user from the user Id.
    *
-   * @param {number} userId The user ID of the user. NOT the Object ID.
+   * @param {string} userId The user ID of the user. NOT the Object ID.
    * @returns {Promise<UserDocument>} A user document.
    */
   @Get(":userid")
-  async findOneByUserId(@Param("id") userId: number): Promise<UserDocument> {
+  async findOneByUserId(
+    @Param("userid") userId: string,
+  ): Promise<UserDocument> {
     return await this.usersService.findOneByUserId(userId);
   }
 

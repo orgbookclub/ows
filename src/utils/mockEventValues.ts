@@ -3,6 +3,7 @@ import { DateRange } from "../events/dto/date-range.dto";
 import { EventStatus } from "../events/dto/event-status";
 import { EventType } from "../events/dto/event-type";
 import { EventDto } from "../events/dto/event.dto";
+import { Participant } from "../events/dto/participant.dto";
 
 import { mockBookDocs } from "./mockBookValues";
 import { mockUserDocs } from "./mockUserValues";
@@ -15,6 +16,11 @@ const mockDateRange = (
   endDate: endDate,
 });
 
+const mockParticipant = (user): Participant => ({
+  user: user._id,
+  points: 0,
+});
+
 /**
  * Creates a mock EventDto object.
  *
@@ -23,10 +29,10 @@ const mockDateRange = (
  * @param {EventStatus} status The status of the event.
  * @param {EventType} type The event type.
  * @param {DateRange} dates Dates of the event.
- * @param {string} requestedBy User Id of the requester.
- * @param {string[]} interested List of user IDs of interested users.
- * @param {string[]} readers List of user IDs.
- * @param {string[]} leaders List of user IDs.
+ * @param {Participant} requestedBy User Id of the requester.
+ * @param {Participant[]} interested List of user IDs of interested users.
+ * @param {Participant[]} readers List of user IDs.
+ * @param {Participant[]} leaders List of user IDs.
  * @param {string} description The description of the event.
  * @param {string[]} threads The thread Ids for the event.
  * @returns {EventDto} EventDto object.
@@ -37,10 +43,13 @@ export const mockEvent = (
   status = EventStatus.Requested,
   type = EventType.BuddyRead,
   dates = mockDateRange(),
-  requestedBy = mockUserDocs[0]._id,
-  interested = [mockUserDocs[0]._id, mockUserDocs[1]._id],
+  requestedBy = mockParticipant(mockUserDocs[0]),
+  interested = [
+    mockParticipant(mockUserDocs[0]),
+    mockParticipant(mockUserDocs[1]),
+  ],
   readers = [],
-  leaders = [mockUserDocs[0]._id],
+  leaders = [mockParticipant(mockUserDocs[0])],
   description = "mock event description",
   threads = [],
 ): EventDto => ({
@@ -67,25 +76,34 @@ export const mockEventDocs = [
   {
     _id: "mockId#1",
     book: mockBookDocs[0],
-    requestedBy: [mockUserDocs[0]],
-    interested: [mockUserDocs[0], mockUserDocs[1]],
-    leaders: [mockUserDocs[0]],
+    requestedBy: [mockParticipant(mockUserDocs[0])],
+    interested: [
+      mockParticipant(mockUserDocs[0]),
+      mockParticipant(mockUserDocs[1]),
+    ],
+    leaders: [mockParticipant(mockUserDocs[0])],
     ...mockEvent[0],
   },
   {
     _id: "mockId#2",
     book: mockBookDocs[0],
-    requestedBy: [mockUserDocs[0]],
-    interested: [mockUserDocs[0], mockUserDocs[1]],
-    leaders: [mockUserDocs[0]],
+    requestedBy: [mockParticipant(mockUserDocs[0])],
+    interested: [
+      mockParticipant(mockUserDocs[0]),
+      mockParticipant(mockUserDocs[1]),
+    ],
+    leaders: [mockParticipant(mockUserDocs[0])],
     ...mockEvent[0],
   },
   {
     _id: "mockId#3",
     book: mockBookDocs[0],
-    requestedBy: [mockUserDocs[0]],
-    interested: [mockUserDocs[0], mockUserDocs[1]],
-    leaders: [mockUserDocs[0]],
+    requestedBy: [mockParticipant(mockUserDocs[0])],
+    interested: [
+      mockParticipant(mockUserDocs[0]),
+      mockParticipant(mockUserDocs[1]),
+    ],
+    leaders: [mockParticipant(mockUserDocs[0])],
     ...mockEvent[0],
   },
 ];

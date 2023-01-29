@@ -1,12 +1,21 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
 
 import { Book } from "../../books/schemas/book.schema";
+<<<<<<< HEAD
 import { User } from "../../users/schemas/user.schema";
+=======
+>>>>>>> origin/develop
 import { DateRange } from "../dto/date-range.dto";
 import { EventStatus } from "../dto/event-status";
 import { EventType } from "../dto/event-type";
 import { Participant } from "../dto/participant.dto";
+
+const participantSchema = {
+  _id: false,
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  points: Number,
+};
 
 export type EventDocument = Event & Document;
 
@@ -30,7 +39,7 @@ export class Event {
     enum: EventStatus,
     default: EventStatus.Requested,
   })
-  status: keyof typeof EventStatus;
+  status: EventStatus;
 
   @Prop({
     type: String,
@@ -38,34 +47,28 @@ export class Event {
     enum: EventType,
     default: EventType.BuddyRead,
   })
-  type: keyof typeof EventType;
+  type: EventType;
 
   @Prop(DateRange)
   dates: DateRange;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "User" })
-  requestedBy: User;
-
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }] })
-  interested: User[];
+  @Prop({
+    type: participantSchema,
+  })
+  requestedBy: Participant;
 
   @Prop({
-    type: [
-      {
-        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        points: Number,
-      },
-    ],
+    type: [participantSchema],
+  })
+  interested: Participant[];
+
+  @Prop({
+    type: [participantSchema],
   })
   readers: Participant[];
 
   @Prop({
-    type: [
-      {
-        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        points: Number,
-      },
-    ],
+    type: [participantSchema],
   })
   leaders: Participant[];
 

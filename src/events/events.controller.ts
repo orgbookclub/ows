@@ -7,10 +7,12 @@ import {
   Delete,
   Logger,
   Param,
+  Query,
 } from "@nestjs/common";
 import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { CreateEventDto } from "./dto/create-event.dto";
+import { EventFilter } from "./dto/event-filter.dto";
 import { UpdateEventDto } from "./dto/update-event.dto";
 import { EventsService } from "./events.service";
 import { EventDocument } from "./schemas/event.schema";
@@ -58,13 +60,14 @@ export class EventsController {
   }
 
   /**
-   * Gets all event documents from the database.
+   * Gets all event documents from the database which satisfy the filter conditions.
    *
+   * @param {EventFilter} filter Filter.
    * @returns {Promise<EventDocument[]>} A list of event documents.
    */
   @Get()
-  async findAll(): Promise<EventDocument[]> {
-    return await this.eventsService.findAll();
+  async find(@Query() filter: EventFilter): Promise<EventDocument[]> {
+    return await this.eventsService.findMany(filter);
   }
 
   /**

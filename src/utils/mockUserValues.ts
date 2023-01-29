@@ -15,7 +15,7 @@ const mockProfile = (bio = "mock bio"): ProfileDto => ({
  * @returns {UserDto} The userDto object.
  */
 export const mockUser = (
-  userId = 1,
+  userId = "1",
   name = "username",
   profile = mockProfile(),
   joinDate = new Date(),
@@ -28,8 +28,8 @@ export const mockUser = (
 
 export const mockUsers = [
   mockUser(),
-  mockUser(2, "username#2", mockProfile("mockBio#2")),
-  mockUser(3, "username#3", mockProfile("mockBio#3")),
+  mockUser("2", "username#2", mockProfile("mockBio#2")),
+  mockUser("3", "username#3", mockProfile("mockBio#3")),
 ];
 
 export const mockUserDocs = [

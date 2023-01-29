@@ -1,6 +1,7 @@
 import { DateRange } from "./date-range.dto";
 import { EventStatus } from "./event-status";
 import { EventType } from "./event-type";
+import { Participant } from "./participant.dto";
 
 /**
  * Dto object which stores info for an event.
@@ -12,9 +13,9 @@ export class EventDto {
   status: EventStatus;
   type: EventType;
   dates: DateRange;
-  requestedBy: string;
-  interested: string[];
-  readers: string[];
-  leaders: string[];
+  requestedBy: Participant;
+  interested: Participant[];
+  readers: Participant[];
+  leaders: Participant[];
   description: string;
 }

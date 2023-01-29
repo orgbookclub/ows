@@ -34,7 +34,7 @@ describe("UsersService", () => {
 
   describe("create", () => {
     it("should create a user", async () => {
-      const user = mockUser(23, "newUser");
+      const user = mockUser("23", "newUser");
       const actual = await service.create(user);
       expect(actual).toEqual({ _id: "mock random uuid", ...user });
     });
