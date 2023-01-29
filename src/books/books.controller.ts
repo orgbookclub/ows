@@ -2,7 +2,6 @@ import { Body, Controller, Logger, Param, Post } from "@nestjs/common";
 import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { BooksService } from "./books.service";
-import { BookDto } from "./dto/book.dto";
 import { CreateBookDto } from "./dto/create-book.dto";
 import { BookDocument } from "./schemas/book.schema";
 

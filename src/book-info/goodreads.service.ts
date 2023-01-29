@@ -8,9 +8,6 @@ import {
 } from "@nestjs/common";
 import { lastValueFrom } from "rxjs";
 
-import { BookDto } from "../books/dto/book.dto";
-
-import { GoodreadsBookDto } from "./dto/goodreads-book.dto";
 import { GoodreadsParser } from "./parsers/goodreads-parser";
 
 /**

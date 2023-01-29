@@ -11,7 +11,6 @@ import { BookRepository } from "../repositories/book.repository";
 
 import { CreateBookDto } from "./dto/create-book.dto";
 import { UpdateBookDto } from "./dto/update-book.dto";
-import { BookDocument } from "./schemas/book.schema";
 
 /**
  * The Books Service.

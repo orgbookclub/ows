@@ -15,7 +15,6 @@ import { CreateEventDto } from "./dto/create-event.dto";
 import { EventFilter } from "./dto/event-filter.dto";
 import { UpdateEventDto } from "./dto/update-event.dto";
 import { EventsService } from "./events.service";
-import { EventDocument } from "./schemas/event.schema";
 
 /**
  * The Events controller.

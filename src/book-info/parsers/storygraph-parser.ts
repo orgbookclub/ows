@@ -195,7 +195,7 @@ export class StorygraphParser extends Parser {
    * @returns Title and series information.
    */
   private extractTitleAndSeries(metaCol: Cheerio<Element>) {
-    const titleText = metaCol.find("h3 > a").first().text().trim();
+    const titleText = metaCol.find("h3").first().text().trim();
     const pFields = metaCol.find("p");
     let seriesText = "";
     if (pFields.length === 2) {

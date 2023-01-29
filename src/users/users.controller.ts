@@ -12,7 +12,6 @@ import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { UserDocument } from "./schemas/user.schema";
 import { UsersService } from "./users.service";
 
 /**

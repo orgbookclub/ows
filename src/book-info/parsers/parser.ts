@@ -1,4 +1,4 @@
-import { load, CheerioAPI, Cheerio, Element, AnyNode } from "cheerio";
+import { load, CheerioAPI, Cheerio, Element } from "cheerio";
 
 /**
  * A Parser class, extended by @see GoodreadsParser and @see StorygraphParser.
