@@ -21,9 +21,9 @@ export class BooksService {
   /**
    * Initializes an instance of BooksService.
    *
-   * @param {BookRepository} repository The repository which handles DB operations.
-   * @param {GoodreadsService} goodreadsService Service for fetching Book info from Goodreads.
-   * @param {StorygraphService} storygraphService Service for fetching Book info from Storygraph.
+   * @param repository The repository which handles DB operations.
+   * @param goodreadsService Service for fetching Book info from Goodreads.
+   * @param storygraphService Service for fetching Book info from Storygraph.
    */
   constructor(
     private repository: BookRepository,
@@ -36,10 +36,10 @@ export class BooksService {
   /**
    * Creates a book from the given Dto object.
    *
-   * @param {CreateBookDto} createBookDto The Dto object.
-   * @returns {Promise<BookDocument>} The created book document.
+   * @param createBookDto The Dto object.
+   * @returns The created book document.
    */
-  async createBook(createBookDto: CreateBookDto): Promise<BookDocument> {
+  async createBook(createBookDto: CreateBookDto) {
     const book = await this.findBookByUrl(createBookDto.url);
     if (book !== null) {
       throw new ForbiddenException("Book already exists!");
@@ -50,10 +50,10 @@ export class BooksService {
   /**
    * Creates a book from a given URL.
    *
-   * @param {string} url A Valid GR or SG URL.
-   * @returns {Promise<BookDocument>} The created book document.
+   * @param url A Valid GR or SG URL.
+   * @returns The created book document.
    */
-  async createBookFromUrl(url: string): Promise<BookDocument> {
+  async createBookFromUrl(url: string) {
     let book: CreateBookDto;
     if (this.goodreadsService.GR_BASE_URLS.some((x) => url.startsWith(x))) {
       book = await this.goodreadsService.getBook(url);
@@ -66,19 +66,19 @@ export class BooksService {
   /**
    * Gets all book documents from the DB.
    *
-   * @returns {Promise<BookDocument[]>} A list of book documents.
+   * @returns A list of book documents.
    */
-  async getAllBooks(): Promise<BookDocument[]> {
+  async getAllBooks() {
     return await this.repository.getAll();
   }
 
   /**
    * Gets the book with the given ID from the database.
    *
-   * @param {string} id The object ID of the document.
-   * @returns {Promise<BookDocument>} A book document.
+   * @param id The object ID of the document.
+   * @returns A book document.
    */
-  async getBook(id: string): Promise<BookDocument> {
+  async getBook(id: string) {
     return await this.repository.get(id);
   }
 
@@ -86,10 +86,10 @@ export class BooksService {
    * Gets the book with the given URL from the database.
    * Throws an error if multiple books with the same URL are found.
    *
-   * @param {string} url The URL of the book.
-   * @returns {Promise<BookDocument>} A book document.
+   * @param url The URL of the book.
+   * @returns A book document.
    */
-  async findBookByUrl(url: string): Promise<BookDocument> {
+  async findBookByUrl(url: string) {
     const books = await this.repository.find({ url: url });
     if (books.length === 0) {
       return null;
@@ -103,10 +103,10 @@ export class BooksService {
   /**
    * Returns a list of books after doing a text search on the given query string.
    *
-   * @param {string} query The query string.
-   * @returns {Promise<BookDocument[]>} A list of books.
+   * @param query The query string.
+   * @returns A list of books.
    */
-  async findBooks(query: string): Promise<BookDocument[]> {
+  async findBooks(query: string) {
     const books = await this.repository.find({ $text: { $search: query } });
     return books;
   }
@@ -114,24 +114,21 @@ export class BooksService {
   /**
    * Updates the book document with the given ID.
    *
-   * @param {string} id The Object ID of the document.
-   * @param {UpdateBookDto} updateBookDto The Dto object which contains the updated fields.
-   * @returns {Promise<BookDocument>} The updated book document.
+   * @param id The Object ID of the document.
+   * @param updateBookDto The Dto object which contains the updated fields.
+   * @returns The updated book document.
    */
-  async updateBook(
-    id: string,
-    updateBookDto: UpdateBookDto,
-  ): Promise<BookDocument> {
+  async updateBook(id: string, updateBookDto: UpdateBookDto) {
     return await this.repository.update(id, updateBookDto);
   }
 
   /**
    * Deletes a book document with the given ID.
    *
-   * @param {string} id The object ID of the document.
-   * @returns {Promise<boolean>} True if the delete operation is successful.
+   * @param id The object ID of the document.
+   * @returns True if the delete operation is successful.
    */
-  async deleteBook(id: string): Promise<boolean> {
+  async deleteBook(id: string) {
     await this.repository.delete(id);
     return true;
   }
