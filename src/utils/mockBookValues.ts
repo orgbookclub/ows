@@ -108,7 +108,7 @@ export const mockSearchResultsFromGR = [
 export const mockBookResultFromGR = {
   title: "American Gods",
   url: "https://www.goodreads.com/book/show/30165203-american-gods",
-  series: "(American Gods)",
+  series: "American Gods #1",
   authors: [
     {
       name: "Neil Gaiman",
@@ -116,26 +116,21 @@ export const mockBookResultFromGR = {
     },
   ],
   coverUrl:
-    "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1462924585l/30165203.jpg",
+    "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1462924585i/30165203.jpg",
   avgRating: 4.11,
-  numRatings: 831358,
-  numReviews: 41763,
+  numRatings: 871415,
+  numReviews: 43963,
   description:
     "Days before his release from prison, Shadow's wife, Laura, dies in a mysterious car crash. Numbly, he makes his way back home. On the plane, he encounters the enigmatic Mr Wednesday, who claims to be a refugee from a distant war, a former god and the king of America. Together they embark on a profoundly strange journey across the heart of the USA, whilst all around them a storm of preternatural and epic proportions threatens to break.Scary, gripping and deeply unsettling, American Gods takes a long, hard look into the soul of America. You'll be surprised by what - and who - it finds there...",
   numPages: 635,
   genres: [
     "Fantasy",
     "Fiction",
-    "Fantasy",
-    "Urban Fantasy",
-    "Fantasy",
     "Mythology",
+    "Urban Fantasy",
     "Audiobook",
     "Science Fiction",
     "Science Fiction Fantasy",
-    "Adult",
-    "Contemporary",
-    "Horror",
   ],
 };
 export const mockQuoteResultsFromGR = [
