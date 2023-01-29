@@ -2,10 +2,6 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document } from "mongoose";
 
 import { Book } from "../../books/schemas/book.schema";
-<<<<<<< HEAD
-import { User } from "../../users/schemas/user.schema";
-=======
->>>>>>> origin/develop
 import { DateRange } from "../dto/date-range.dto";
 import { EventStatus } from "../dto/event-status";
 import { EventType } from "../dto/event-type";
