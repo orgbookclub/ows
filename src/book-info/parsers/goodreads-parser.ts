@@ -74,18 +74,6 @@ export class GoodreadsParser extends Parser {
       const genres = this.extractGenres(
         this.soup("div[data-testid=genresList]"),
       );
-      // const titleText = this.soup("")
-
-      // const metaCol = this.soup("div #metacol");
-      // const { titleText, seriesText } = this.extractTitleAndSeries(
-      //   mainContent.find("div[class=BookPageTitleSection__title]"),
-      // );
-      // const authors = this.extractAuthors(mainContent.find("a[class=authorName]"));
-      // const { avgRating, numRatings, numReviews } =
-      //   this.extractBookMetaInfo(metaCol);
-      // const description = this.extractDescription(metaCol);
-      // const numPages = this.extractPages(metaCol);
-      // const genres = this.extractGenres();
       return {
         title: titleText,
         url: this.url,
@@ -175,7 +163,7 @@ export class GoodreadsParser extends Parser {
    * @param authorArray The element containing author information.
    * @returns An array of @see AuthorDto objects.
    */
-  private extractAuthors(authorArray) {
+  private extractAuthors(authorArray: Cheerio<Element>) {
     const authors: AuthorDto[] = [];
     for (let i = 0; i < authorArray.length; i++) {
       const author = this.soup(authorArray[i]).text().trim();
@@ -188,10 +176,10 @@ export class GoodreadsParser extends Parser {
   /**
    * Extracts avg rating, number of ratings, and number of reviews from the given field.
    *
-   * @param metaCol The section containing book metadata information.
+   * @param element The element containing book metadata information.
    * @returns An object containing the values.
    */
-  private extractBookMetaInfo(metaCol: Cheerio<Element>) {
+  private extractBookMetaInfo(element: Cheerio<Element>) {
     const avgRating = extractRating();
     const numRatings = extractNumRatings();
     const numReviews = extractNumReviews();
@@ -200,7 +188,7 @@ export class GoodreadsParser extends Parser {
     function extractNumReviews() {
       try {
         return parseInt(
-          metaCol
+          element
             .find("span[data-testid=reviewsCount]")
             .text()
             .split(" ")[0]
@@ -215,7 +203,7 @@ export class GoodreadsParser extends Parser {
     function extractNumRatings() {
       try {
         return parseInt(
-          metaCol
+          element
             .find("span[data-testid=ratingsCount]")
             .text()
             .split(" ")[0]
@@ -230,7 +218,7 @@ export class GoodreadsParser extends Parser {
     function extractRating() {
       try {
         return parseFloat(
-          metaCol.find("div[class=RatingStatistics__rating]").text().trim(),
+          element.find("div[class=RatingStatistics__rating]").text().trim(),
         );
       } catch {
         return 0;
@@ -241,12 +229,12 @@ export class GoodreadsParser extends Parser {
   /**
    * Extracts the book description from the given field.
    *
-   * @param metaCol The field containing book metadata information.
+   * @param element The element containing book metadata information.
    * @returns The description of the book.
    */
-  private extractDescription(metaCol: Cheerio<Element>) {
+  private extractDescription(element: Cheerio<Element>) {
     try {
-      return metaCol.text().trim();
+      return element.text().trim();
     } catch {
       return "No description available";
     }
@@ -255,12 +243,12 @@ export class GoodreadsParser extends Parser {
   /**
    * Extracts the number of pages from the given field.
    *
-   * @param metaCol The field containing book metadata information.
+   * @param element The field containing book metadata information.
    * @returns The number of pages in the book.
    */
-  private extractPages(metaCol: Cheerio<Element>) {
+  private extractPages(element: Cheerio<Element>) {
     try {
-      const pageStr = metaCol.text();
+      const pageStr = element.text();
       return parseInt(pageStr.split(" ")[0]);
     } catch {
       return 0;
@@ -292,12 +280,12 @@ export class GoodreadsParser extends Parser {
   /**
    * Extracts the book title and series information (if any).
    *
-   * @param metaCol The field containing book metadata information.
+   * @param element The element containing book metadata information.
    * @returns Title and series information.
    */
-  private extractTitleAndSeries(metaCol: Cheerio<Element>) {
-    const titleText = metaCol.find("h1[data-testid=bookTitle]").text().trim();
-    const seriesText = metaCol.find("h3").text().trim();
+  private extractTitleAndSeries(element: Cheerio<Element>) {
+    const titleText = element.find("h1[data-testid=bookTitle]").text().trim();
+    const seriesText = element.find("h3").text().trim();
     return { titleText, seriesText };
   }
 }
