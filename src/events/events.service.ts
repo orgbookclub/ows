@@ -18,8 +18,8 @@ export class EventsService {
   /**
    * Initializes an instance of EventsService.
    *
-   * @param {EventRepository} repository The repository which handles all DB operations.
-   * @param {BooksService} booksService Service for interacting with @see Book documents in DB.
+   * @param repository The repository which handles all DB operations.
+   * @param booksService Service for interacting with @see Book documents in DB.
    */
   constructor(
     private repository: EventRepository,
@@ -31,7 +31,7 @@ export class EventsService {
   /**
    * Creates an event from the Dto object.
    *
-   * @param {CreateEventDto} createEventDto The dto object.
+   * @param createEventDto The dto object.
    */
   async create(createEventDto: CreateEventDto) {
     return await this.repository.create(createEventDto);
@@ -40,8 +40,8 @@ export class EventsService {
   /**
    * Creates an event from the book URL and Dto object.
    *
-   * @param {string} url A valid GR or SG URL.
-   * @param {CreateEventDto} createEventDto The Dto object.
+   * @param url A valid GR or SG URL.
+   * @param createEventDto The Dto object.
    */
   async createFromUrl(url: string, createEventDto: CreateEventDto) {
     let book: BookDocument;
@@ -54,7 +54,7 @@ export class EventsService {
   /**
    * Gets all event documents from the database which satisfy the filter conditions.
    *
-   * @param {EventFilter} filter Filter.
+   * @param filter Filter.
    */
   async findMany(filter: EventFilter) {
     const query: FilterQuery<Event> = await this.getFilterQuery(filter);
@@ -64,7 +64,7 @@ export class EventsService {
   /**
    * Gets the event document with the given ID from the database.
    *
-   * @param {string} id The object ID of the document.
+   * @param id The object ID of the document.
    */
   async findOne(id: string) {
     return await this.repository.get(id);
@@ -73,8 +73,8 @@ export class EventsService {
   /**
    * Updates the event with the given ID and Dto in the database.
    *
-   * @param {string} id The object ID.
-   * @param {UpdateEventDto} updateEventDto The dto object.
+   * @param id The object ID.
+   * @param updateEventDto The dto object.
    */
   async update(id: string, updateEventDto: UpdateEventDto) {
     return await this.repository.update(id, updateEventDto);
@@ -83,7 +83,7 @@ export class EventsService {
   /**
    * Deletes the event document from the DB.
    *
-   * @param {string} id The object ID of the event document to remove.
+   * @param id The object ID of the event document to remove.
    */
   async remove(id: string) {
     await this.repository.delete(id);
@@ -93,12 +93,10 @@ export class EventsService {
   /**
    * Converts the filter into a MongoDB compatible format.
    *
-   * @param {EventFilter} filter The filter from the request.
-   * @returns {Promise<FilterQuery<Event>>}  A MongoDB FilterQuery object.
+   * @param filter The filter from the request.
+   * @returns  A MongoDB FilterQuery object.
    */
-  private async getFilterQuery(
-    filter: EventFilter,
-  ): Promise<FilterQuery<Event>> {
+  private async getFilterQuery(filter: EventFilter) {
     const query: FilterQuery<Event> = {};
     filter.name && (query.name = filter.name);
     if (filter.bookSearchQuery) {
