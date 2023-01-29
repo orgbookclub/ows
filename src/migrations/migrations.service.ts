@@ -24,10 +24,10 @@ export class MigrationsService {
   /**
    * Initializes an instance of MigrationsService.
    *
-   * @param {ConfigService} configService Service for interacting with env variables.
-   * @param {BooksService} booksService Service for interacting with @see Book documents in DB.
-   * @param {UsersService} usersService Service for interacting with @see User documents in DB.
-   * @param {EventsService} eventsService Service for interacting with @see Event documents in DB.
+   * @param configService Service for interacting with env variables.
+   * @param booksService Service for interacting with @see Book documents in DB.
+   * @param usersService Service for interacting with @see User documents in DB.
+   * @param eventsService Service for interacting with @see Event documents in DB.
    */
   constructor(
     private readonly configService: ConfigService,
@@ -57,7 +57,7 @@ export class MigrationsService {
   /**
    * Migrates a single event from old format to new db.
    *
-   * @param {any} doc The document representing an event in the old format.
+   * @param doc The document representing an event in the old format.
    */
   async migrateEvent(doc: any) {
     try {
@@ -124,8 +124,8 @@ export class MigrationsService {
    *
    * Defaults to Buddy Read for most cases, unless specified.
    *
-   * @param {any} doc The old document.
-   * @returns {EventType} The event type.
+   * @param doc The old document.
+   * @returns The event type.
    */
   private getEventType(doc: any) {
     let eventType = EventType.BuddyRead;
@@ -136,11 +136,11 @@ export class MigrationsService {
   /**
    * Returns the event status based on the dates and participants.
    *
-   * @param {Date} startDate The start date of the event.
-   * @param {Date} endDate The end date of the event.
-   * @param {Participant[]} readers The list of readers for the event.
-   * @param {Participant[]} interested The list of interested users for the event.
-   * @returns {EventStatus} The event status.
+   * @param startDate The start date of the event.
+   * @param endDate The end date of the event.
+   * @param readers The list of readers for the event.
+   * @param interested The list of interested users for the event.
+   * @returns The event status.
    */
   private getEventStatus(
     startDate: Date,
@@ -167,9 +167,9 @@ export class MigrationsService {
   /**
    * Returns a list of participant objects from the user Ids and their score.
    *
-   * @param {string[]|Set<string>} userIds A list or set of user ids.
-   * @param {number} score The score for the user for the event.
-   * @returns {Participant[]} A list of participant objects.
+   * @param userIds A list or set of user ids.
+   * @param score The score for the user for the event.
+   * @returns A list of participant objects.
    */
   private async getParticipants(
     userIds: string[] | Set<string>,
@@ -189,10 +189,10 @@ export class MigrationsService {
   /**
    * Returns a user document with the given userId.
    *
-   * @param {string} userId The user id of the user.
-   * @returns {UserDocument} The user document.
+   * @param userId The user id of the user.
+   * @returns The user document.
    */
-  private async getUserDoc(userId: string): Promise<UserDocument> {
+  private async getUserDoc(userId: string) {
     const userDto = {
       userId: userId,
       name: "",
@@ -210,10 +210,10 @@ export class MigrationsService {
   /**
    * Returns a book document with the given url.
    *
-   * @param {string} url The URL of the book.
-   * @returns {BookDocument} The book document.
+   * @param url The URL of the book.
+   * @returns The book document.
    */
-  private async getBookDoc(url: string): Promise<BookDocument> {
+  private async getBookDoc(url: string) {
     let book = await this.booksService.findBookByUrl(url);
     if (book === null) {
       Logger.debug(`Creating book with URL: ${url}`);
