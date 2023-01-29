@@ -10,8 +10,8 @@ export class AuthService {
   /**
    * Initializes an instance of AuthService.
    *
-   * @param {ConfigService} configService The config service.
-   * @param {JwtService} jwtService The JWT Service.
+   * @param configService The config service.
+   * @param jwtService The JWT Service.
    */
   constructor(
     private configService: ConfigService,
@@ -23,9 +23,9 @@ export class AuthService {
   /**
    * Checks whether the given clientID & clientSecret are valid.
    *
-   * @param {string} clientId The client ID.
-   * @param {string} clientSecret The client secret.
-   * @returns {string} Valid clientID or null.
+   * @param clientId The client ID.
+   * @param clientSecret The client secret.
+   * @returns Valid clientID or null.
    */
   public async validateClient(clientId: string, clientSecret: string) {
     try {
@@ -44,8 +44,8 @@ export class AuthService {
   /**
    * Creates and returns an access token.
    *
-   * @param {string} clientId The client ID.
-   * @returns {Promise<any>} An access token JSON object.
+   * @param clientId The client ID.
+   * @returns An access token JSON object.
    */
   public async getAccessToken(clientId: string) {
     const payload = { sub: clientId };

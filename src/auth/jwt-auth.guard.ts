@@ -12,10 +12,9 @@ export const SKIP_AUTH = "skipAuth";
 /**
  * A custom decorator for skipping JWT authentication flow.
  *
- * @returns {CustomDecorator<string>} A custom decorator.
+ * @returns A custom decorator.
  */
-export const SkipAuth = (): CustomDecorator<string> =>
-  SetMetadata(SKIP_AUTH, true);
+export const SkipAuth = () => SetMetadata(SKIP_AUTH, true);
 
 /**
  * Guard for restricting access to endpoints without a valid access token.
@@ -25,8 +24,8 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
   /**
    * Initializes an instance of JwtAuthGuard.
    *
-   * @param {ConfigService} configService The global config service.
-   * @param {Reflector} reflector A reflector. See documentation for more details.
+   * @param configService The global config service.
+   * @param reflector A reflector. See documentation for more details.
    */
   constructor(
     private configService: ConfigService,
@@ -39,10 +38,10 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
    * Handles additional logic for checking if the Guard should pass/fail.
    * Hardcoded to skip auth for dev environment.
    *
-   * @param {ExecutionContext} context The execution context.
-   * @returns {any} A boolean indicating whether method can skip auth or not.
+   * @param context The execution context.
+   * @returns A boolean indicating whether method can skip auth or not.
    */
-  canActivate(context: ExecutionContext): any {
+  canActivate(context: ExecutionContext) {
     const skipAuth = this.reflector.getAllAndOverride<boolean>(SKIP_AUTH, [
       context.getHandler(),
       context.getClass(),

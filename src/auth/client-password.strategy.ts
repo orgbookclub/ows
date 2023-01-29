@@ -12,7 +12,7 @@ export class ClientPasswordStrategy extends PassportStrategy(Strategy) {
   /**
    * Initializes an instance of ClientPasswordStrategy.
    *
-   * @param {AuthService} authService The auth service.
+   * @param authService The auth service.
    */
   constructor(private authService: AuthService) {
     super();
@@ -21,8 +21,8 @@ export class ClientPasswordStrategy extends PassportStrategy(Strategy) {
   /**
    *
    *
-   * @param {string} clientId The client ID.
-   * @param {string} clientSecret The client secret.
+   * @param clientId The client ID.
+   * @param clientSecret The client secret.
    */
   async validate(clientId: string, clientSecret: string) {
     const client = this.authService.validateClient(clientId, clientSecret);
