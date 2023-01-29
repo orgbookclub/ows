@@ -1,7 +1,8 @@
 import { Body, Controller, Logger, Param, Post } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { BooksService } from "./books.service";
+import { BookDto } from "./dto/book.dto";
 import { CreateBookDto } from "./dto/create-book.dto";
 import { BookDocument } from "./schemas/book.schema";
 
@@ -28,6 +29,7 @@ export class BooksController {
    * @returns A Book document.
    */
   @Post()
+  @ApiOkResponse({ type: BookDocument })
   async createBookFromDto(@Body() createBookDto: CreateBookDto) {
     return await this.booksService.createBook(createBookDto);
   }
@@ -39,6 +41,7 @@ export class BooksController {
    * @returns A Book document.
    */
   @Post(":url")
+  @ApiOkResponse({ type: BookDocument })
   async createBookFromUrl(@Param("url") url: string) {
     return await this.booksService.createBookFromUrl(url);
   }

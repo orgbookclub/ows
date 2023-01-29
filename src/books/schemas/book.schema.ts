@@ -1,9 +1,8 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import { Types } from "mongoose";
 
 import { AuthorDto } from "../dto/author.dto";
-
-export type BookDocument = Book & Document;
+import { BookDto } from "../dto/book.dto";
 
 /**
  * The class representing a Book in the database.
@@ -26,6 +25,13 @@ export class Book {
 
   @Prop([String])
   genres: string[];
+}
+
+/**
+ *
+ */
+export class BookDocument extends Book {
+  _id: string;
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book);
