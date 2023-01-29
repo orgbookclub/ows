@@ -1,4 +1,4 @@
-import { load, CheerioAPI } from "cheerio";
+import { load, CheerioAPI, Cheerio, Element, AnyNode } from "cheerio";
 
 /**
  * A Parser class, extended by @see GoodreadsParser and @see StorygraphParser.
@@ -10,10 +10,10 @@ export class Parser {
   /**
    * Creates an instance of @see Parser.
    *
-   * @param {string} url The URL of the page to parse.
-   * @param {any} body The body of the page being parsed.
+   * @param url The URL of the page to parse.
+   * @param body The body of the page being parsed.
    */
-  constructor(url: string, body: any) {
+  constructor(url: string, body: string) {
     this.url = url;
     this.soup = load(body);
   }
@@ -21,10 +21,10 @@ export class Parser {
   /**
    * Extracts the text from a field.
    *
-   * @param {any} field The input field.
-   * @returns {string} The clean string value.
+   * @param field The input field.
+   * @returns The clean string value.
    */
-  protected extractText(field: any): string {
+  protected extractText(field: Cheerio<Element>) {
     return field.text().trim();
   }
 }

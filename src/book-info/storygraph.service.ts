@@ -23,7 +23,7 @@ export class StorygraphService {
   /**
    * Creates an instance of @see StorygraphService .
    *
-   * @param {HttpService} httpService The HTTP Service.
+   * @param httpService The HTTP Service.
    */
   constructor(private httpService: HttpService) {
     Logger.debug("Initialized StorygraphService");
@@ -34,11 +34,11 @@ export class StorygraphService {
   /**
    * For searching books from Storygraph.
    *
-   * @param {string} query The query string. Can be book title, author, or ISBN.
-   * @param {number} k The maximum number of search results.
-   * @returns {Promise<BookDto[]>} An array of @see BookDto objects.
+   * @param query The query string. Can be book title, author, or ISBN.
+   * @param k The maximum number of search results.
+   * @returns An array of @see BookDto objects.
    */
-  async searchBooks(query: string, k: number): Promise<BookDto[]> {
+  async searchBooks(query: string, k: number) {
     const url = `${this.SG_BASE_URL}/browse?search_term=${query}`;
     const response = await lastValueFrom(this.httpService.get(url));
     if (!response) {
@@ -52,10 +52,10 @@ export class StorygraphService {
   /**
    * Gets the details of a single book from SG.
    *
-   * @param {string} url The URL of the book page.
-   * @returns {Promise<StorygraphBookDto>} The details of the book.
+   * @param url The URL of the book page.
+   * @returns The details of the book.
    */
-  async getBook(url: string): Promise<StorygraphBookDto> {
+  async getBook(url: string) {
     if (!url.startsWith(`${this.SG_BASE_URL}/books`)) {
       throw new HttpException("Invalid URL", HttpStatus.BAD_REQUEST);
     }

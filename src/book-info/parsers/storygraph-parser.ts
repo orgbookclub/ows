@@ -1,4 +1,5 @@
 import { InternalServerErrorException } from "@nestjs/common";
+import { Cheerio, Element } from "cheerio";
 
 import { AuthorDto } from "../../books/dto/author.dto";
 import { BookDto } from "../../books/dto/book.dto";
@@ -14,20 +15,20 @@ export class StorygraphParser extends Parser {
   /**
    * Creates an instance of  @see StorygraphParser .
    *
-   * @param {string} url The URL of the page.
-   * @param {any} body The content of the page to parse.
+   * @param url The URL of the page.
+   * @param body The content of the page to parse.
    */
-  constructor(url: string, body: any) {
+  constructor(url: string, body: string) {
     super(url, body);
   }
 
   /**
    * Parses the body treating it as a search page result.
    *
-   * @param {number} k Maximum number of results to parse.
-   * @returns {BookDto[]} A list of @see BookDto objects.
+   * @param k Maximum number of results to parse.
+   * @returns A list of @see BookDto objects.
    */
-  public parseSearchPage(k: number): BookDto[] {
+  public parseSearchPage(k: number) {
     try {
       const tableRows = this.soup("div[class=book-title-author-and-series]");
       return this.extractBooksFromRows(tableRows, k);
@@ -39,7 +40,7 @@ export class StorygraphParser extends Parser {
   /**
    * Parses the body treating it as a book page.
    *
-   * @returns {StorygraphBookDto} An object containing the details of the book.
+   * @returns An object containing the details of the book.
    */
   public parseBookPage(): StorygraphBookDto {
     try {
@@ -73,12 +74,12 @@ export class StorygraphParser extends Parser {
   /**
    * Parses book information from the table rows element in the page.
    *
-   * @param {any} tableRows The table rows from the HTML page.
-   * @param {number} k The maximum number of rows to parse.
-   * @returns {BookDto[]} An array of @see BookDto objects.
+   * @param tableRows The table rows from the HTML page.
+   * @param k The maximum number of rows to parse.
+   * @returns An array of @see BookDto objects.
    */
-  private extractBooksFromRows(tableRows: any, k: number): BookDto[] {
-    const bookList: Array<BookDto> = [];
+  private extractBooksFromRows(tableRows: Cheerio<Element>, k: number) {
+    const bookList: BookDto[] = [];
     for (let i = 0; i < Math.min(tableRows.length, k); i++) {
       const book = this.parseSearchResult(this.soup(tableRows[i]));
       bookList.push(book);
@@ -89,10 +90,10 @@ export class StorygraphParser extends Parser {
   /**
    * Parses a particular search result to extract the Title, Url, and Authors.
    *
-   * @param {any} result A search result.
-   * @returns {BookDto} A @see BookDto object.
+   * @param result A search result.
+   * @returns A @see BookDto object.
    */
-  private parseSearchResult(result: any): BookDto {
+  private parseSearchResult(result: Cheerio<Element>): BookDto {
     const td = result.find("h3 > a");
     const url = this.extractUrl(td);
     const title = this.extractText(td);
@@ -108,9 +109,9 @@ export class StorygraphParser extends Parser {
   /**
    * Extracts the book description.
    *
-   * @returns {string} The description of the book.
+   * @returns The description of the book.
    */
-  private extractDescription(): string {
+  private extractDescription() {
     try {
       return this.soup("div .blurb-pane").text().trim();
     } catch {
@@ -121,11 +122,11 @@ export class StorygraphParser extends Parser {
   /**
    * Extracts the genres of the book.
    *
-   * @returns {string[]} A array of genres.
+   * @returns A array of genres.
    */
-  private extractGenres(): string[] {
+  private extractGenres() {
     try {
-      const genres = [];
+      const genres: string[] = [];
       const genreList = this.soup("div[class='leading-3 my-1 md:w-9/12']")
         .last()
         .children("span");
@@ -142,9 +143,9 @@ export class StorygraphParser extends Parser {
   /**
    * Extracts avg rating, warnings, moods, and pace of the book.
    *
-   * @returns {any} An object containing the values.
+   * @returns An object containing the values.
    */
-  private extractBookMetaInfo(): any {
+  private extractBookMetaInfo() {
     const leftPane = this.soup("div[class='standard-pane mb-5']");
 
     const avgRating = extractRating();
@@ -180,20 +181,20 @@ export class StorygraphParser extends Parser {
   /**
    * Parses and creates a valid SG url from the given field.
    *
-   * @param {any} field The given field.
-   * @returns {string} A Valid SG Url.
+   * @param field The given field.
+   * @returns A Valid SG Url.
    */
-  private extractUrl(field: any): string {
+  private extractUrl(field: Cheerio<Element>) {
     return "https://app.thestorygraph.com" + field.attr("href").split("?")[0];
   }
 
   /**
    * Extracts the book title and series information (if any).
    *
-   * @param {any} metaCol The field containing book metadata information.
-   * @returns {any} Title and series information.
+   * @param metaCol The field containing book metadata information.
+   * @returns Title and series information.
    */
-  private extractTitleAndSeries(metaCol: any): any {
+  private extractTitleAndSeries(metaCol: Cheerio<Element>) {
     const titleText = metaCol.find("h3 > a").first().text().trim();
     const pFields = metaCol.find("p");
     let seriesText = "";
@@ -206,10 +207,10 @@ export class StorygraphParser extends Parser {
   /**
    * Extracts the question/answer pairs for the book.
    *
-   * @param {any} leftPane The field containing book metadata information.
-   * @returns {object[]} An array of objects containing questions and answers.
+   * @param leftPane The field containing book metadata information.
+   * @returns An array of objects containing questions and answers.
    */
-  private extractQuesAndAns(leftPane: any): object[] {
+  private extractQuesAndAns(leftPane: Cheerio<Element>) {
     const questions = leftPane
       .find("div")
       .last()
@@ -230,12 +231,12 @@ export class StorygraphParser extends Parser {
   /**
    * Extracts values into readable `fieldName (field %age)` strings.
    *
-   * @param {any} parent The parent field.
-   * @returns {object[]} A list of values containing the information.
+   * @param parent The parent field.
+   * @returns A list of values containing the information.
    */
-  private extractTupleFields(parent: any): object[] {
+  private extractTupleFields(parent: Cheerio<Element>) {
     const childFields = parent.children("span");
-    const fields = [];
+    const fields: string[] = [];
     let field = "";
     for (let i = 0; i < childFields.length; i++) {
       if (i % 2 === 0) {
@@ -257,11 +258,11 @@ export class StorygraphParser extends Parser {
   /**
    * Extracts the author name and url from the authors element.
    *
-   * @param {any} authorArray The element containing author information.
-   * @returns {AuthorDto[]} An array of @see AuthorDto objects.
+   * @param authorArray The element containing author information.
+   * @returns An array of @see AuthorDto objects.
    */
-  private extractAuthors(authorArray: any): Array<AuthorDto> {
-    const authors: Array<AuthorDto> = [];
+  private extractAuthors(authorArray: any[] | Cheerio<Element>): AuthorDto[] {
+    const authors: AuthorDto[] = [];
     for (let i = 0; i < authorArray.length; i++) {
       const author = this.soup(authorArray[i]).text().trim();
       const authorUrl =

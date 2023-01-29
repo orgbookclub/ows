@@ -21,7 +21,7 @@ export class GoodreadsController {
   /**
    * Creates an instance of @see GoodreadsController.
    *
-   * @param {GoodreadsService} goodreadsService The service.
+   * @param goodreadsService The service.
    */
   constructor(private goodreadsService: GoodreadsService) {
     Logger.debug("Initialized Goodreads Controller");
@@ -30,30 +30,27 @@ export class GoodreadsController {
   /**
    * Endpoint for searching books from Goodreads.
    *
-   * @param {string} query The query string. Can be book title, author, or ISBN.
-   * @param {number} k The maximum number of search results.
-   * @returns {Promise<BookDto[]>} An array of @see BookDto objects.
+   * @param query The query string. Can be book title, author, or ISBN.
+   * @param k The maximum number of search results.
+   * @returns An array of @see BookDto objects.
    */
   @Get("search")
   @ApiOkResponse({
     type: [BookDto],
   })
-  async searchBooks(
-    @Query("q") query: string,
-    @Query("k") k: number,
-  ): Promise<Array<BookDto>> {
+  async searchBooks(@Query("q") query: string, @Query("k") k: number) {
     return await this.goodreadsService.searchBooks(query, k);
   }
 
   /**
    * Searches for, and gets the details of a single book.
    *
-   * @param {string} query The query string.
-   * @returns {Promise<GoodreadsBookDto>} The book details.
+   * @param query The query string.
+   * @returns The book details.
    */
   @Get("book")
   @ApiOkResponse({ type: GoodreadsBookDto })
-  async searchAndGetBook(@Query("q") query: string): Promise<GoodreadsBookDto> {
+  async searchAndGetBook(@Query("q") query: string) {
     const bookList = await this.goodreadsService.searchBooks(query, 1);
     if (bookList.length === 0) {
       throw new NotFoundException("Could not find a book by that query");
@@ -64,16 +61,13 @@ export class GoodreadsController {
   /**
    * Searches quotes from Goodreads.
    *
-   * @param {number} k The maximum number of results.
-   * @param {string?} query The query string.
-   * @returns {string[]} A list of quotes.
+   * @param k The maximum number of results.
+   * @param query The query string.
+   * @returns A list of quotes.
    */
   @Get("quotes")
   @ApiOkResponse({ type: [String] })
-  async getQuotes(
-    @Query("k") k = 5,
-    @Query("q") query?: string,
-  ): Promise<string[]> {
+  async getQuotes(@Query("k") k = 5, @Query("q") query?: string) {
     return await this.goodreadsService.getQuotes(k, query);
   }
 }
