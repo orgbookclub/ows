@@ -3,13 +3,11 @@ import { ConfigService } from "@nestjs/config";
 import { MongoClient } from "mongodb";
 
 import { BooksService } from "../books/books.service";
-import { BookDocument } from "../books/schemas/book.schema";
 import { EventStatus } from "../events/dto/event-status";
 import { EventType } from "../events/dto/event-type";
 import { Participant } from "../events/dto/participant.dto";
 import { EventsService } from "../events/events.service";
 import { EventDocument } from "../events/schemas/event.schema";
-import { UserDocument } from "../users/schemas/user.schema";
 import { UsersService } from "../users/users.service";
 
 /**

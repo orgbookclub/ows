@@ -9,9 +9,6 @@ import {
 import { lastValueFrom } from "rxjs";
 
 import { StorygraphParser } from "../book-info/parsers/storygraph-parser";
-import { BookDto } from "../books/dto/book.dto";
-
-import { StorygraphBookDto } from "./dto/storygraph-book.dto";
 
 /**
  * The Storygraph Service.

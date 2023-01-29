@@ -1,4 +1,4 @@
-import { InternalServerErrorException, Logger } from "@nestjs/common";
+import { InternalServerErrorException } from "@nestjs/common";
 import { Cheerio, Element } from "cheerio";
 
 import { AuthorDto } from "../../books/dto/author.dto";
@@ -199,7 +199,6 @@ export class GoodreadsParser extends Parser {
 
     function extractNumReviews() {
       try {
-        Logger.debug(metaCol.find("span[data-testid=reviewsCount]").text());
         return parseInt(
           metaCol
             .find("span[data-testid=reviewsCount]")
@@ -215,7 +214,6 @@ export class GoodreadsParser extends Parser {
 
     function extractNumRatings() {
       try {
-        Logger.debug(metaCol.find("span[data-testid=ratingsCount]").text());
         return parseInt(
           metaCol
             .find("span[data-testid=ratingsCount]")
