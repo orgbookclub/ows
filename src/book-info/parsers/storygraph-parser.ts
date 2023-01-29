@@ -188,12 +188,12 @@ export class StorygraphParser extends Parser {
   /**
    * Extracts the book title and series information (if any).
    *
-   * @param metaCol The field containing book metadata information.
+   * @param element The field containing book metadata information.
    * @returns Title and series information.
    */
-  private extractTitleAndSeries(metaCol: Cheerio<Element>) {
-    const titleText = metaCol.find("h3").first().text().split("\n")[0].trim();
-    const pFields = metaCol.find("p");
+  private extractTitleAndSeries(element: Cheerio<Element>) {
+    const titleText = element.find("h3").first().text().split("\n")[0].trim();
+    const pFields = element.find("p");
     let seriesText = "";
     if (pFields.length === 4) {
       seriesText = pFields.first().text().trim();
@@ -204,14 +204,14 @@ export class StorygraphParser extends Parser {
   /**
    * Extracts the question/answer pairs for the book.
    *
-   * @param leftPane The field containing book metadata information.
+   * @param element The field containing book metadata information.
    * @returns An array of objects containing questions and answers.
    */
-  private extractQuesAndAns(leftPane: Cheerio<Element>) {
-    const questions = leftPane.find(
+  private extractQuesAndAns(element: Cheerio<Element>) {
+    const questions = element.find(
       "p[class='review-character-question font-semibold mt-4']",
     );
-    const answers = leftPane.find("span[class='review-response-summary']");
+    const answers = element.find("span[class='review-response-summary']");
     const quesAns = [];
     for (let i = 0; i < questions.length; i++) {
       const question = this.soup(questions[i]).text().trim();
