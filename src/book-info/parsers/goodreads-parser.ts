@@ -1,4 +1,4 @@
-import { InternalServerErrorException } from "@nestjs/common";
+import { InternalServerErrorException, Logger } from "@nestjs/common";
 import { Cheerio, Element } from "cheerio";
 
 import { AuthorDto } from "../../books/dto/author.dto";
@@ -46,15 +46,46 @@ export class GoodreadsParser extends Parser {
    */
   public parseBookPage(): GoodreadsBookDto {
     try {
-      const coverUrl = this.soup("img[id=coverImage]").attr("src");
-      const metaCol = this.soup("div #metacol");
-      const { titleText, seriesText } = this.extractTitleAndSeries(metaCol);
-      const authors = this.extractAuthors(metaCol.find("a[class=authorName]"));
-      const { avgRating, numRatings, numReviews } =
-        this.extractBookMetaInfo(metaCol);
-      const description = this.extractDescription(metaCol);
-      const numPages = this.extractPages(metaCol);
-      const genres = this.extractGenres();
+      const coverUrl = this.soup(
+        "img[class=ResponsiveImage]",
+        "div[class=BookCover]",
+      ).attr("src");
+      const mainContent = this.soup("div[class=BookPage__mainContent]");
+      const { titleText, seriesText } = this.extractTitleAndSeries(
+        mainContent.find("div[class=BookPageTitleSection__title]"),
+      );
+      const authors = this.extractAuthors(
+        mainContent
+          .find("div[class=ContributorLinksList]")
+          .find("a[class=ContributorLink]"),
+      );
+      const { avgRating, numRatings, numReviews } = this.extractBookMetaInfo(
+        this.soup("div[class=BookPageMetadataSection__ratingStats]"),
+      );
+      const description = this.extractDescription(
+        this.soup(
+          "div[class=DetailsLayoutRightParagraph]",
+          "div[data-testid=description]",
+        ),
+      );
+      const numPages = this.extractPages(
+        this.soup("p[data-testid=pagesFormat]"),
+      );
+      const genres = this.extractGenres(
+        this.soup("div[data-testid=genresList]"),
+      );
+      // const titleText = this.soup("")
+
+      // const metaCol = this.soup("div #metacol");
+      // const { titleText, seriesText } = this.extractTitleAndSeries(
+      //   mainContent.find("div[class=BookPageTitleSection__title]"),
+      // );
+      // const authors = this.extractAuthors(mainContent.find("a[class=authorName]"));
+      // const { avgRating, numRatings, numReviews } =
+      //   this.extractBookMetaInfo(metaCol);
+      // const description = this.extractDescription(metaCol);
+      // const numPages = this.extractPages(metaCol);
+      // const genres = this.extractGenres();
       return {
         title: titleText,
         url: this.url,
@@ -161,7 +192,6 @@ export class GoodreadsParser extends Parser {
    * @returns An object containing the values.
    */
   private extractBookMetaInfo(metaCol: Cheerio<Element>) {
-    const bookMeta = metaCol.find("div[id=bookMeta]");
     const avgRating = extractRating();
     const numRatings = extractNumRatings();
     const numReviews = extractNumReviews();
@@ -169,8 +199,14 @@ export class GoodreadsParser extends Parser {
 
     function extractNumReviews() {
       try {
+        Logger.debug(metaCol.find("span[data-testid=reviewsCount]").text());
         return parseInt(
-          bookMeta.find("meta[itemprop=reviewCount]").attr("content"),
+          metaCol
+            .find("span[data-testid=reviewsCount]")
+            .text()
+            .split(" ")[0]
+            .replace(",", "")
+            .trim(),
         );
       } catch {
         return 0;
@@ -179,8 +215,14 @@ export class GoodreadsParser extends Parser {
 
     function extractNumRatings() {
       try {
+        Logger.debug(metaCol.find("span[data-testid=ratingsCount]").text());
         return parseInt(
-          bookMeta.find("meta[itemprop=ratingCount]").attr("content"),
+          metaCol
+            .find("span[data-testid=ratingsCount]")
+            .text()
+            .split(" ")[0]
+            .replace(",", "")
+            .trim(),
         );
       } catch {
         return 0;
@@ -190,7 +232,7 @@ export class GoodreadsParser extends Parser {
     function extractRating() {
       try {
         return parseFloat(
-          bookMeta.find("span[itemprop=ratingValue]").text().trim(),
+          metaCol.find("div[class=RatingStatistics__rating]").text().trim(),
         );
       } catch {
         return 0;
@@ -206,12 +248,7 @@ export class GoodreadsParser extends Parser {
    */
   private extractDescription(metaCol: Cheerio<Element>) {
     try {
-      return metaCol
-        .find("div[id=description]")
-        .children("span")
-        .last()
-        .text()
-        .trim();
+      return metaCol.text().trim();
     } catch {
       return "No description available";
     }
@@ -225,7 +262,7 @@ export class GoodreadsParser extends Parser {
    */
   private extractPages(metaCol: Cheerio<Element>) {
     try {
-      const pageStr = metaCol.find("span[itemprop=numberOfPages]").text();
+      const pageStr = metaCol.text();
       return parseInt(pageStr.split(" ")[0]);
     } catch {
       return 0;
@@ -235,13 +272,14 @@ export class GoodreadsParser extends Parser {
   /**
    * Extracts the genres of the book.
    *
+   * @param element An element.
    * @returns A array of genres.
    */
-  private extractGenres() {
+  private extractGenres(element: Cheerio<Element>) {
     try {
       const genres: string[] = [];
-      const genreList = this.soup(
-        "a[class='actionLinkLite bookPageGenreLink']",
+      const genreList = element.find(
+        "span[class=BookPageMetadataSection__genreButton]",
       );
       for (let i = 0; i < genreList.length; i++) {
         const genre = this.soup(genreList[i]).text();
@@ -260,8 +298,8 @@ export class GoodreadsParser extends Parser {
    * @returns Title and series information.
    */
   private extractTitleAndSeries(metaCol: Cheerio<Element>) {
-    const titleText = metaCol.find("h1[id=bookTitle]").text().trim();
-    const seriesText = metaCol.find("h2[id=bookSeries]").text().trim();
+    const titleText = metaCol.find("h1[data-testid=bookTitle]").text().trim();
+    const seriesText = metaCol.find("h3").text().trim();
     return { titleText, seriesText };
   }
 }
