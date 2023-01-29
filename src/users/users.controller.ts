@@ -25,7 +25,7 @@ export class UsersController {
   /**
    * Initializes an instance of UsersController.
    *
-   * @param {UsersService} usersService The users service.
+   * @param usersService The users service.
    */
   constructor(private readonly usersService: UsersService) {
     Logger.debug("Initialized UsersController");
@@ -34,61 +34,56 @@ export class UsersController {
   /**
    * Creates a user from the given Dto object.
    *
-   * @param {CreateUserDto} createUserDto The Dto object.
-   * @returns {Promise<UserDocument>} A user document.
+   * @param createUserDto The Dto object.
+   * @returns A user document.
    */
   @Post()
-  async create(@Body() createUserDto: CreateUserDto): Promise<UserDocument> {
+  async create(@Body() createUserDto: CreateUserDto) {
     return await this.usersService.create(createUserDto);
   }
 
   /**
    * Gets all user documents from the database.
    *
-   * @returns {Promise<UserDocument[]>} A list of user documents.
+   * @returns A list of user documents.
    */
   @Get()
-  async findAll(): Promise<UserDocument[]> {
+  async findAll() {
     return await this.usersService.findAll();
   }
 
   /**
    * Gets a user from the user Id.
    *
-   * @param {string} userId The user ID of the user. NOT the Object ID.
-   * @returns {Promise<UserDocument>} A user document.
+   * @param userId The user ID of the user. NOT the Object ID.
+   * @returns A user document.
    */
   @Get(":userid")
-  async findOneByUserId(
-    @Param("userid") userId: string,
-  ): Promise<UserDocument> {
+  async findOneByUserId(@Param("userid") userId: string) {
     return await this.usersService.findOneByUserId(userId);
   }
 
   /**
    * Updates a user with the given Id.
    *
-   * @param {string} id The object ID.
-   * @param {UpdateUserDto} updateUserDto The dto object.
-   * @returns {Promise<UserDocument>} A user document.
+   * @param id The object ID.
+   * @param updateUserDto The dto object.
+   * @returns A user document.
    */
   @Patch(":id")
-  async update(
-    @Param("id") id: string,
-    @Body() updateUserDto: UpdateUserDto,
-  ): Promise<UserDocument> {
+  async update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
     return await this.usersService.update(id, updateUserDto);
   }
 
   /**
    * Deletes a user with the given Id.
    *
-   * @param {string} id The object ID.
-   * @returns {Promise<boolean>} Boolean indicating if doc is deleted.
+   * @param id The object ID.
+   * @returns Boolean indicating if doc is deleted.
    */
   @Delete(":id")
   @ApiOkResponse({ type: Boolean })
-  async remove(@Param("id") id: string): Promise<boolean> {
+  async remove(@Param("id") id: string) {
     return await this.usersService.remove(id);
   }
 }

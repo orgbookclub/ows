@@ -18,7 +18,7 @@ export class UsersService {
   /**
    * Initializes an instance of UsersService.
    *
-   * @param {UserRepository} repository Repository for handling all DB operations.
+   * @param repository Repository for handling all DB operations.
    */
   constructor(private repository: UserRepository) {
     Logger.debug("Initialized UsersService");
@@ -27,7 +27,7 @@ export class UsersService {
   /**
    * Creates a user from the given Dto object.
    *
-   * @param {CreateUserDto} createUserDto The Dto object.
+   * @param createUserDto The Dto object.
    */
   async create(createUserDto: CreateUserDto) {
     const user = await this.findOneByUserId(createUserDto.userId);
@@ -47,7 +47,7 @@ export class UsersService {
   /**
    * Gets a user from the user Id.
    *
-   * @param {string} userId The user ID of the user. NOT the Object ID.
+   * @param userId The user ID of the user. NOT the Object ID.
    */
   async findOneByUserId(userId: string) {
     const users = await this.repository.find({ userId: userId });
@@ -63,7 +63,7 @@ export class UsersService {
   /**
    * Gets a user from the Id.
    *
-   * @param {string} id The Object ID.
+   * @param id The Object ID.
    */
   async findOne(id: string) {
     const users = await this.repository.find({ _id: id });
@@ -79,8 +79,8 @@ export class UsersService {
   /**
    * Updates a user with the given Id.
    *
-   * @param {string} id The object ID.
-   * @param {UpdateUserDto} updateUserDto The dto object.
+   * @param id The object ID.
+   * @param updateUserDto The dto object.
    */
   async update(id: string, updateUserDto: UpdateUserDto) {
     return await this.repository.update(id, updateUserDto);
@@ -89,7 +89,7 @@ export class UsersService {
   /**
    * Deletes a user with the given Id.
    *
-   * @param {string} id The object ID.
+   * @param id The object ID.
    */
   async remove(id: string) {
     await this.repository.delete(id);
