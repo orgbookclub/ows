@@ -14,7 +14,7 @@ export class UserRepository extends BaseRepository<UserDocument> {
   /**
    * Initializes an instance of UserRepository.
    *
-   * @param {Model<UserDocument>} userModel The mongoose model.
+   * @param userModel The mongoose model.
    */
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
@@ -25,50 +25,50 @@ export class UserRepository extends BaseRepository<UserDocument> {
   /**
    * Creates a user document in the database.
    *
-   * @param {CreateUserDto} item The dto object.
-   * @returns {Promise<UserDocument>} The result document.
+   * @param item The dto object.
+   * @returns The result document.
    */
-  async create(item: CreateUserDto): Promise<UserDocument> {
+  async create(item: CreateUserDto) {
     return await this.userModel.create(item);
   }
 
   /**
    * Gets a user document with the given ID.
    *
-   * @param {string} id The object ID.
-   * @returns {Promise<UserDocument>} The result document.
+   * @param id The object ID.
+   * @returns The result document.
    */
-  async get(id: string): Promise<UserDocument> {
+  async get(id: string) {
     return await this.userModel.findById(id).exec();
   }
 
   /**
    * Gets all user documents from the DB.
    *
-   * @returns {Promise<UserDocument[]>} The result document list.
+   * @returns The result document list.
    */
-  async getAll(): Promise<UserDocument[]> {
+  async getAll() {
     return await this.userModel.find().exec();
   }
 
   /**
    * Gets all user documents which match the query.
    *
-   * @param {any} query The query object.
-   * @returns {Promise<UserDocument[]>} The result document list.
+   * @param query The query object.
+   * @returns The result document list.
    */
-  async find(query: any): Promise<UserDocument[]> {
+  async find(query: any) {
     return await this.userModel.find(query).exec();
   }
 
   /**
    * Updates the user document in the DB.
    *
-   * @param {string} id The object ID of the doc to update.
-   * @param {UpdateUserDto} updateDto The updated doc.
-   * @returns {Promise<UserDocument>} The result document (after update).
+   * @param id The object ID of the doc to update.
+   * @param updateDto The updated doc.
+   * @returns The result document (after update).
    */
-  async update(id: string, updateDto: UpdateUserDto): Promise<UserDocument> {
+  async update(id: string, updateDto: UpdateUserDto) {
     return await this.userModel.findByIdAndUpdate(id, updateDto, {
       returnDocument: "after",
     });
@@ -77,7 +77,7 @@ export class UserRepository extends BaseRepository<UserDocument> {
   /**
    * Deletes a user document from the DB.
    *
-   * @param {string} id The object ID of the doc.
+   * @param id The object ID of the doc.
    */
   async delete(id: string) {
     return await this.userModel.findByIdAndRemove(id);

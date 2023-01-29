@@ -10,7 +10,7 @@ export class MockRepository<T> extends BaseRepository<T> {
   /**
    * Initializes an instance of MockRepository.
    *
-   * @param {Array<T>} databaseArray The array that will mock the database.
+   * @param databaseArray The array that will mock the database.
    */
   constructor(databaseArray: Array<T>) {
     super();
@@ -20,10 +20,10 @@ export class MockRepository<T> extends BaseRepository<T> {
   /**
    * Appends a book document in the database array.
    *
-   * @param {any} item The dto object.
-   * @returns {Promise<T>} The result document.
+   * @param item The dto object.
+   * @returns The result document.
    */
-  async create(item: any): Promise<T> {
+  async create(item: any) {
     const itemDoc = { _id: "mock random uuid", ...item };
     this.databaseArray.push(itemDoc);
     return itemDoc;
@@ -32,29 +32,29 @@ export class MockRepository<T> extends BaseRepository<T> {
   /**
    * Gets a document with the given ID.
    *
-   * @param {string} id The object ID.
-   * @returns {Promise<T>} The result document.
+   * @param id The object ID.
+   * @returns The result document.
    */
-  async get(id: string): Promise<T> {
+  async get(id: string) {
     return this.databaseArray.find((doc) => doc._id === id);
   }
 
   /**
    * Gets all documents from the Database array.
    *
-   * @returns {Promise<T[]>} The result document list.
+   * @returns The result document list.
    */
-  async getAll(): Promise<T[]> {
+  async getAll() {
     return this.databaseArray;
   }
 
   /**
    * Gets all documents which match the query.
    *
-   * @param {any} query The query object.
-   * @returns {Promise<T[]>} The result document list.
+   * @param query The query object.
+   * @returns The result document list.
    */
-  async find(query: any): Promise<T[]> {
+  async find(query: any) {
     return this.databaseArray.filter((doc) => {
       let res = true;
       for (const property in query) {
@@ -67,11 +67,11 @@ export class MockRepository<T> extends BaseRepository<T> {
   /**
    * Updates the document in the DB.
    *
-   * @param {string} id The object ID of the doc to update.
-   * @param {any} updateDto The updated doc.
-   * @returns {Promise<T>} The result document (after update).
+   * @param id The object ID of the doc to update.
+   * @param updateDto The updated doc.
+   * @returns The result document (after update).
    */
-  async update(id: string, updateDto: any): Promise<T> {
+  async update(id: string, updateDto: any) {
     const index = this.databaseArray.findIndex((doc) => doc._id === id);
     const updatedDoc = this.databaseArray[index];
     for (const property in updateDto) {
@@ -84,7 +84,7 @@ export class MockRepository<T> extends BaseRepository<T> {
   /**
    * Deletes a document from the database array.
    *
-   * @param {string} id The object ID of the doc.
+   * @param id The object ID of the doc.
    */
   async delete(id: string) {
     const index = this.databaseArray.findIndex((doc) => doc._id === id);

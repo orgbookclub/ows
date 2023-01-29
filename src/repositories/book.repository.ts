@@ -14,7 +14,7 @@ export class BookRepository extends BaseRepository<BookDocument> {
   /**
    * Initializes an instance of BookRepository.
    *
-   * @param {Model<BookDocument>} bookModel The mongoose model.
+   * @param bookModel The mongoose model.
    */
   constructor(
     @InjectModel(Book.name) private readonly bookModel: Model<BookDocument>,
@@ -25,50 +25,50 @@ export class BookRepository extends BaseRepository<BookDocument> {
   /**
    * Creates a book document in the database.
    *
-   * @param {CreateBookDto} item The dto object.
-   * @returns {Promise<BookDocument>} The result document.
+   * @param item The dto object.
+   * @returns The result document.
    */
-  async create(item: CreateBookDto): Promise<BookDocument> {
+  async create(item: CreateBookDto) {
     return await this.bookModel.create(item);
   }
 
   /**
    * Gets a book document with the given ID.
    *
-   * @param {string} id The object ID.
-   * @returns {Promise<BookDocument>} The result document.
+   * @param id The object ID.
+   * @returns The result document.
    */
-  async get(id: string): Promise<BookDocument> {
+  async get(id: string) {
     return await this.bookModel.findById(id).exec();
   }
 
   /**
    * Gets all book documents from the DB.
    *
-   * @returns {Promise<BookDocument[]>} The result document list.
+   * @returns The result document list.
    */
-  async getAll(): Promise<BookDocument[]> {
+  async getAll() {
     return await this.bookModel.find().exec();
   }
 
   /**
    * Gets all book documents which match the query.
    *
-   * @param {any} query The query object.
-   * @returns {Promise<BookDocument[]>} The result document list.
+   * @param query The query object.
+   * @returns The result document list.
    */
-  async find(query: any): Promise<BookDocument[]> {
+  async find(query: any) {
     return await this.bookModel.find(query).exec();
   }
 
   /**
    * Updates the book document in the DB.
    *
-   * @param {string} id The object ID of the doc to update.
-   * @param {UpdateBookDto} updateDto The updated doc.
-   * @returns {Promise<BookDocument>} The result document (after update).
+   * @param id The object ID of the doc to update.
+   * @param updateDto The updated doc.
+   * @returns The result document (after update).
    */
-  async update(id: string, updateDto: UpdateBookDto): Promise<BookDocument> {
+  async update(id: string, updateDto: UpdateBookDto) {
     return await this.bookModel.findByIdAndUpdate(id, updateDto, {
       returnDocument: "after",
     });
@@ -77,7 +77,7 @@ export class BookRepository extends BaseRepository<BookDocument> {
   /**
    * Deletes a book document from the DB.
    *
-   * @param {string} id The object ID of the doc.
+   * @param id The object ID of the doc.
    */
   async delete(id: string) {
     return await this.bookModel.findByIdAndRemove(id);

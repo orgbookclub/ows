@@ -14,7 +14,7 @@ export class EventRepository extends BaseRepository<EventDocument> {
   /**
    * Initializes an instance of EventRepository.
    *
-   * @param {Model<EventDocument>} eventModel The mongoose model.
+   * @param eventModel The mongoose model.
    */
   constructor(
     @InjectModel(Event.name) private readonly eventModel: Model<EventDocument>,
@@ -25,20 +25,20 @@ export class EventRepository extends BaseRepository<EventDocument> {
   /**
    * Creates an event document in the database.
    *
-   * @param {CreateEventDto} item The dto object.
-   * @returns {Promise<EventDocument>} The result document.
+   * @param item The dto object.
+   * @returns The result document.
    */
-  async create(item: CreateEventDto): Promise<EventDocument> {
+  async create(item: CreateEventDto) {
     return await this.eventModel.create(item);
   }
 
   /**
    * Gets an event document with the given ID.
    *
-   * @param {string} id The object ID.
-   * @returns {Promise<EventDocument>} The result document.
+   * @param id The object ID.
+   * @returns The result document.
    */
-  async get(id: string): Promise<EventDocument> {
+  async get(id: string) {
     return await this.eventModel
       .findById(id)
       .populate("book")
@@ -51,19 +51,19 @@ export class EventRepository extends BaseRepository<EventDocument> {
   /**
    * Gets all event documents from the DB.
    *
-   * @returns {Promise<EventDocument[]>} The result document list.
+   * @returns The result document list.
    */
-  async getAll(): Promise<EventDocument[]> {
+  async getAll() {
     return await this.eventModel.find().exec();
   }
 
   /**
    * Gets all event documents which match the query.
    *
-   * @param {any} query The query object.
-   * @returns {Promise<EventDocument[]>} The result document list.
+   * @param query The query object.
+   * @returns The result document list.
    */
-  async find(query: any): Promise<EventDocument[]> {
+  async find(query: any) {
     return await this.eventModel
       .find(query)
       .populate("book")
@@ -76,11 +76,11 @@ export class EventRepository extends BaseRepository<EventDocument> {
   /**
    * Updates the event document in the DB.
    *
-   * @param {string} id The object ID of the doc to update.
-   * @param {UpdateEventDto} updateDto The updated doc.
-   * @returns {Promise<EventDocument>} The result document (after update).
+   * @param id The object ID of the doc to update.
+   * @param updateDto The updated doc.
+   * @returns The result document (after update).
    */
-  async update(id: string, updateDto: UpdateEventDto): Promise<EventDocument> {
+  async update(id: string, updateDto: UpdateEventDto) {
     return await this.eventModel.findByIdAndUpdate(id, updateDto, {
       returnDocument: "after",
     });
@@ -89,7 +89,7 @@ export class EventRepository extends BaseRepository<EventDocument> {
   /**
    * Deletes a event document from the DB.
    *
-   * @param {string} id The object ID of the doc.
+   * @param id The object ID of the doc.
    */
   async delete(id: string) {
     return await this.eventModel.findByIdAndRemove(id);
