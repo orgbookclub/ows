@@ -1,5 +1,5 @@
 import { Body, Controller, Logger, Param, Post } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { BooksService } from "./books.service";
 import { CreateBookDto } from "./dto/create-book.dto";
@@ -15,7 +15,7 @@ export class BooksController {
   /**
    * Initializes an instance of BookController.
    *
-   * @param {BooksService} booksService The books service.
+   * @param booksService The books service.
    */
   constructor(private readonly booksService: BooksService) {
     Logger.debug("Initialized BooksController");
@@ -24,24 +24,24 @@ export class BooksController {
   /**
    * Creates a book from the given Dto object.
    *
-   * @param {CreateBookDto} createBookDto The Dto object.
-   * @returns {Promise<BookDocument>} A Book document.
+   * @param createBookDto The Dto object.
+   * @returns A Book document.
    */
   @Post()
-  async createBookFromDto(
-    @Body() createBookDto: CreateBookDto,
-  ): Promise<BookDocument> {
+  @ApiOkResponse({ type: BookDocument })
+  async createBookFromDto(@Body() createBookDto: CreateBookDto) {
     return await this.booksService.createBook(createBookDto);
   }
 
   /**
    * Creates a book from the given valid URL.
    *
-   * @param {string} url A valid Goodreads or Storygraph URL.
-   * @returns {Promise<BookDocument>} A Book document.
+   * @param url A valid Goodreads or Storygraph URL.
+   * @returns A Book document.
    */
   @Post(":url")
-  async createBookFromUrl(@Param("url") url: string): Promise<BookDocument> {
+  @ApiOkResponse({ type: BookDocument })
+  async createBookFromUrl(@Param("url") url: string) {
     return await this.booksService.createBookFromUrl(url);
   }
 }

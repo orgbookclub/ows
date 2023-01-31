@@ -12,11 +12,11 @@ const mockAuthor = (
 /**
  * Creates a mock bookDto object.
  *
- * @param {string} title Title of the book.
- * @param {AuthorDto[]} authors List of authors.
- * @param {string} url The url.
- * @param {string[]} genres List of genres.
- * @returns {BookDto} A Book Dto object.
+ * @param title Title of the book.
+ * @param authors List of authors.
+ * @param url The url.
+ * @param genres List of genres.
+ * @returns A Book Dto object.
  */
 export const mockBook = (
   title = "mock title",

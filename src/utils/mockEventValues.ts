@@ -1,4 +1,3 @@
-import { BookDto } from "../books/dto/book.dto";
 import { DateRange } from "../events/dto/date-range.dto";
 import { EventStatus } from "../events/dto/event-status";
 import { EventType } from "../events/dto/event-type";
@@ -24,18 +23,18 @@ const mockParticipant = (user): Participant => ({
 /**
  * Creates a mock EventDto object.
  *
- * @param {string} name Name of the event.
- * @param {BookDto} book The book.
- * @param {EventStatus} status The status of the event.
- * @param {EventType} type The event type.
- * @param {DateRange} dates Dates of the event.
- * @param {Participant} requestedBy User Id of the requester.
- * @param {Participant[]} interested List of user IDs of interested users.
- * @param {Participant[]} readers List of user IDs.
- * @param {Participant[]} leaders List of user IDs.
- * @param {string} description The description of the event.
- * @param {string[]} threads The thread Ids for the event.
- * @returns {EventDto} EventDto object.
+ * @param name Name of the event.
+ * @param book The book.
+ * @param status The status of the event.
+ * @param type The event type.
+ * @param dates Dates of the event.
+ * @param requestedBy User Id of the requester.
+ * @param interested List of user IDs of interested users.
+ * @param readers List of user IDs.
+ * @param leaders List of user IDs.
+ * @param description The description of the event.
+ * @param threads The thread Ids for the event.
+ * @returns EventDto object.
  */
 export const mockEvent = (
   name = "mockEvent",

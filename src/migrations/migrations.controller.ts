@@ -15,7 +15,7 @@ export class MigrationsController {
   /**
    * Initializes an instance of Migrations Controller.
    *
-   * @param {MigrationsService} migrationsService The migrations service.
+   * @param migrationsService The migrations service.
    */
   constructor(private readonly migrationsService: MigrationsService) {
     Logger.debug("Initialized MigrationsController");
@@ -32,7 +32,7 @@ export class MigrationsController {
   /**
    * Migrates a single event doc from older schema to newer one.
    *
-   * @param {object} oldEventDoc The db document representing the event in the old db format.
+   * @param oldEventDoc The db document representing the event in the old db format.
    */
   @Post()
   async migrateEvent(@Body() oldEventDoc: EventDto) {

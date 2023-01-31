@@ -24,7 +24,7 @@
     "es2020": true,
     "jest": true
   },
-  "ignorePatterns": [".eslintrc.js"],
+  "ignorePatterns": [".eslintrc.json"],
   "rules": {
     "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
@@ -78,6 +78,8 @@
       }
     ],
     "jsdoc/require-description-complete-sentence": "error",
+    "jsdoc/require-param-type": "off",
+    "jsdoc/require-returns-type": "off",
     "keyword-spacing": "error",
     "max-nested-callbacks": ["error", { "max": 4 }],
     "max-statements-per-line": ["error", { "max": 2 }],

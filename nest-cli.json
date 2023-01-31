@@ -3,7 +3,7 @@
   "sourceRoot": "src",
   "compilerOptions": {
     "plugins": [
-      { "name": "@nestjs/swagger", "options": { "introspectComments": true } }
+      { "name": "@nestjs/swagger", "options": { "dtoFileNameSuffix": [".dto.ts", ".schema.ts"], "introspectComments": true } }
     ]
   }
 }

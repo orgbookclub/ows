@@ -11,7 +11,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   /**
    * Initializes an instance of JwtStrategy.
    *
-   * @param {ConfigService} configService The global config service.
+   * @param configService The global config service.
    */
   constructor(private configService: ConfigService) {
     super({
@@ -26,10 +26,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * The way passport works is we are ensured that this method is called only
    * with a valid clientId.
    *
-   * @param {any} payload The payload.
-   * @returns {Promise<any>} Trivial response containing client ID.
+   * @param payload The payload.
+   * @returns Trivial response containing client ID.
    */
-  async validate(payload: any): Promise<any> {
+  async validate(payload: any) {
     return { clientId: payload.sub };
   }
 }
