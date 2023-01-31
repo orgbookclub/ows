@@ -1,5 +1,5 @@
 import { InternalServerErrorException } from "@nestjs/common";
-import { Cheerio, Element } from "cheerio";
+import { Cheerio, CheerioAPI, Element } from "cheerio";
 
 import { AuthorDto } from "../../books/dto/author.dto";
 import { BookDto } from "../../books/dto/book.dto";
@@ -127,7 +127,7 @@ export class StorygraphParser extends Parser {
   private extractGenres() {
     try {
       const genres: string[] = [];
-      const genreList = this.soup("div[class='leading-3 my-1 md:w-9/12']")
+      const genreList = this.soup("div[class=book-page-tag-section]")
         .last()
         .children("span");
       for (let i = 0; i < genreList.length; i++) {
@@ -146,31 +146,28 @@ export class StorygraphParser extends Parser {
    * @returns An object containing the values.
    */
   private extractBookMetaInfo() {
-    const leftPane = this.soup("div[class='standard-pane mb-5']");
-
-    const avgRating = extractRating();
-    const warnings = leftPane
-      .find("div .content-warnings-information")
-      .first()
+    const avgRating = extractRating(this.soup);
+    const warnings = this.soup("div .content-warnings-information")
+      .last()
       .text()
       .trim();
     const moods = this.extractTupleFields(
-      leftPane.find("div .moods-list-reviews").first(),
+      this.soup("div .moods-list-reviews").first(),
     );
     const pace = this.extractTupleFields(
-      leftPane.find("div .paces-reviews").first(),
+      this.soup("div .paces-reviews").first(),
     );
-    const quesAns = this.extractQuesAndAns(leftPane);
+    const quesAns = this.extractQuesAndAns(
+      this.soup(
+        "div[class='mb-6 md:mb-0 mt-6 px-2 md:px-unset md:standard-pane md:block book-pane break-words']",
+      ).last(),
+    );
     return { avgRating, warnings, moods, pace, quesAns };
 
-    function extractRating() {
+    function extractRating(soup: CheerioAPI) {
       try {
         return parseFloat(
-          leftPane
-            .find("span[class='average-star-rating']")
-            .text()
-            .split(" ")[0]
-            .trim(),
+          soup("span[class='average-star-rating']").text().split(" ")[0].trim(),
         );
       } catch {
         return 0;
@@ -191,14 +188,14 @@ export class StorygraphParser extends Parser {
   /**
    * Extracts the book title and series information (if any).
    *
-   * @param metaCol The field containing book metadata information.
+   * @param element The field containing book metadata information.
    * @returns Title and series information.
    */
-  private extractTitleAndSeries(metaCol: Cheerio<Element>) {
-    const titleText = metaCol.find("h3").first().text().trim();
-    const pFields = metaCol.find("p");
+  private extractTitleAndSeries(element: Cheerio<Element>) {
+    const titleText = element.find("h3").first().text().split("\n")[0].trim();
+    const pFields = element.find("p");
     let seriesText = "";
-    if (pFields.length === 2) {
+    if (pFields.length === 4) {
       seriesText = pFields.first().text().trim();
     }
     return { titleText, seriesText };
@@ -207,18 +204,14 @@ export class StorygraphParser extends Parser {
   /**
    * Extracts the question/answer pairs for the book.
    *
-   * @param leftPane The field containing book metadata information.
+   * @param element The field containing book metadata information.
    * @returns An array of objects containing questions and answers.
    */
-  private extractQuesAndAns(leftPane: Cheerio<Element>) {
-    const questions = leftPane
-      .find("div")
-      .last()
-      .find("p[class='review-character-question font-semibold mt-4']");
-    const answers = leftPane
-      .find("div")
-      .last()
-      .find("span[class='review-response-summary']");
+  private extractQuesAndAns(element: Cheerio<Element>) {
+    const questions = element.find(
+      "p[class='review-character-question font-semibold mt-4']",
+    );
+    const answers = element.find("span[class='review-response-summary']");
     const quesAns = [];
     for (let i = 0; i < questions.length; i++) {
       const question = this.soup(questions[i]).text().trim();
