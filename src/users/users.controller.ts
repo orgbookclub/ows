@@ -12,6 +12,7 @@ import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { UserDocument } from "./schemas/user.schema";
 import { UsersService } from "./users.service";
 
 /**
@@ -37,6 +38,7 @@ export class UsersController {
    * @returns A user document.
    */
   @Post()
+  @ApiOkResponse({ type: UserDocument })
   async create(@Body() createUserDto: CreateUserDto) {
     return await this.usersService.create(createUserDto);
   }
@@ -47,6 +49,7 @@ export class UsersController {
    * @returns A list of user documents.
    */
   @Get()
+  @ApiOkResponse({ type: [UserDocument] })
   async findAll() {
     return await this.usersService.findAll();
   }
@@ -58,6 +61,7 @@ export class UsersController {
    * @returns A user document.
    */
   @Get(":userid")
+  @ApiOkResponse({ type: UserDocument })
   async findOneByUserId(@Param("userid") userId: string) {
     return await this.usersService.findOneByUserId(userId);
   }
@@ -70,6 +74,7 @@ export class UsersController {
    * @returns A user document.
    */
   @Patch(":id")
+  @ApiOkResponse({ type: UserDocument })
   async update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
     return await this.usersService.update(id, updateUserDto);
   }

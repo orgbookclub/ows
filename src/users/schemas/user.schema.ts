@@ -1,15 +1,13 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
 
 import { ProfileDto } from "../dto/profile.dto";
-
-export type UserDocument = User & Document;
+import { UserDto } from "../dto/user.dto";
 
 /**
  * The class representing a User in the database.
  */
 @Schema()
-export class User {
+export class User extends UserDto {
   @Prop({
     unique: true,
   })
@@ -23,6 +21,13 @@ export class User {
 
   @Prop()
   profile: ProfileDto;
+}
+
+/**
+ * Class representing a User document in the database.
+ */
+export class UserDocument extends User {
+  _id: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -8,7 +8,8 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle("OWS")
     .setDescription("API description for the Organized Web Server")
-    .setVersion("0.1")
+    .setVersion("0.1.0")
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api", app, document);
