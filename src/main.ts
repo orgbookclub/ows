@@ -1,3 +1,6 @@
+import { writeFileSync } from "fs";
+import path from "path";
+
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
@@ -8,9 +11,13 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle("OWS")
     .setDescription("API description for the Organized Web Server")
-    .setVersion("0.1")
+    .setVersion("0.1.0")
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
+  const outputPath = path.resolve(process.cwd(), "docs/openapi.json");
+  writeFileSync(outputPath, JSON.stringify(document), { encoding: "utf8" });
+
   SwaggerModule.setup("api", app, document);
 
   await app.listen(3000);

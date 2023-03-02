@@ -1,13 +1,14 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 import { AuthorDto } from "../dto/author.dto";
+import { BookDto } from "../dto/book.dto";
 
 /**
  * The class representing a Book in the database.
  * Can contain both StoryGraph & Goodreads books.
  */
 @Schema()
-export class Book {
+export class Book extends BookDto {
   @Prop()
   title: string;
 
@@ -26,7 +27,7 @@ export class Book {
 }
 
 /**
- *
+ * Class representing a book document in the database.
  */
 export class BookDocument extends Book {
   _id: string;

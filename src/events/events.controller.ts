@@ -9,12 +9,13 @@ import {
   Param,
   Query,
 } from "@nestjs/common";
-import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { CreateEventDto } from "./dto/create-event.dto";
 import { EventFilter } from "./dto/event-filter.dto";
 import { UpdateEventDto } from "./dto/update-event.dto";
 import { EventsService } from "./events.service";
+import { EventDocument } from "./schemas/event.schema";
 
 /**
  * The Events controller.
@@ -22,6 +23,7 @@ import { EventsService } from "./events.service";
  */
 @ApiTags("Events")
 @Controller("api/events")
+@ApiBearerAuth()
 export class EventsController {
   /**
    * Initializes an instance of Events Controller.
@@ -39,6 +41,7 @@ export class EventsController {
    * @returns An event document.
    */
   @Post()
+  @ApiOkResponse({ type: EventDocument })
   async create(@Body() createEventDto: CreateEventDto) {
     return await this.eventsService.create(createEventDto);
   }
@@ -51,6 +54,7 @@ export class EventsController {
    * @returns An event document.
    */
   @Post(":url")
+  @ApiOkResponse({ type: EventDocument })
   async createFromUrl(
     @Param("url") url: string,
     @Body() createEventDto: CreateEventDto,
@@ -65,6 +69,7 @@ export class EventsController {
    * @returns A list of event documents.
    */
   @Get()
+  @ApiOkResponse({ type: [EventDocument] })
   async find(@Query() filter: EventFilter) {
     return await this.eventsService.findMany(filter);
   }
@@ -76,6 +81,7 @@ export class EventsController {
    * @returns An event document.
    */
   @Get(":id")
+  @ApiOkResponse({ type: EventDocument })
   async findOne(@Param("id") id: string) {
     return await this.eventsService.findOne(id);
   }
@@ -88,6 +94,7 @@ export class EventsController {
    * @returns The updated event document.
    */
   @Patch(":id")
+  @ApiOkResponse({ type: EventDocument })
   async update(
     @Param("id") id: string,
     @Body() updateEventDto: UpdateEventDto,

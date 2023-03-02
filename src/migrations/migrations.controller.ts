@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Logger, Post } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 import { EventDto } from "../events/dto/event.dto";
 
@@ -11,6 +11,7 @@ import { MigrationsService } from "./migrations.service";
  */
 @ApiTags("Migrations")
 @Controller("api/migrations")
+@ApiBearerAuth()
 export class MigrationsController {
   /**
    * Initializes an instance of Migrations Controller.
