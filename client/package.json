@@ -1,0 +1,31 @@
+{
+  "name": "@orgbookclub/ows-client",
+  "version": "0.1.0",
+  "description": "OpenAPI client for @orgbookclub/ows-client",
+  "author": "OpenAPI-Generator Contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/orgbookclub/ows.git"
+  },
+  "keywords": [
+    "axios",
+    "typescript",
+    "openapi-client",
+    "openapi-generator",
+    "@orgbookclub/ows-client"
+  ],
+  "license": "Unlicense",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc ",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "axios": "^0.27.2"
+  },
+  "devDependencies": {
+    "@types/node": "^12.11.5",
+    "typescript": "^4.0"
+  }
+}
