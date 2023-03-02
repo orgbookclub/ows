@@ -14,7 +14,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --max-warnings 0",
-    "openapi:generate": "openapi-generator-cli generate -i docs/openapi.json -g typescript-axios -o client --additional-properties=modelPackage=models,apiPackage=api,withSeparateModelsAndApi=true,supportsES6=true,npmName=orgbookclub/ows-client",
+    "openapi:generate": "rimraf client && openapi-generator-cli generate --generator-key v0.1.0",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",

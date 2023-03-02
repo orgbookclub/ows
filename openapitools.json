@@ -2,6 +2,21 @@
   "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
   "spaces": 2,
   "generator-cli": {
-    "version": "6.4.0"
+    "version": "6.4.0",
+    "generators": {
+      "v0.1.0": {
+        "generatorName": "typescript-axios",
+        "output": "#{cwd}/client",
+        "glob": "docs/openapi.json",
+        "gitRepoId": "ows",
+        "gitUserId": "orgbookclub",
+        "additionalProperties": {
+          "modelPackage": "models",
+          "apiPackage": "api",
+          "withSeparateModelsAndApi": true,
+          "npmName": "@orgbookclub/ows-client"
+        }
+      }
+    }
   }
 }
