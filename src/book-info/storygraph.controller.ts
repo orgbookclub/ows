@@ -5,7 +5,7 @@ import {
   NotFoundException,
   Query,
 } from "@nestjs/common";
-import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { BookDto } from "../books/dto/book.dto";
 
@@ -17,6 +17,7 @@ import { StorygraphService } from "./storygraph.service";
  */
 @ApiTags("Storygraph")
 @Controller("api/storygraph")
+@ApiBearerAuth()
 export class StorygraphController {
   /**
    * Creates an instance of @see StorygraphController.

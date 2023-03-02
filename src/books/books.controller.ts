@@ -1,5 +1,5 @@
 import { Body, Controller, Logger, Param, Post } from "@nestjs/common";
-import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { BooksService } from "./books.service";
 import { CreateBookDto } from "./dto/create-book.dto";
@@ -11,6 +11,7 @@ import { BookDocument } from "./schemas/book.schema";
  */
 @ApiTags("Books")
 @Controller("api/books")
+@ApiBearerAuth()
 export class BooksController {
   /**
    * Initializes an instance of BookController.

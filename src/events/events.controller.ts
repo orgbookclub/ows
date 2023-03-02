@@ -9,7 +9,7 @@ import {
   Param,
   Query,
 } from "@nestjs/common";
-import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { CreateEventDto } from "./dto/create-event.dto";
 import { EventFilter } from "./dto/event-filter.dto";
@@ -23,6 +23,7 @@ import { EventDocument } from "./schemas/event.schema";
  */
 @ApiTags("Events")
 @Controller("api/events")
+@ApiBearerAuth()
 export class EventsController {
   /**
    * Initializes an instance of Events Controller.

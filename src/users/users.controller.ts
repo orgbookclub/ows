@@ -8,7 +8,7 @@ import {
   Logger,
   Param,
 } from "@nestjs/common";
-import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
@@ -21,6 +21,7 @@ import { UsersService } from "./users.service";
  */
 @ApiTags("Users")
 @Controller("api/users")
+@ApiBearerAuth()
 export class UsersController {
   /**
    * Initializes an instance of UsersController.
