@@ -23,12 +23,6 @@ jobs:
       - name: Generate client with openapi-generator
         run: yarn openapi:generate
 
-      - name: Checkout to ./client directory
-        run: cd ./client
-      
-      - name: Install dependencies & Build
-        run: yarn
-
   publish-gpr:
     needs: build
     runs-on: ubuntu-latest
@@ -37,14 +31,17 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v3
+      
       - uses: actions/setup-node@v3
         with:
           node-version: "18.x"
           registry-url: https://npm.pkg.github.com/
-
-      - name: Checkout to ./client directory
-        run: cd ./client
+      
+      - name: Install dependencies & Build
+        working-directory: client
+        run: yarn
 
       - run: npm publish
+        working-directory: client
         env:
-          NODE_AUTH_TOKEN: ${{secrets.PAT_SCOPE_PUBLISH}}
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
