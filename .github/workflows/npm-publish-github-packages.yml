@@ -46,5 +46,6 @@ jobs:
           cache-dependency-path: ./client/yarn.lock
 
       - run: npm publish
+        working-directory: client
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
