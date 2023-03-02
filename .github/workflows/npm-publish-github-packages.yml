@@ -23,10 +23,8 @@ jobs:
       - name: Generate client with openapi-generator
         run: yarn openapi:generate
 
-      - name: Checkout to ./client directory
-        run: cd ./client
-      
       - name: Install dependencies & Build
+        working-directory: client
         run: yarn
 
   publish-gpr:
