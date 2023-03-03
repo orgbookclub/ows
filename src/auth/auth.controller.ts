@@ -1,8 +1,10 @@
 import { Controller, Request, Post, UseGuards, Logger } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { AuthService } from "./auth.service";
 import { ClientPasswordAuthGuard } from "./client-password-auth.guard";
+import { AccessTokenDto } from "./dto/access-token.dto";
+import { ClientCredentialsDto } from "./dto/client-credentials.dto";
 import { SkipAuth } from "./jwt-auth.guard";
 
 /**
@@ -28,6 +30,10 @@ export class AuthController {
   @SkipAuth()
   @UseGuards(ClientPasswordAuthGuard)
   @Post("token")
+  @ApiBody({
+    type: ClientCredentialsDto,
+  })
+  @ApiOkResponse({ type: AccessTokenDto })
   async getAccessToken(@Request() req) {
     return await this.authService.getAccessToken(req.user);
   }
