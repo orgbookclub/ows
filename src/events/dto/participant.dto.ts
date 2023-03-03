@@ -6,9 +6,8 @@ import { UserDocument } from "../../users/schemas/user.schema";
 export class Participant {
   /**
    * The object ID of the user (not the user ID).
-   *
    */
-  user: string | UserDocument;
+  user: UserDocument;
   /**
    * The number of points to be assigned to the particpant.
    */
