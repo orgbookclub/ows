@@ -1,4 +1,4 @@
-import { User, UserDocument } from "../../users/schemas/user.schema";
+import { UserDocument } from "../../users/schemas/user.schema";
 
 /**
  * Class which stores information of an event participant.
@@ -6,7 +6,6 @@ import { User, UserDocument } from "../../users/schemas/user.schema";
 export class Participant {
   /**
    * The object ID of the user (not the user ID).
-   *
    */
   user: UserDocument;
   /**
