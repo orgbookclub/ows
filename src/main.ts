@@ -11,10 +11,11 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle("OWS")
     .setDescription("API description for the Organized Web Server")
-    .setVersion("0.1.0")
+    .setVersion("0.1.1")
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
+
   const outputPath = path.resolve(process.cwd(), "docs/openapi.json");
   writeFileSync(outputPath, JSON.stringify(document), { encoding: "utf8" });
 
