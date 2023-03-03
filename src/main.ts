@@ -1,6 +1,7 @@
 import { writeFileSync } from "fs";
 import path from "path";
 
+import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
@@ -18,7 +19,7 @@ async function bootstrap() {
 
   const outputPath = path.resolve(process.cwd(), "docs/openapi.json");
   writeFileSync(outputPath, JSON.stringify(document), { encoding: "utf8" });
-
+  Logger.debug("Updated openapi.json");
   SwaggerModule.setup("api", app, document);
 
   await app.listen(3000);

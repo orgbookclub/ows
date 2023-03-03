@@ -5,7 +5,6 @@ import { MongoClient } from "mongodb";
 import { BooksService } from "../books/books.service";
 import { EventStatus } from "../events/dto/event-status";
 import { EventType } from "../events/dto/event-type";
-import { Participant } from "../events/dto/participant.dto";
 import { EventsService } from "../events/events.service";
 import { EventDocument } from "../events/schemas/event.schema";
 import { UsersService } from "../users/users.service";
@@ -143,8 +142,8 @@ export class MigrationsService {
   private getEventStatus(
     startDate: Date,
     endDate: Date,
-    readers: Participant[],
-    interested: Participant[],
+    readers: any[],
+    interested: any[],
   ) {
     let eventStatus = EventStatus.Completed;
     const now = new Date();
@@ -163,17 +162,17 @@ export class MigrationsService {
   }
 
   /**
-   * Returns a list of participant objects from the user Ids and their score.
+   * Returns a list of  objects from the user Ids and their score.
    *
    * @param userIds A list or set of user ids.
    * @param score The score for the user for the event.
-   * @returns A list of participant objects.
+   * @returns A list of objects.
    */
   private async getParticipants(
     userIds: string[] | Set<string>,
     score: number,
   ) {
-    const participants: Participant[] = [];
+    const participants = [];
     for (const userId of userIds) {
       const userDoc = await this.getUserDoc(userId);
       participants.push({
