@@ -9,8 +9,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-publish-gpr:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -23,21 +26,12 @@ jobs:
       - name: Generate client with openapi-generator
         run: yarn openapi:generate
 
-  publish-gpr:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - uses: actions/checkout@v3
-      
       - uses: actions/setup-node@v3
         with:
           node-version: "18.x"
           registry-url: https://npm.pkg.github.com/
       
-      - name: Install dependencies & Build
+      - name: Install Client dependencies & Build
         working-directory: client
         run: yarn
 
