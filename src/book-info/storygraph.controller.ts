@@ -37,7 +37,7 @@ export class StorygraphController {
    */
   @Get("search")
   @ApiOkResponse({ type: [BookDto] })
-  async searchBooks(@Query("q") query: string, @Query("k") k = 5) {
+  async searchBooks(@Query("q") query: string, @Query("k") k: number) {
     return await this.storygraphService.searchBooks(query, k);
   }
 

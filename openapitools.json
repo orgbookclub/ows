@@ -14,6 +14,8 @@
           "modelPackage": "models",
           "apiPackage": "api",
           "withSeparateModelsAndApi": true,
+          "sortParamsByRequiredFlag": true,
+          "useSingleRequestParameter": true,
           "npmName": "@orgbookclub/ows-client"
         }
       }
