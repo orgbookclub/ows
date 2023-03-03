@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 
 /**
- * Dto for the client credentials
+ * Dto for the client credentials.
  */
 export class ClientCredentialsDto {
   /**

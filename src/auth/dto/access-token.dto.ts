@@ -1,5 +1,5 @@
 /**
- * The access token DTO
+ * The access token DTO.
  */
 export class AccessTokenDto {
   /**
