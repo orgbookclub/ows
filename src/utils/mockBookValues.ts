@@ -28,6 +28,7 @@ export const mockBook = (
   authors: authors,
   url: url,
   genres: genres,
+  coverUrl: "",
 });
 
 export const mockAuthors = [
@@ -59,6 +60,8 @@ export const mockSearchResultsFromGR = [
     ],
     url: "https://www.goodreads.com/book/show/30165203-american-gods",
     genres: [],
+    coverUrl:
+      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1462924585i/30165203._SY75_.jpg",
   },
   {
     title: "Anansi Boys (American Gods, #2)",
@@ -70,6 +73,8 @@ export const mockSearchResultsFromGR = [
     ],
     url: "https://www.goodreads.com/book/show/2744.Anansi_Boys",
     genres: [],
+    coverUrl:
+      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1479778049i/2744._SY75_.jpg",
   },
   {
     title: "Filthy Gods (American Gods, #0.5)",
@@ -81,6 +86,8 @@ export const mockSearchResultsFromGR = [
     ],
     url: "https://www.goodreads.com/book/show/39296064-filthy-gods",
     genres: [],
+    coverUrl:
+      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1524841918i/39296064._SY75_.jpg",
   },
   {
     title: "The Monarch of the Glen (American Gods, #1.1)",
@@ -92,6 +99,8 @@ export const mockSearchResultsFromGR = [
     ],
     url: "https://www.goodreads.com/book/show/18245822-the-monarch-of-the-glen",
     genres: [],
+    coverUrl:
+      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1394083799i/18245822._SY75_.jpg",
   },
   {
     title: "Rich Boys Don't Have Hearts (American Gods, #1)",
@@ -103,6 +112,8 @@ export const mockSearchResultsFromGR = [
     ],
     url: "https://www.goodreads.com/book/show/35077930-rich-boys-don-t-have-hearts",
     genres: [],
+    coverUrl:
+      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1524172321i/35077930._SX50_.jpg",
   },
 ];
 export const mockBookResultFromGR = {
@@ -152,6 +163,7 @@ export const mockSearchResultsFromSG = [
     ],
     url: "https://app.thestorygraph.com/books/9fd55617-3c71-458c-ad60-2d963964c351",
     genres: [],
+    coverUrl: "https://images.thestorygraph.com/yb51m9d8kpr0i3rga9u7yxb4qvzu",
   },
   {
     title: "Anansi Boys",
@@ -163,6 +175,7 @@ export const mockSearchResultsFromSG = [
     ],
     url: "https://app.thestorygraph.com/books/9d48c469-4f4e-4f2b-861b-d03530c3bb66",
     genres: [],
+    coverUrl: "https://images.thestorygraph.com/3cjv5mjgxw9q22hky0bt2k3bi8hn",
   },
   {
     title: "Filthy Gods",
@@ -174,6 +187,7 @@ export const mockSearchResultsFromSG = [
     ],
     url: "https://app.thestorygraph.com/books/791ecbd8-9049-42be-a9c7-5213fa4e5c31",
     genres: [],
+    coverUrl: "https://images.thestorygraph.com/5ojfg9hztunqhoja90b607rpaest",
   },
   {
     title: "The Monarch of the Glen",
@@ -185,6 +199,7 @@ export const mockSearchResultsFromSG = [
     ],
     url: "https://app.thestorygraph.com/books/227161ba-1521-48ec-98ac-4c0e150b596b",
     genres: [],
+    coverUrl: "https://images.thestorygraph.com/t9ouflib4r0s5ackmzza6k0u6r0q",
   },
   {
     title: "Rich Boys Don't Have Hearts",
@@ -196,6 +211,7 @@ export const mockSearchResultsFromSG = [
     ],
     url: "https://app.thestorygraph.com/books/8df1aab8-7c45-4c36-9d5f-e35279ae5915",
     genres: [],
+    coverUrl: "https://images.thestorygraph.com/zt6dan7ie0hgkdz1pdxyouk1zqf5",
   },
 ];
 export const mockBookResultFromSG = {

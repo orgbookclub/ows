@@ -37,7 +37,11 @@ export class StorygraphService {
    */
   async searchBooks(query: string, k: number) {
     const url = `${this.SG_BASE_URL}/browse?search_term=${query}`;
-    const response = await lastValueFrom(this.httpService.get(url));
+    const response = await lastValueFrom(
+      this.httpService.get(url, {
+        headers: { "Accept-Encoding": "gzip,deflate,compress" },
+      }),
+    );
     if (!response) {
       throw new ServiceUnavailableException();
     }

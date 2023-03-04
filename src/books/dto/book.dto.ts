@@ -27,4 +27,10 @@ export class BookDto {
    * @example ["Fantasy", "Fiction", "Science Fiction"]
    */
   genres: string[];
+  /**
+   * Thelink to the cover of the book.
+   *
+   * @example "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1462924585i/30165203.jpg"
+   */
+  coverUrl: string;
 }
