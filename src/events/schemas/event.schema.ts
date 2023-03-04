@@ -1,17 +1,12 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose from "mongoose";
 
-import { Book } from "../../books/schemas/book.schema";
+import { BookDocument } from "../../books/schemas/book.schema";
 import { DateRange } from "../dto/date-range.dto";
 import { EventStatus } from "../dto/event-status";
 import { EventType } from "../dto/event-type";
-import { Participant } from "../dto/participant.dto";
 
-const participantSchema = {
-  _id: false,
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  points: Number,
-};
+import { Participant, participantSchema } from "./participant.schema";
 
 /**
  * The class representing an Event in the database.
@@ -30,7 +25,7 @@ export class Event {
    * The book for which the event is happening.
    */
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "Book" })
-  book: Book;
+  book: BookDocument;
   /**
    * A list of channel/thread IDs.
    */
