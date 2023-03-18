@@ -1,4 +1,4 @@
-import { InternalServerErrorException, Logger } from "@nestjs/common";
+import { InternalServerErrorException } from "@nestjs/common";
 import { Cheerio, Element } from "cheerio";
 
 import { AuthorDto } from "../../books/dto/author.dto";
@@ -124,7 +124,6 @@ export class GoodreadsParser extends Parser {
     const title = this.extractText(td.children("a"));
     const authors = this.extractAuthors(td.find("a[class=authorName]"));
     const coverUrl = result.find("img[class=bookCover]").attr("src");
-    Logger.debug(coverUrl);
     return {
       title: title,
       authors: authors,

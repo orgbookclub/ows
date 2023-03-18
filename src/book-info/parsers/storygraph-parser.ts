@@ -1,4 +1,4 @@
-import { InternalServerErrorException, Logger } from "@nestjs/common";
+import { InternalServerErrorException } from "@nestjs/common";
 import { Cheerio, CheerioAPI, Element } from "cheerio";
 
 import { AuthorDto } from "../../books/dto/author.dto";
