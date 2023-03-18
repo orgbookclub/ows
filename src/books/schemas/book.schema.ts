@@ -24,6 +24,9 @@ export class Book extends BookDto {
 
   @Prop([String])
   genres: string[];
+
+  @Prop()
+  coverUrl: string;
 }
 
 /**

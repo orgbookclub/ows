@@ -30,7 +30,7 @@ export class StorygraphParser extends Parser {
    */
   public parseSearchPage(k: number) {
     try {
-      const tableRows = this.soup("div[class=book-title-author-and-series]");
+      const tableRows = this.soup("div .book-pane-content");
       return this.extractBooksFromRows(tableRows, k);
     } catch {
       throw new InternalServerErrorException();
@@ -90,19 +90,26 @@ export class StorygraphParser extends Parser {
   /**
    * Parses a particular search result to extract the Title, Url, and Authors.
    *
-   * @param result A search result.
+   * @param element A search result.
    * @returns A @see BookDto object.
    */
-  private parseSearchResult(result: Cheerio<Element>): BookDto {
+  private parseSearchResult(element: Cheerio<Element>): BookDto {
+    const result = this.soup(element.find("div .book-title-author-and-series"));
     const td = result.find("h3 > a");
     const url = this.extractUrl(td);
     const title = this.extractText(td);
     const authors = this.extractAuthors(result.find("p").last().find("a"));
+    const coverUrl = element
+      .find("div .book-cover")
+      .find("img")
+      .last()
+      .attr("src");
     return {
       title: title,
       authors: authors,
       url: url,
       genres: [],
+      coverUrl: coverUrl,
     };
   }
 

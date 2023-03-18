@@ -1,7 +1,7 @@
 import { DateRange } from "./date-range.dto";
 import { EventStatus } from "./event-status";
 import { EventType } from "./event-type";
-import { Participant } from "./participant.dto";
+import { ParticipantDto } from "./participant.dto";
 
 /**
  * Dto object which stores info for an event.
@@ -40,19 +40,19 @@ export class EventDto {
   /**
    * The participant who requested the event.
    */
-  requestedBy: Participant;
+  requestedBy: ParticipantDto;
   /**
    * A list of participants who show interest in the event.
    */
-  interested: Participant[];
+  interested: ParticipantDto[];
   /**
    * The participants who read the book in the event duration.
    */
-  readers: Participant[];
+  readers: ParticipantDto[];
   /**
    * The participants who lead the discussion for the event.
    */
-  leaders: Participant[];
+  leaders: ParticipantDto[];
   /**
    * The description of the event.
    */
