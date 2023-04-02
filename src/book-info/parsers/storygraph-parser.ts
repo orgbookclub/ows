@@ -1,4 +1,4 @@
-import { InternalServerErrorException } from "@nestjs/common";
+import { InternalServerErrorException, Logger } from "@nestjs/common";
 import { Cheerio, CheerioAPI, Element } from "cheerio";
 
 import { AuthorDto } from "../../books/dto/author.dto";
@@ -30,9 +30,11 @@ export class StorygraphParser extends Parser {
    */
   public parseSearchPage(k: number) {
     try {
-      const tableRows = this.soup("div .book-pane-content");
+      const tableRows = this.soup(
+        "div[class='book-pane-content grid grid-cols-10']",
+      );
       return this.extractBooksFromRows(tableRows, k);
-    } catch {
+    } catch (err) {
       throw new InternalServerErrorException();
     }
   }
@@ -66,7 +68,7 @@ export class StorygraphParser extends Parser {
         description: description,
         genres: genres,
       };
-    } catch {
+    } catch (err) {
       throw new InternalServerErrorException();
     }
   }
@@ -94,23 +96,29 @@ export class StorygraphParser extends Parser {
    * @returns A @see BookDto object.
    */
   private parseSearchResult(element: Cheerio<Element>): BookDto {
-    const result = this.soup(element.find("div .book-title-author-and-series"));
-    const td = result.find("h3 > a");
-    const url = this.extractUrl(td);
-    const title = this.extractText(td);
-    const authors = this.extractAuthors(result.find("p").last().find("a"));
-    const coverUrl = element
-      .find("div .book-cover")
-      .find("img")
-      .last()
-      .attr("src");
-    return {
-      title: title,
-      authors: authors,
-      url: url,
-      genres: [],
-      coverUrl: coverUrl,
-    };
+    try {
+      const result = this.soup(
+        element.find("div .book-title-author-and-series"),
+      );
+      const td = result.find("h3 > a");
+      const url = this.extractUrl(td);
+      const title = this.extractText(td);
+      const authors = this.extractAuthors(result.find("p").last().find("a"));
+      const coverUrl = element
+        .find("div .book-cover")
+        .find("img")
+        .last()
+        .attr("src");
+      return {
+        title: title,
+        authors: authors,
+        url: url,
+        genres: [],
+        coverUrl: coverUrl,
+      };
+    } catch (error) {
+      Logger.error(error);
+    }
   }
 
   /**

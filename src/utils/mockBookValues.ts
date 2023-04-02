@@ -163,7 +163,7 @@ export const mockSearchResultsFromSG = [
     ],
     url: "https://app.thestorygraph.com/books/9fd55617-3c71-458c-ad60-2d963964c351",
     genres: [],
-    coverUrl: "https://images.thestorygraph.com/yb51m9d8kpr0i3rga9u7yxb4qvzu",
+    coverUrl: "https://cdn.thestorygraph.com/yb51m9d8kpr0i3rga9u7yxb4qvzu",
   },
   {
     title: "Anansi Boys",
@@ -173,9 +173,9 @@ export const mockSearchResultsFromSG = [
         url: "https://app.thestorygraph.com/authors/df7894b6-3d99-4dfd-b694-85b5cd4bd97c",
       },
     ],
-    url: "https://app.thestorygraph.com/books/9d48c469-4f4e-4f2b-861b-d03530c3bb66",
+    url: "https://app.thestorygraph.com/books/33e95ac7-7df8-4157-8ea1-14a885002179",
     genres: [],
-    coverUrl: "https://images.thestorygraph.com/3cjv5mjgxw9q22hky0bt2k3bi8hn",
+    coverUrl: "https://cdn.thestorygraph.com/r58q98bcirc2es9i8o13eeu9u812",
   },
   {
     title: "Filthy Gods",
@@ -187,7 +187,7 @@ export const mockSearchResultsFromSG = [
     ],
     url: "https://app.thestorygraph.com/books/791ecbd8-9049-42be-a9c7-5213fa4e5c31",
     genres: [],
-    coverUrl: "https://images.thestorygraph.com/5ojfg9hztunqhoja90b607rpaest",
+    coverUrl: "https://cdn.thestorygraph.com/5ojfg9hztunqhoja90b607rpaest",
   },
   {
     title: "The Monarch of the Glen",
@@ -199,7 +199,7 @@ export const mockSearchResultsFromSG = [
     ],
     url: "https://app.thestorygraph.com/books/227161ba-1521-48ec-98ac-4c0e150b596b",
     genres: [],
-    coverUrl: "https://images.thestorygraph.com/t9ouflib4r0s5ackmzza6k0u6r0q",
+    coverUrl: "https://cdn.thestorygraph.com/t9ouflib4r0s5ackmzza6k0u6r0q",
   },
   {
     title: "Rich Boys Don't Have Hearts",
@@ -211,7 +211,8 @@ export const mockSearchResultsFromSG = [
     ],
     url: "https://app.thestorygraph.com/books/8df1aab8-7c45-4c36-9d5f-e35279ae5915",
     genres: [],
-    coverUrl: "https://images.thestorygraph.com/zt6dan7ie0hgkdz1pdxyouk1zqf5",
+    coverUrl:
+      "https://assets.thestorygraph.com/assets/placeholder-cover-2a45d917f8f8061888e77f7aae688f59aacb0ece1262c264eaa3ca9f1dfd07e8.jpg",
   },
 ];
 export const mockBookResultFromSG = {
