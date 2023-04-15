@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@nestjs/axios": "^2.0.0",
-    "@nestjs/common": "^9.3.12",
+    "@nestjs/common": "^9.4.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.3.11",
     "@nestjs/jwt": "^10.0.3",
