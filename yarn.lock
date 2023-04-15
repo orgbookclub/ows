@@ -804,10 +804,10 @@
     path-to-regexp "3.2.0"
     swagger-ui-dist "4.15.5"
 
-"@nestjs/testing@^9.3.11":
-  version "9.3.11"
-  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-9.3.11.tgz#3c4171a9187ca35510cfa58d4818d6c1fa4aef0d"
-  integrity sha512-8xSxrpQFW0Z9ABJz0r8J+zZwBZQ1I4Yn880ye3iS863s1tLCS7ARUeuCiD3eQ6imIGt3+oPUzwGQIrbrQopLcw==
+"@nestjs/testing@^9.4.0":
+  version "9.4.0"
+  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-9.4.0.tgz#1e5d1e799413e996c9c2da02a89dfefa62c3b70e"
+  integrity sha512-xZWp363P4otcebg++gSjUcdCfTK0RorORzyFq3aLaSAQOlq8kxfFDRIKzEATR4aOUfqTMMsAA8lhnMJWf35N6A==
   dependencies:
     tslib "2.5.0"
 
