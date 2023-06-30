@@ -1,0 +1,13 @@
+name: OWS Deploy to Railway
+on: 
+  workflow_dispatch: 
+
+jobs: 
+  deploy:
+    name: Deploy to Railway
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        uses: devtomio/action-railway@v1.1.4
+        with:
+          railway_token: ${{ secrets.OWS_DEV_RAILWAY_TOKEN }}
