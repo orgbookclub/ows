@@ -1,0 +1,16 @@
+name: OWS Deploy to Railway
+on: 
+  workflow_dispatch: 
+
+jobs: 
+  deploy:
+    name: Deploy to Railway
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Deploy
+        uses: bervProject/railway-deploy@main
+        with:
+          railway_token: ${{ secrets.OWS_DEV_RAILWAY_TOKEN }}
+          service: "ows"
+          detach: true
