@@ -12,7 +12,6 @@ ENV GREGG_CLIENT_SECRET=$GREGG_CLIENT_SECRET
 WORKDIR /ows
 COPY package*.json ./
 COPY . .
-RUN npm install -g yarn
 RUN yarn install
 RUN yarn run build
 EXPOSE 8080
