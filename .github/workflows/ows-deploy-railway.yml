@@ -13,3 +13,4 @@ jobs:
         with:
           railway_token: ${{ secrets.OWS_DEV_RAILWAY_TOKEN }}
           service: "ows"
+          detach: true
