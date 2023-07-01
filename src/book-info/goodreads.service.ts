@@ -17,6 +17,9 @@ import { GoodreadsParser } from "./parsers/goodreads-parser";
  */
 @Injectable()
 export class GoodreadsService {
+  public GR_BASE_URLS = ["https://www.goodreads.com", "https://goodreads.com"];
+  private parser = GoodreadsParser;
+
   /**
    * Creates an instance of @see GoodreadsService .
    *
@@ -25,8 +28,6 @@ export class GoodreadsService {
   constructor(private httpService: HttpService) {
     Logger.debug("Initialized GoodreadsService");
   }
-  public GR_BASE_URLS = ["https://www.goodreads.com", "https://goodreads.com"];
-  private parser = GoodreadsParser;
 
   /**
    * For searching books from Goodreads.

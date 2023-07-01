@@ -7,6 +7,7 @@ class QuestionAnswerDto {
    * @example "Plot- or character-driven?"
    */
   question: string;
+
   /**
    * The answer for the question on the book page.
    *
@@ -25,40 +26,47 @@ export class StorygraphBookDto extends BookDto {
    * @example "American Gods #1"
    */
   series: string;
+
   /**
    * The SG link to the cover of the book.
    *
    * @example "https://cdn.thestorygraph.com/yb51m9d8kpr0i3rga9u7yxb4qvzu"
    */
   coverUrl: string;
+
   /**
    * The average rating of the book.
    *
    * @example 4.11
    */
   avgRating: number;
+
   /**
    * The trigger warnings for the book.
    *
    * @example "Graphic - Death, Sexual content, Violence\n Moderate - Child death, Racial slurs, Slavery\n Minor - Car accident"
    */
   warnings: string;
+
   /**
    * The moods for the book.
    *
    * @example ["adventurous (83%)", "mysterious (73%)", "dark(66%)"]
    */
   moods: string[];
+
   /**
    * The paces for the book.
    *
    * @example ["slow (51%)", "medium (42%)", "fast (5%)"]
    */
   pace: string[];
+
   /**
    * The set of question answer pairs for the book.
    */
   quesAns: QuestionAnswerDto[];
+
   /**
    * The description or blurb of the book.
    *

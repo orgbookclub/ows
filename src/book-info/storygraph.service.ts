@@ -17,6 +17,9 @@ import { StorygraphParser } from "../book-info/parsers/storygraph-parser";
  */
 @Injectable()
 export class StorygraphService {
+  public SG_BASE_URL = "https://app.thestorygraph.com";
+  private parser = StorygraphParser;
+
   /**
    * Creates an instance of @see StorygraphService .
    *
@@ -25,8 +28,6 @@ export class StorygraphService {
   constructor(private httpService: HttpService) {
     Logger.debug("Initialized StorygraphService");
   }
-  public SG_BASE_URL = "https://app.thestorygraph.com";
-  private parser = StorygraphParser;
 
   /**
    * For searching books from Storygraph.

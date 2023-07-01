@@ -4,7 +4,14 @@ import { load, CheerioAPI, Cheerio, Element } from "cheerio";
  * A Parser class, extended by @see GoodreadsParser and @see StorygraphParser.
  */
 export class Parser {
+  /**
+   * The URL of the page to parse.
+   */
   url: string;
+
+  /**
+   * The CheerioAPI object, named as soup due to legacy reasons from moving over from BeautifulSoup.
+   */
   soup: CheerioAPI;
 
   /**
