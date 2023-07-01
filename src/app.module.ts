@@ -9,6 +9,7 @@ import { EventsModule } from "./events/events.module";
 import { MigrationsModule } from "./migrations/migrations.module";
 import { ReviewsModule } from "./reviews/reviews.module";
 import { UsersModule } from "./users/users.module";
+import { HealthModule } from "./health/health.module";
 
 /**
  *
@@ -32,6 +33,7 @@ import { UsersModule } from "./users/users.module";
     ReviewsModule,
     AuthModule,
     MigrationsModule,
+    HealthModule,
   ],
   controllers: [],
   providers: [],
