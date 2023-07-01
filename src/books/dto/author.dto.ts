@@ -8,6 +8,7 @@ export class AuthorDto {
    * @example "Neil Gaiman"
    */
   name: string;
+
   /**
    * The GR/SG link to that author's page.
    *
