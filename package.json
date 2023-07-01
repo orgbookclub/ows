@@ -1,10 +1,19 @@
 {
   "name": "ows",
+  "author": "ravsodhi",
   "version": "0.1.1",
   "description": "Web Server",
-  "author": "",
+  "main": "./dist/src/main.js",
   "private": true,
   "license": "UNLICENSED",
+  "keywords": [
+    "nestjs",
+    "orgbookclub"
+  ],
+  "repository": "https://github.com/orgbookclub/ows",
+  "bugs": {
+    "url": "https://github.com/orgbookclub/ows/issues"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
