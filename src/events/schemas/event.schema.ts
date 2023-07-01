@@ -26,11 +26,13 @@ export class Event {
    */
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "Book" })
   book: BookDocument;
+
   /**
    * A list of channel/thread IDs.
    */
   @Prop({ type: [{ type: String }] })
   threads: string[];
+
   /**
    * The status of the event.
    *
@@ -43,6 +45,7 @@ export class Event {
     default: EventStatus.Requested,
   })
   status: EventStatus;
+
   /**
    * The type of the event.
    *
@@ -55,11 +58,13 @@ export class Event {
     default: EventType.BuddyRead,
   })
   type: EventType;
+
   /**
    * The dates for the event.
    */
   @Prop(DateRange)
   dates: DateRange;
+
   /**
    * The participant who requested the event.
    */
@@ -67,6 +72,7 @@ export class Event {
     type: participantSchema,
   })
   requestedBy: Participant;
+
   /**
    * A list of participants who show interest in the event.
    */
@@ -74,6 +80,7 @@ export class Event {
     type: [participantSchema],
   })
   interested: Participant[];
+
   /**
    * The participants who read the book in the event duration.
    */
@@ -81,6 +88,7 @@ export class Event {
     type: [participantSchema],
   })
   readers: Participant[];
+
   /**
    * The participants who lead the discussion for the event.
    */
@@ -88,6 +96,7 @@ export class Event {
     type: [participantSchema],
   })
   leaders: Participant[];
+
   /**
    * The description of the event.
    */
