@@ -21,10 +21,11 @@ export class AuthController {
   constructor(private authService: AuthService) {
     Logger.debug("Initialized AuthController");
   }
+
   /**
    * Gets an access token, using the client credentials flow.
    *
-   * @param req The request object.
+   * @param request The request object.
    * @returns Json object containing the token.
    */
   @SkipAuth()
@@ -34,7 +35,7 @@ export class AuthController {
     type: ClientCredentialsDto,
   })
   @ApiOkResponse({ type: AccessTokenDto })
-  async getAccessToken(@Request() req) {
-    return await this.authService.getAccessToken(req.user);
+  async getAccessToken(@Request() request) {
+    return await this.authService.getAccessToken(request.user);
   }
 }

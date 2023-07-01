@@ -1,9 +1,15 @@
-import { ExecutionContext, Injectable, SetMetadata } from "@nestjs/common";
+import {
+  ExecutionContext,
+  Injectable,
+  Logger,
+  SetMetadata,
+} from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { Reflector } from "@nestjs/core";
 import { AuthGuard } from "@nestjs/passport";
 
-export const SKIP_AUTH = "skipAuth";
+const SKIP_AUTH = "skipAuth";
+
 /**
  * A custom decorator for skipping JWT authentication flow.
  *
@@ -27,6 +33,7 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
     private reflector: Reflector,
   ) {
     super();
+    Logger.debug("Initialized JwtAuthGuard");
   }
 
   /**
