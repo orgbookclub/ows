@@ -20,6 +20,7 @@ export class StorygraphParser extends Parser {
    */
   constructor(url: string, body: string) {
     super(url, body);
+    Logger.debug("Initalized StorygraphParser");
   }
 
   /**
@@ -117,7 +118,7 @@ export class StorygraphParser extends Parser {
         coverUrl: coverUrl,
       };
     } catch (error) {
-      Logger.error(error);
+      throw new InternalServerErrorException();
     }
   }
 

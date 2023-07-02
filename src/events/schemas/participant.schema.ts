@@ -16,6 +16,7 @@ export class Participant {
    * The user object.
    */
   user: UserDocument;
+
   /**
    * The number of points to be assigned to the particpant.
    */

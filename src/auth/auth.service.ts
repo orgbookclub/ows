@@ -25,7 +25,7 @@ export class AuthService {
    *
    * @param clientId The client ID.
    * @param clientSecret The client secret.
-   * @returns Valid clientID or null.
+   * @returns Valid clientID or undefined.
    */
   public async validateClient(clientId: string, clientSecret: string) {
     try {
@@ -35,7 +35,7 @@ export class AuthService {
       ) {
         return clientId;
       }
-      return null;
+      return undefined;
     } catch (err) {
       Logger.error(`Error getting access token: ${err}`);
     }

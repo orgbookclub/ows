@@ -19,7 +19,7 @@ export class ClientPasswordStrategy extends PassportStrategy(Strategy) {
   }
 
   /**
-   *
+   * Calls auth service to validate the client ID and secret.
    *
    * @param clientId The client ID.
    * @param clientSecret The client secret.

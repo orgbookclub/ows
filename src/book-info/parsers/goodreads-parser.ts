@@ -1,4 +1,4 @@
-import { InternalServerErrorException } from "@nestjs/common";
+import { InternalServerErrorException, Logger } from "@nestjs/common";
 import { Cheerio, Element } from "cheerio";
 
 import { AuthorDto } from "../../books/dto/author.dto";
@@ -20,6 +20,7 @@ export class GoodreadsParser extends Parser {
    */
   constructor(url: string, body: string) {
     super(url, body);
+    Logger.debug("Initalized GoodreadsParser");
   }
 
   /**
@@ -74,6 +75,7 @@ export class GoodreadsParser extends Parser {
       const genres = this.extractGenres(
         this.soup("div[data-testid=genresList]"),
       );
+
       return {
         title: titleText,
         url: this.url,

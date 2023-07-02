@@ -6,6 +6,7 @@ import { AuthModule } from "./auth/auth.module";
 import { BookInfoModule } from "./book-info/book-info.module";
 import { BooksModule } from "./books/books.module";
 import { EventsModule } from "./events/events.module";
+import { HealthModule } from "./health/health.module";
 import { MigrationsModule } from "./migrations/migrations.module";
 import { ReviewsModule } from "./reviews/reviews.module";
 import { UsersModule } from "./users/users.module";
@@ -32,6 +33,7 @@ import { UsersModule } from "./users/users.module";
     ReviewsModule,
     AuthModule,
     MigrationsModule,
+    HealthModule,
   ],
   controllers: [],
   providers: [],
