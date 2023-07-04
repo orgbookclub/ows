@@ -81,9 +81,15 @@ export class EventRepository extends BaseRepository<EventDocument> {
    * @returns The result document (after update).
    */
   async update(id: string, updateDto: UpdateEventDto) {
-    return await this.eventModel.findByIdAndUpdate(id, updateDto, {
-      returnDocument: "after",
-    });
+    return await this.eventModel
+      .findByIdAndUpdate(id, updateDto, {
+        returnDocument: "after",
+      })
+      .populate("book")
+      .populate("requestedBy.user")
+      .populate("readers.user")
+      .populate("leaders.user")
+      .populate("interested.user");
   }
 
   /**
