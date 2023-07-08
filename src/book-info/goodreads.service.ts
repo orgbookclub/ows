@@ -62,7 +62,11 @@ export class GoodreadsService {
       throw new ServiceUnavailableException();
     }
     const parser = new this.parser(url, response.data);
-    return parser.parseBookPage();
+    const book = parser.parseBookPage();
+    if (book.title === undefined || book.title === "") {
+      throw new ServiceUnavailableException("Goodreads problems :/");
+    }
+    return book;
   }
 
   /**
