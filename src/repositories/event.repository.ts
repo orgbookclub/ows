@@ -66,6 +66,7 @@ export class EventRepository extends BaseRepository<EventDocument> {
   async find(query: any) {
     return await this.eventModel
       .find(query)
+      .sort({ "dates.startDate": -1, "dates.endDate": -1 })
       .populate("book")
       .populate("requestedBy.user")
       .populate("readers.user")
