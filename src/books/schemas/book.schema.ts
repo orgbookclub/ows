@@ -36,4 +36,8 @@ export class BookDocument extends Book {
   _id: string;
 }
 
-export const BookSchema = SchemaFactory.createForClass(Book);
+export const BookSchema = SchemaFactory.createForClass(Book).index({
+  title: "text",
+  genres: "text",
+  authors: "text",
+});
