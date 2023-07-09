@@ -1,9 +1,9 @@
 {
   "name": "ows",
   "author": "ravsodhi",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "Web Server",
-  "main": "./dist/src/main.js",
+  "main": "./dist/main.js",
   "private": true,
   "license": "UNLICENSED",
   "keywords": [
@@ -18,7 +18,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "node dist/src/main",
+    "start": "node dist/main",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --max-warnings 0",
