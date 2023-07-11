@@ -28,6 +28,7 @@ export class UsersService {
    * Creates a user from the given Dto object.
    *
    * @param createUserDto The Dto object.
+   * @returns The created user.
    */
   async create(createUserDto: CreateUserDto) {
     const user = await this.findOneByUserId(createUserDto.userId);
@@ -39,6 +40,8 @@ export class UsersService {
 
   /**
    * Gets all user documents from the database.
+   *
+   * @returns A list of users.
    */
   async findAll() {
     return await this.repository.getAll();
@@ -48,6 +51,7 @@ export class UsersService {
    * Gets a user from the user Id.
    *
    * @param userId The user ID of the user. NOT the Object ID.
+   * @returns The user.
    */
   async findOneByUserId(userId: string) {
     const users = await this.repository.find({ userId: userId });
@@ -64,6 +68,7 @@ export class UsersService {
    * Gets a user from the Id.
    *
    * @param id The Object ID.
+   * @returns The user.
    */
   async findOne(id: string) {
     const users = await this.repository.find({ _id: id });
@@ -81,6 +86,7 @@ export class UsersService {
    *
    * @param id The object ID.
    * @param updateUserDto The dto object.
+   * @returns The updated user.
    */
   async update(id: string, updateUserDto: UpdateUserDto) {
     return await this.repository.update(id, updateUserDto);
@@ -90,6 +96,7 @@ export class UsersService {
    * Deletes a user with the given Id.
    *
    * @param id The object ID.
+   * @returns True if the delete operation has succeeded.
    */
   async remove(id: string) {
     await this.repository.delete(id);

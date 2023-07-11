@@ -74,6 +74,7 @@ export class GoodreadsService {
    *
    * @param k The maximum number of results.
    * @param query The query string.
+   * @returns A list of quotes.
    */
   async getQuotes(k: number, query?: string) {
     let url = `${this.GR_BASE_URLS[0]}/quotes`;

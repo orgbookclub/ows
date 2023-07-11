@@ -99,6 +99,6 @@ export class EventRepository extends BaseRepository<EventDocument> {
    * @param id The object ID of the doc.
    */
   async delete(id: string) {
-    return await this.eventModel.findByIdAndRemove(id);
+    await this.eventModel.findByIdAndRemove(id);
   }
 }
