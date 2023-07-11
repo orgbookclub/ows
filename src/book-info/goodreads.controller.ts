@@ -68,7 +68,8 @@ export class GoodreadsController {
    */
   @Get("quotes")
   @ApiOkResponse({ type: [String] })
-  async getQuotes(@Query("k") k = 5, @Query("q") query?: string) {
+  async getQuotes(@Query("k") k: number, @Query("q") query?: string) {
+    if (query === "") query = undefined;
     return await this.goodreadsService.getQuotes(k, query);
   }
 }

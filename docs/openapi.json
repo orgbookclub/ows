@@ -71,6 +71,12 @@
         "description": "Searches quotes from Goodreads.",
         "parameters": [
           {
+            "name": "k",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "number" }
+          },
+          {
             "name": "q",
             "required": true,
             "in": "query",
@@ -853,7 +859,7 @@
   "info": {
     "title": "OWS",
     "description": "API description for the Organized Web Server",
-    "version": "1.0.0",
+    "version": "0.3.0",
     "contact": {}
   },
   "tags": [],

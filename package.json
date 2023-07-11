@@ -1,7 +1,7 @@
 {
   "name": "ows",
   "author": "ravsodhi",
-  "version": "1.0.0",
+  "version": "0.3.0",
   "description": "Web Server",
   "main": "./dist/main.js",
   "private": true,
