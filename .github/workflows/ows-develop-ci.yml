@@ -1,10 +1,10 @@
-name: OWS CI
+name: CI
 
 on:
   push:
-    branches: [ develop ]
+    branches: [develop]
   pull_request:
-    branches: [ develop ]
+    branches: [develop]
   workflow_dispatch:
 
 jobs:
@@ -19,14 +19,14 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
+          node-version: "18.x"
 
       - name: Install dependencies
         run: yarn
-      
+
       - name: Lint Source Files
         run: yarn lint
-        
+
       - name: Verify Build
         run: yarn build
 

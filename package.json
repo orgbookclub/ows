@@ -1,9 +1,9 @@
 {
   "name": "ows",
   "author": "ravsodhi",
-  "version": "0.2.1",
+  "version": "0.3.1",
   "description": "Web Server",
-  "main": "./dist/src/main.js",
+  "main": "./dist/main.js",
   "private": true,
   "license": "UNLICENSED",
   "keywords": [
@@ -18,10 +18,11 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "node dist/src/main",
+    "start": "node dist/main",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --max-warnings 0",
+    "lint:fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --max-warnings 0 --fix",
     "openapi:generate": "rimraf client && openapi-generator-cli generate --generator-key v0.1.0",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -61,14 +62,15 @@
     "@openapitools/openapi-generator-cli": "^2.5.2",
     "@types/express": "^4.17.15",
     "@types/jest": "29.5.0",
-    "@types/node": "^20.3.3",
     "@types/jsonwebtoken": "^9.0.2",
+    "@types/node": "^20.3.3",
     "@types/passport-http": "^0.3.9",
     "@types/passport-jwt": "^3.0.7",
     "@types/passport-oauth2-client-password": "^0.1.2",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.7",
+    "docsify-cli": "^4.4.4",
     "dotenv": "^16.0.3",
     "eslint": "^8.30.0",
     "eslint-config-prettier": "^8.8.0",
@@ -103,5 +105,9 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "engines": {
+    "node": ">=18.0.0 < 19.0.0",
+    "yarn": ">=1.2.0 < 2.0.0"
   }
 }
