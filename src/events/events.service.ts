@@ -32,6 +32,7 @@ export class EventsService {
    * Creates an event from the Dto object.
    *
    * @param createEventDto The dto object.
+   * @returns The created event.
    */
   async create(createEventDto: CreateEventDto) {
     return await this.repository.create(createEventDto);
@@ -42,6 +43,7 @@ export class EventsService {
    *
    * @param url A valid GR or SG URL.
    * @param createEventDto The Dto object.
+   * @returns The created event.
    */
   async createFromUrl(url: string, createEventDto: CreateEventDto) {
     let book: BookDocument;
@@ -55,6 +57,7 @@ export class EventsService {
    * Gets all event documents from the database which satisfy the filter conditions.
    *
    * @param filter Filter.
+   * @returns A list of events.
    */
   async findMany(filter: EventFilter) {
     const query: FilterQuery<Event> = await this.getFilterQuery(filter);
@@ -65,6 +68,7 @@ export class EventsService {
    * Gets the event document with the given ID from the database.
    *
    * @param id The object ID of the document.
+   * @returns The event.
    */
   async findOne(id: string) {
     return await this.repository.get(id);
@@ -75,6 +79,7 @@ export class EventsService {
    *
    * @param id The object ID.
    * @param updateEventDto The dto object.
+   * @returns The updated event.
    */
   async update(id: string, updateEventDto: UpdateEventDto) {
     return await this.repository.update(id, updateEventDto);
@@ -84,6 +89,7 @@ export class EventsService {
    * Deletes the event document from the DB.
    *
    * @param id The object ID of the event document to remove.
+   * @returns True if the delete operation has succeeded.
    */
   async remove(id: string) {
     await this.repository.delete(id);

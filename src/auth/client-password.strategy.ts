@@ -23,6 +23,7 @@ export class ClientPasswordStrategy extends PassportStrategy(Strategy) {
    *
    * @param clientId The client ID.
    * @param clientSecret The client secret.
+   * @returns The valid client ID.
    */
   async validate(clientId: string, clientSecret: string) {
     const client = this.authService.validateClient(clientId, clientSecret);

@@ -80,6 +80,7 @@ export class UserRepository extends BaseRepository<UserDocument> {
    * @param id The object ID of the doc.
    */
   async delete(id: string) {
-    return await this.userModel.findByIdAndRemove(id);
+    await this.userModel.findByIdAndRemove(id);
+    return;
   }
 }

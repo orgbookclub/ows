@@ -80,6 +80,7 @@ export class BookRepository extends BaseRepository<BookDocument> {
    * @param id The object ID of the doc.
    */
   async delete(id: string) {
-    return await this.bookModel.findByIdAndRemove(id);
+    await this.bookModel.findByIdAndRemove(id);
+    return;
   }
 }

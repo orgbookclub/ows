@@ -24,10 +24,12 @@ export class MigrationsController {
 
   /**
    * Migrates all events from older schema to newer one.
+   *
    */
   @Get("/all")
   async migrateAllEvents() {
-    return await this.migrationsService.migrateAllEvents();
+    await this.migrationsService.migrateAllEvents();
+    return;
   }
 
   /**
@@ -37,6 +39,7 @@ export class MigrationsController {
    */
   @Post()
   async migrateEvent(@Body() oldEventDoc: EventDto) {
-    return await this.migrationsService.migrateEvent(oldEventDoc);
+    await this.migrationsService.migrateEvent(oldEventDoc);
+    return;
   }
 }
