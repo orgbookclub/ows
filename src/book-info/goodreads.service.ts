@@ -77,7 +77,7 @@ export class GoodreadsService {
    */
   async getQuotes(k: number, query?: string) {
     let url = `${this.GR_BASE_URLS[0]}/quotes`;
-    if (query) {
+    if (query && query !== "") {
       url = url + `/search?q=${query}`;
     }
     const response = await lastValueFrom(this.httpService.get(url));
