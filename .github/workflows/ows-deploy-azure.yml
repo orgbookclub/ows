@@ -5,10 +5,8 @@ name: Deploy to Azure (Dev)
 
 on:
   push:
-    branches: first-release
+    branches: develop
   workflow_dispatch:
-  release:
-    types: [published]
 
 env:
   AZURE_APIAPP_NAME: ows-dev # set this to your application's name

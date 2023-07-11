@@ -4,9 +4,9 @@
 name: Publish @orgbookclub/ows-client Github Package
 
 on:
+  push:
+    branches: develop
   workflow_dispatch:
-  release:
-    types: [published]
 
 jobs:
   build-and-publish-gpr:
