@@ -22,6 +22,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --max-warnings 0",
+    "lint:fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --max-warnings 0 --fix",
     "openapi:generate": "rimraf client && openapi-generator-cli generate --generator-key v0.1.0",
     "test": "jest",
     "test:watch": "jest --watch",
