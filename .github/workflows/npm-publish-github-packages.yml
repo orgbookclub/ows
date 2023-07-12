@@ -7,7 +7,7 @@ on:
   push:
     branches: develop
     paths:
-      - 'package.json'
+      - "package.json"
   workflow_dispatch:
 
 jobs:
