@@ -56,7 +56,7 @@
     "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {
-    "@nestjs/cli": "^9.3.0",
+    "@nestjs/cli": "^10.1.11",
     "@nestjs/schematics": "^10.0.1",
     "@nestjs/testing": "^9.4.0",
     "@openapitools/openapi-generator-cli": "^2.5.2",
