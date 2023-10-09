@@ -39,7 +39,7 @@
     "@nestjs/mongoose": "^10.0.0",
     "@nestjs/passport": "^10.0.0",
     "@nestjs/platform-express": "^9.4.3",
-    "@nestjs/swagger": "^6.3.0",
+    "@nestjs/swagger": "^7.1.13",
     "@sentry/node": "^7.46.0",
     "@sentry/tracing": "^7.57.0",
     "axios": "^1.4.0",
