@@ -24,8 +24,8 @@ on:
   workflow_dispatch:
 
 concurrency:
-      group: ${{ github.workflow }}
-      cancel-in-progress: true
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
 
 env:
   AZURE_APIAPP_NAME: ows # set this to your application's name
