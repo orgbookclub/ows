@@ -42,7 +42,7 @@
     "@nestjs/swagger": "^7.1.13",
     "@sentry/node": "^7.46.0",
     "@sentry/tracing": "^7.57.0",
-    "axios": "^1.4.0",
+    "axios": "^1.6.0",
     "cheerio": "^1.0.0-rc.12",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.1",
