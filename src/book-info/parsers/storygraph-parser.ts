@@ -101,7 +101,7 @@ export class StorygraphParser extends Parser {
       const result = this.soup(
         element.find("div .book-title-author-and-series"),
       );
-      const td = result.find("h3 > a");
+      const td = result.find("h1 > a");
       const url = this.extractUrl(td);
       const title = this.extractText(td);
       const authors = this.extractAuthors(result.find("p").last().find("a"));
