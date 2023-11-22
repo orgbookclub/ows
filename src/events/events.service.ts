@@ -1,4 +1,5 @@
 import { Injectable, Logger } from "@nestjs/common";
+import { Cron, CronExpression } from "@nestjs/schedule";
 import { FilterQuery } from "mongoose";
 
 import { BooksService } from "../books/books.service";
@@ -7,6 +8,8 @@ import { EventRepository } from "../repositories/event.repository";
 
 import { CreateEventDto } from "./dto/create-event.dto";
 import { EventFilter } from "./dto/event-filter.dto";
+import { EventStatus } from "./dto/event-status";
+import { EventType } from "./dto/event-type";
 import { UpdateEventDto } from "./dto/update-event.dto";
 import { Event } from "./schemas/event.schema";
 
@@ -97,6 +100,137 @@ export class EventsService {
   }
 
   /**
+   * Approves requested BRs which start within a period of 10 days from now,
+   * and have reached the minimum participant count.
+   *
+   * @param minParticipantCount The minimum participant count.
+   */
+  @Cron(CronExpression.EVERY_DAY_AT_11PM)
+  async approveValidRequestedBRs(minParticipantCount = 10) {
+    try {
+      const now = new Date(Date.now());
+      const nowPlus10Days = new Date(Date.now() + 10 * 24 * 3600 * 1000);
+
+      const requestedEventsQuery: FilterQuery<Event> = {
+        status: EventStatus.Requested,
+        type: EventType.BuddyRead,
+        "dates.startDate": {
+          $gte: now.toISOString(),
+          $lte: nowPlus10Days.toISOString(),
+        },
+        interested: { $exists: true },
+        leaders: { $exists: true },
+      };
+      const requestedBRs = await this.repository.find(requestedEventsQuery);
+      Logger.debug(
+        `Found ${requestedBRs.length} potential valid BRs to approve`,
+      );
+
+      requestedBRs.forEach(async (eventDoc) => {
+        if (
+          eventDoc.interested.length >= minParticipantCount &&
+          eventDoc.leaders.length > 0
+        ) {
+          Logger.log(`Approving event request ${eventDoc.id}`);
+          await this.repository.update(eventDoc.id, {
+            status: EventStatus.Approved,
+          });
+        }
+      });
+    } catch (error) {
+      Logger.error(`${this.approveValidRequestedBRs.name} job failed!`);
+    }
+  }
+
+  /**
+   * Rejects requested BRs whose start date has passed,
+   * and have not reached the minimum participant count.
+   *
+   * @param minParticipantCount The minimum participant count.
+   */
+  @Cron(CronExpression.EVERY_DAY_AT_1AM)
+  async rejectInvalidRequestedBRs(minParticipantCount = 10) {
+    try {
+      const now = new Date(Date.now());
+      const requestedEventsQuery: FilterQuery<Event> = {
+        status: EventStatus.Requested,
+        type: EventType.BuddyRead,
+        "dates.startDate": { $lte: now.toISOString() },
+        interested: { $exists: true },
+        leaders: { $exists: true },
+      };
+
+      const requestedBRs = await this.repository.find(requestedEventsQuery);
+      Logger.debug(
+        `Found ${requestedBRs.length} potential invalid BRs to reject`,
+      );
+
+      requestedBRs.forEach(async (eventDoc) => {
+        if (
+          eventDoc.interested.length < minParticipantCount ||
+          eventDoc.leaders.length === 0
+        ) {
+          Logger.log(`Rejecting event request ${eventDoc.id}`);
+          await this.repository.update(eventDoc.id, {
+            status: EventStatus.Rejected,
+          });
+        }
+      });
+    } catch (error) {
+      Logger.error(`${this.rejectInvalidRequestedBRs.name} job failed!`);
+    }
+  }
+
+  /**
+   * Changes states of announced events to Ongoing if the start date has passed, and end date is yet to come.
+   */
+  @Cron(CronExpression.EVERY_DAY_AT_1AM)
+  async startAnnouncedEvents() {
+    try {
+      const now = new Date(Date.now());
+      const announcedEventsQuery: FilterQuery<Event> = {
+        status: EventStatus.Announced,
+        $and: [
+          { "dates.startDate": { $lte: now.toISOString() } },
+          { "dates.endDate": { $gte: now.toISOString() } },
+        ],
+      };
+      const announcedEvents = await this.repository.find(announcedEventsQuery);
+      announcedEvents.forEach(async (eventDoc) => {
+        Logger.log(`Starting event ${eventDoc.id}`);
+        await this.repository.update(eventDoc.id, {
+          status: EventStatus.Ongoing,
+        });
+      });
+    } catch (error) {
+      Logger.error(`${this.startAnnouncedEvents.name} job failed`);
+    }
+  }
+
+  /**
+   * Changes states of ongoing events to ended if the end date has passed at least 2 days ago.
+   */
+  @Cron(CronExpression.EVERY_DAY_AT_2AM)
+  async endOngoingEvents() {
+    try {
+      const nowMinus2Days = new Date(Date.now() - 2 * 24 * 3600 * 1000);
+      const announcedEventsQuery: FilterQuery<Event> = {
+        status: EventStatus.Ongoing,
+        $and: [{ "dates.endDate": { $lte: nowMinus2Days.toISOString() } }],
+      };
+      const announcedEvents = await this.repository.find(announcedEventsQuery);
+      announcedEvents.forEach(async (eventDoc) => {
+        Logger.log(`Ending event ${eventDoc.id}`);
+        await this.repository.update(eventDoc.id, {
+          status: EventStatus.Completed,
+        });
+      });
+    } catch (error) {
+      Logger.error(`${this.endOngoingEvents.name} job failed`);
+    }
+  }
+
+  /**
    * Converts the filter into a MongoDB compatible format.
    *
    * @param filter The filter from the request.
@@ -120,22 +254,22 @@ export class EventsService {
     filter.type && (query.type = filter.type);
     filter.startDateBefore &&
       (query["dates.startDate"] = {
-        $lte: new Date(filter.startDateBefore),
+        $lte: new Date(filter.startDateBefore).toISOString(),
         ...query["dates.startDate"],
       });
     filter.startDateAfter &&
       (query["dates.startDate"] = {
-        $gte: new Date(filter.startDateAfter),
+        $gte: new Date(filter.startDateAfter).toISOString(),
         ...query["dates.startDate"],
       });
     filter.endDateBefore &&
       (query["dates.endDate"] = {
-        $lte: new Date(filter.endDateBefore),
+        $lte: new Date(filter.endDateBefore).toISOString(),
         ...query["dates.endDate"],
       });
     filter.endDateAfter &&
       (query["dates.endDate"] = {
-        $gte: new Date(filter.endDateAfter),
+        $gte: new Date(filter.endDateAfter).toISOString(),
         ...query["dates.endDate"],
       });
     filter.participantIds &&

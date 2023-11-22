@@ -40,8 +40,6 @@
     "/api/goodreads/book": {
       "get": {
         "operationId": "GoodreadsController_searchAndGetBook",
-        "summary": "",
-        "description": "Searches for, and gets the details of a single book.",
         "parameters": [
           {
             "name": "q",
@@ -859,7 +857,7 @@
   "info": {
     "title": "OWS",
     "description": "API description for the Organized Web Server",
-    "version": "0.3.4",
+    "version": "0.4.0",
     "contact": {}
   },
   "tags": [],
