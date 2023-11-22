@@ -52,7 +52,7 @@ export class GoodreadsController {
    *
    * @param query The query string.
    * @returns The book details.
-   */gi
+   */
   @Get("book")
   @ApiOkResponse({ type: GoodreadsBookDto })
   async searchAndGetBook(@Query("q") query: string) {

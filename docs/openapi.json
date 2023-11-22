@@ -40,6 +40,8 @@
     "/api/goodreads/book": {
       "get": {
         "operationId": "GoodreadsController_searchAndGetBook",
+        "summary": "",
+        "description": "Searches for, and gets the details of a single book.",
         "parameters": [
           {
             "name": "q",
