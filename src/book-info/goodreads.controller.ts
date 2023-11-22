@@ -40,7 +40,11 @@ export class GoodreadsController {
     type: [BookDto],
   })
   async searchBooks(@Query("q") query: string, @Query("k") k: number) {
-    return await this.goodreadsService.searchBooks(query, k);
+    const bookList = await this.goodreadsService.searchBooks(query, k);
+    if (bookList.length === 0) {
+      throw new NotFoundException("Could not find a book by that query");
+    }
+    return bookList;
   }
 
   /**
@@ -48,7 +52,7 @@ export class GoodreadsController {
    *
    * @param query The query string.
    * @returns The book details.
-   */
+   */gi
   @Get("book")
   @ApiOkResponse({ type: GoodreadsBookDto })
   async searchAndGetBook(@Query("q") query: string) {
