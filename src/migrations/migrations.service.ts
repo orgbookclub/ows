@@ -86,15 +86,16 @@ export class MigrationsService {
         readers,
         interested,
       );
-
+      const key = url + startDate.toISOString() + endDate.toISOString();
       const event = {
         _id: doc._id,
-        name: bookDoc.title,
+        name: key,
         book: bookDoc._id,
         threads: [doc.channel_id],
         dates: {
-          startDate: startDate,
-          endDate: endDate,
+          // startDate: startDate.toISOString(),
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
         },
         type: eventType,
         status: eventStatus,
@@ -105,8 +106,8 @@ export class MigrationsService {
         description: "",
       };
       let eventDoc: EventDocument;
-      if (await this.eventsService.findOne(doc._id)) {
-        eventDoc = await this.eventsService.update(doc._id, event);
+      if (await this.eventsService.findOne(doc._id.toString())) {
+        eventDoc = await this.eventsService.update(doc._id.toString(), event);
         Logger.debug(`Updated event: ${JSON.stringify(eventDoc._id)}`);
       } else {
         eventDoc = await this.eventsService.create(event);

@@ -5,10 +5,10 @@ export class DateRange {
   /**
    * The start date of the event.
    */
-  startDate: Date;
+  startDate: Date | string;
 
   /**
    * The end date of the event.
    */
-  endDate: Date;
+  endDate: Date | string;
 }
