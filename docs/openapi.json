@@ -194,7 +194,7 @@
         "security": [{ "bearer": [] }]
       }
     },
-    "/api/books/{url}": {
+    "/api/books/createFromUrl": {
       "post": {
         "operationId": "BooksController_createBookFromUrl",
         "summary": "",
@@ -203,7 +203,7 @@
           {
             "name": "url",
             "required": true,
-            "in": "path",
+            "in": "query",
             "schema": { "type": "string" }
           }
         ],
@@ -412,7 +412,7 @@
         "security": [{ "bearer": [] }]
       }
     },
-    "/api/events/{url}": {
+    "/api/events/createFromUrl": {
       "post": {
         "operationId": "EventsController_createFromUrl",
         "summary": "",
@@ -421,7 +421,7 @@
           {
             "name": "url",
             "required": true,
-            "in": "path",
+            "in": "query",
             "schema": { "type": "string" }
           }
         ],
@@ -859,7 +859,7 @@
   "info": {
     "title": "OWS",
     "description": "API description for the Organized Web Server",
-    "version": "0.5.0",
+    "version": "1.0.0",
     "contact": {}
   },
   "tags": [],

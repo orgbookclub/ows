@@ -53,10 +53,10 @@ export class EventsController {
    * @param createEventDto The Dto object.
    * @returns An event document.
    */
-  @Post(":url")
+  @Post("createFromUrl")
   @ApiOkResponse({ type: EventDocument })
   async createFromUrl(
-    @Param("url") url: string,
+    @Query("url") url: string,
     @Body() createEventDto: CreateEventDto,
   ) {
     return await this.eventsService.createFromUrl(url, createEventDto);

@@ -1,4 +1,4 @@
-import { Body, Controller, Logger, Param, Post } from "@nestjs/common";
+import { Body, Controller, Logger, Post, Query } from "@nestjs/common";
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { BooksService } from "./books.service";
@@ -40,9 +40,9 @@ export class BooksController {
    * @param url A valid Goodreads or Storygraph URL.
    * @returns A Book document.
    */
-  @Post(":url")
+  @Post("createFromUrl")
   @ApiOkResponse({ type: BookDocument })
-  async createBookFromUrl(@Param("url") url: string) {
+  async createBookFromUrl(@Query("url") url: string) {
     return await this.booksService.createBookFromUrl(url);
   }
 }
