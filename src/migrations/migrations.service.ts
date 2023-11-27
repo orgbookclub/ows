@@ -2,7 +2,10 @@ import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { MongoClient } from "mongodb";
 
+import { GoodreadsService } from "../book-info/goodreads.service";
+import { StorygraphService } from "../book-info/storygraph.service";
 import { BooksService } from "../books/books.service";
+import { BookDto } from "../books/dto/book.dto";
 import { EventStatus } from "../events/dto/event-status";
 import { EventType } from "../events/dto/event-type";
 import { ParticipantDto } from "../events/dto/participant.dto";
@@ -26,18 +29,45 @@ export class MigrationsService {
    * @param booksService Service for interacting with @see Book documents in DB.
    * @param usersService Service for interacting with @see User documents in DB.
    * @param eventsService Service for interacting with @see Event documents in DB.
+   * @param goodreadsService Service for Goodreads.
+   * @param storygraphService Service for Storygraph.
    */
   constructor(
     private readonly configService: ConfigService,
     private readonly booksService: BooksService,
     private readonly usersService: UsersService,
     private readonly eventsService: EventsService,
+    private readonly goodreadsService: GoodreadsService,
+    private readonly storygraphService: StorygraphService,
   ) {
     Logger.debug("Initialized MigrationsService");
     this.client = new MongoClient(
       this.configService.get<string>("MONGODB_URI"),
     );
     this.client.connect();
+  }
+
+  /**
+   * Update books.
+   */
+  async updateBooks() {
+    const allBooks = await this.booksService.getAllBooks();
+    for await (const bookDoc of allBooks) {
+      try {
+        const url = bookDoc.url;
+        let book: BookDto;
+        if (this.goodreadsService.GR_BASE_URLS.some((x) => url.startsWith(x))) {
+          book = await this.goodreadsService.getBook(url);
+        } else if (url.startsWith(this.storygraphService.SG_BASE_URL)) {
+          book = await this.storygraphService.getBook(url);
+        }
+        Logger.log(`Updating docu ${bookDoc._id}`);
+        bookDoc.numPages = book.numPages;
+        await this.booksService.updateBook(bookDoc._id, bookDoc);
+      } catch (error) {
+        Logger.log(`Error updating docu ${bookDoc._id}`);
+      }
+    }
   }
 
   /**

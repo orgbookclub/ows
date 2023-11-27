@@ -27,6 +27,9 @@ export class Book extends BookDto {
 
   @Prop()
   coverUrl: string;
+
+  @Prop()
+  numPages: number;
 }
 
 /**

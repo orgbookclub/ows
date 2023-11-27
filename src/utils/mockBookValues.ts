@@ -29,6 +29,7 @@ export const mockBook = (
   url: url,
   genres: genres,
   coverUrl: "",
+  numPages: 0,
 });
 
 export const mockAuthors = [
@@ -62,6 +63,7 @@ export const mockSearchResultsFromGR = [
     genres: [],
     coverUrl:
       "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1462924585i/30165203._SY75_.jpg",
+    numPages: 0,
   },
   {
     title: "Anansi Boys (American Gods, #2)",
@@ -75,6 +77,7 @@ export const mockSearchResultsFromGR = [
     genres: [],
     coverUrl:
       "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1479778049i/2744._SY75_.jpg",
+    numPages: 0,
   },
   {
     title: "Filthy Gods (American Gods, #0.5)",
@@ -88,6 +91,7 @@ export const mockSearchResultsFromGR = [
     genres: [],
     coverUrl:
       "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1524841918i/39296064._SY75_.jpg",
+    numPages: 0,
   },
   {
     title: "The Monarch of the Glen (American Gods, #1.1)",
@@ -101,6 +105,7 @@ export const mockSearchResultsFromGR = [
     genres: [],
     coverUrl:
       "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1394083799i/18245822._SY75_.jpg",
+    numPages: 0,
   },
   {
     title: "Rich Boys Don't Have Hearts (American Gods, #1)",
@@ -114,6 +119,7 @@ export const mockSearchResultsFromGR = [
     genres: [],
     coverUrl:
       "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1524172321i/35077930._SX50_.jpg",
+    numPages: 0,
   },
 ];
 export const mockBookResultFromGR = {
@@ -164,6 +170,7 @@ export const mockSearchResultsFromSG = [
     url: "https://app.thestorygraph.com/books/9fd55617-3c71-458c-ad60-2d963964c351",
     genres: [],
     coverUrl: "https://cdn.thestorygraph.com/yb51m9d8kpr0i3rga9u7yxb4qvzu",
+    numPages: 0,
   },
   {
     title: "Anansi Boys",
@@ -176,6 +183,7 @@ export const mockSearchResultsFromSG = [
     url: "https://app.thestorygraph.com/books/33e95ac7-7df8-4157-8ea1-14a885002179",
     genres: [],
     coverUrl: "https://cdn.thestorygraph.com/r58q98bcirc2es9i8o13eeu9u812",
+    numPages: 0,
   },
   {
     title: "Filthy Gods",
@@ -188,6 +196,7 @@ export const mockSearchResultsFromSG = [
     url: "https://app.thestorygraph.com/books/791ecbd8-9049-42be-a9c7-5213fa4e5c31",
     genres: [],
     coverUrl: "https://cdn.thestorygraph.com/5ojfg9hztunqhoja90b607rpaest",
+    numPages: 0,
   },
   {
     title: "The Monarch of the Glen",
@@ -200,6 +209,7 @@ export const mockSearchResultsFromSG = [
     url: "https://app.thestorygraph.com/books/227161ba-1521-48ec-98ac-4c0e150b596b",
     genres: [],
     coverUrl: "https://cdn.thestorygraph.com/t9ouflib4r0s5ackmzza6k0u6r0q",
+    numPages: 0,
   },
   {
     title: "Rich Boys Don't Have Hearts",
@@ -213,6 +223,7 @@ export const mockSearchResultsFromSG = [
     genres: [],
     coverUrl:
       "https://assets.thestorygraph.com/assets/placeholder-cover-2a45d917f8f8061888e77f7aae688f59aacb0ece1262c264eaa3ca9f1dfd07e8.jpg",
+    numPages: 0,
   },
 ];
 export const mockBookResultFromSG = {
@@ -278,4 +289,5 @@ export const mockBookResultFromSG = {
     "mysterious",
     "slow-paced",
   ],
+  numPages: 635,
 };
