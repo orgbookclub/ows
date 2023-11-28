@@ -826,6 +826,17 @@
         "security": [{ "bearer": [] }]
       }
     },
+    "/api/migrations/updateBooks": {
+      "get": {
+        "operationId": "MigrationsController_updateBooks",
+        "summary": "",
+        "description": "Updates all the book documents.",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Migrations"],
+        "security": [{ "bearer": [] }]
+      }
+    },
     "/api/migrations": {
       "post": {
         "operationId": "MigrationsController_migrateEvent",
@@ -859,7 +870,7 @@
   "info": {
     "title": "OWS",
     "description": "API description for the Organized Web Server",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "contact": {}
   },
   "tags": [],
@@ -913,9 +924,21 @@
             "type": "string",
             "description": "The link to the cover of the book.",
             "example": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1462924585i/30165203.jpg"
+          },
+          "numPages": {
+            "type": "number",
+            "description": "The number of pages of the book.",
+            "example": 635
           }
         },
-        "required": ["title", "authors", "url", "genres", "coverUrl"]
+        "required": [
+          "title",
+          "authors",
+          "url",
+          "genres",
+          "coverUrl",
+          "numPages"
+        ]
       },
       "GoodreadsBookDto": {
         "type": "object",
@@ -946,6 +969,11 @@
             "description": "The link to the cover of the book.",
             "example": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1462924585i/30165203.jpg"
           },
+          "numPages": {
+            "type": "number",
+            "description": "The number of pages of the book.",
+            "example": 635
+          },
           "series": {
             "type": "string",
             "description": "The name of the series, if the book belongs to any.",
@@ -970,11 +998,6 @@
             "type": "string",
             "description": "The description or blurb of the book.",
             "example": "Days before his release from prison, Shadow's wife, Laura, dies in a mysterious car crash.Numbly, he makes his way back home. On the plane, he encounters the enigmatic Mr Wednesday, who claims to be a refugee from a distant war, a former god and the king of America. Together they embark on a profoundly strange journey across the heart of the USA, whilst all around them a storm of preternatural and epic proportions threatens to break. Scary, gripping and deeply unsettling, American Gods takes a long, hard look into the soul of America. You'll be surprised by what - and who - it finds there..."
-          },
-          "numPages": {
-            "type": "number",
-            "description": "The number of pages of the book.",
-            "example": 635
           }
         },
         "required": [
@@ -983,12 +1006,12 @@
           "url",
           "genres",
           "coverUrl",
+          "numPages",
           "series",
           "avgRating",
           "numRatings",
           "numReviews",
-          "description",
-          "numPages"
+          "description"
         ]
       },
       "QuestionAnswerDto": {
@@ -1036,6 +1059,11 @@
             "description": "The link to the cover of the book.",
             "example": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1462924585i/30165203.jpg"
           },
+          "numPages": {
+            "type": "number",
+            "description": "The number of pages of the book.",
+            "example": 635
+          },
           "series": {
             "type": "string",
             "description": "The name of the series, if the book belongs to any.",
@@ -1080,6 +1108,7 @@
           "url",
           "genres",
           "coverUrl",
+          "numPages",
           "series",
           "avgRating",
           "warnings",
@@ -1117,9 +1146,21 @@
             "type": "string",
             "description": "The link to the cover of the book.",
             "example": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1462924585i/30165203.jpg"
+          },
+          "numPages": {
+            "type": "number",
+            "description": "The number of pages of the book.",
+            "example": 635
           }
         },
-        "required": ["title", "authors", "url", "genres", "coverUrl"]
+        "required": [
+          "title",
+          "authors",
+          "url",
+          "genres",
+          "coverUrl",
+          "numPages"
+        ]
       },
       "BookDocument": {
         "type": "object",
@@ -1150,9 +1191,22 @@
             "description": "The link to the cover of the book.",
             "example": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1462924585i/30165203.jpg"
           },
+          "numPages": {
+            "type": "number",
+            "description": "The number of pages of the book.",
+            "example": 635
+          },
           "_id": { "type": "string" }
         },
-        "required": ["title", "authors", "url", "genres", "coverUrl", "_id"]
+        "required": [
+          "title",
+          "authors",
+          "url",
+          "genres",
+          "coverUrl",
+          "numPages",
+          "_id"
+        ]
       },
       "DateRange": {
         "type": "object",

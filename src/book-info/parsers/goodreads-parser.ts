@@ -132,6 +132,7 @@ export class GoodreadsParser extends Parser {
       url: url,
       genres: [],
       coverUrl: coverUrl,
+      numPages: 0,
     };
   }
 

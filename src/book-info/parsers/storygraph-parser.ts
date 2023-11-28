@@ -49,6 +49,15 @@ export class StorygraphParser extends Parser {
     try {
       const coverUrl = this.soup("div .book-cover").children("img").attr("src");
       const metaCol = this.soup("div .book-title-author-and-series");
+      const pages = parseInt(
+        this.soup(
+          "p[class='text-sm font-light text-darkestGrey dark:text-grey mt-1']",
+        )
+          .text()
+          .trim()
+          .split("pages")[0]
+          .trim(),
+      );
       const { titleText, seriesText } = this.extractTitleAndSeries(metaCol);
       const authors = this.extractAuthors(metaCol.find("p").last().find("a"));
       const { avgRating, warnings, moods, pace, quesAns } =
@@ -68,6 +77,7 @@ export class StorygraphParser extends Parser {
         quesAns: quesAns,
         description: description,
         genres: genres,
+        numPages: pages,
       };
     } catch (err) {
       throw new InternalServerErrorException();
@@ -116,6 +126,7 @@ export class StorygraphParser extends Parser {
         url: url,
         genres: [],
         coverUrl: coverUrl,
+        numPages: 0,
       };
     } catch (error) {
       throw new InternalServerErrorException();

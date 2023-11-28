@@ -37,4 +37,11 @@ export class BookDto {
    * @example "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1462924585i/30165203.jpg"
    */
   coverUrl: string;
+
+  /**
+   * The number of pages of the book.
+   *
+   * @example 635
+   */
+  numPages: number;
 }

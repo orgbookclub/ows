@@ -33,6 +33,13 @@ export class MigrationsController {
   }
 
   /**
+   * Updates all the book documents.
+   */
+  @Get("/updateBooks")
+  async updateBooks() {
+    await this.migrationsService.updateBooks();
+  }
+  /**
    * Migrates a single event doc from older schema to newer one.
    *
    * @param oldEventDoc The db document representing the event in the old db format.
