@@ -3,6 +3,7 @@ import {
   Injectable,
   InternalServerErrorException,
   Logger,
+  NotFoundException,
 } from "@nestjs/common";
 
 import { UserRepository } from "../repositories/user.repository";
@@ -56,7 +57,7 @@ export class UsersService {
   async findOneByUserId(userId: string) {
     const users = await this.repository.find({ userId: userId });
     if (users.length === 0) {
-      return null;
+      throw new NotFoundException("No user found");
     }
     if (users.length > 1) {
       throw new InternalServerErrorException("Multiple users found");
