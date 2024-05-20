@@ -55,7 +55,7 @@
     "@nestjs/testing": "^9.4.0",
     "@openapitools/openapi-generator-cli": "^2.5.2",
     "@types/jest": "^29.5.12",
-    "@types/node": "^20.10.4",
+    "@types/node": "^20.12.12",
     "@types/passport-jwt": "^3.0.7",
     "@types/passport-oauth2-client-password": "^0.1.2",
     "@types/supertest": "^2.0.12",
