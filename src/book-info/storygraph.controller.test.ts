@@ -45,9 +45,8 @@ describe("StorygraphController", () => {
       jest
         .spyOn(storygraphService, "getBook")
         .mockImplementation(async () => expected);
-      const actual = await storygraphController.searchAndGetBook(
-        "american gods",
-      );
+      const actual =
+        await storygraphController.searchAndGetBook("american gods");
       expect(actual).toEqual(expected);
     });
 
