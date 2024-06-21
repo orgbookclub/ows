@@ -46,9 +46,8 @@ describe("GoodreadsController", () => {
       jest
         .spyOn(goodreadsService, "getBook")
         .mockImplementation(async () => expected);
-      const actual = await goodreadsController.searchAndGetBook(
-        "american gods",
-      );
+      const actual =
+        await goodreadsController.searchAndGetBook("american gods");
       expect(actual).toEqual(expected);
     });
 
