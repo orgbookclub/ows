@@ -40,7 +40,7 @@
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^9.4.3",
     "@nestjs/swagger": "^7.1.17",
-    "applicationinsights": "^2.9.1",
+    "applicationinsights": "^3.3.0",
     "axios": "^1.6.3",
     "cheerio": "^1.0.0-rc.12",
     "mongoose": "^8.4.1",
