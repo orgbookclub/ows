@@ -57,7 +57,6 @@ export class EventsService {
    * Gets all event documents from the database which satisfy the filter conditions.
    *
    * @param filter Filter.
-   * @param sortOrder The order in which the results should be sorted.
    * @returns A list of events.
    */
   async findMany(filter: EventFilter) {
