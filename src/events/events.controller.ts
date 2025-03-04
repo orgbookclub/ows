@@ -8,6 +8,8 @@ import {
   Logger,
   Param,
   Query,
+  DefaultValuePipe,
+  ParseEnumPipe,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
@@ -66,6 +68,7 @@ export class EventsController {
    * Gets all event documents from the database which satisfy the filter conditions.
    *
    * @param filter Filter.
+   * @param sortBy Sort by.
    * @returns A list of event documents.
    */
   @Get()

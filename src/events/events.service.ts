@@ -57,11 +57,13 @@ export class EventsService {
    * Gets all event documents from the database which satisfy the filter conditions.
    *
    * @param filter Filter.
+   * @param sortOrder The order in which the results should be sorted.
    * @returns A list of events.
    */
   async findMany(filter: EventFilter) {
     const query: FilterQuery<Event> = await this.getFilterQuery(filter);
-    return await this.repository.find(query);
+    const results = await this.repository.find(query, filter.sortBy);
+    return results;
   }
 
   /**
