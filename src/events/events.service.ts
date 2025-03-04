@@ -61,7 +61,8 @@ export class EventsService {
    */
   async findMany(filter: EventFilter) {
     const query: FilterQuery<Event> = await this.getFilterQuery(filter);
-    return await this.repository.find(query);
+    const results = await this.repository.find(query, filter.sortBy);
+    return results;
   }
 
   /**

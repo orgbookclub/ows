@@ -1,5 +1,5 @@
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import { Model, SortOrder } from "mongoose";
 
 import { CreateEventDto } from "../events/dto/create-event.dto";
 import { UpdateEventDto } from "../events/dto/update-event.dto";
@@ -61,12 +61,27 @@ export class EventRepository extends BaseRepository<EventDocument> {
    * Gets all event documents which match the query.
    *
    * @param query The query object.
+   * @param sortOrder The order in which the results should be sorted.
    * @returns The result document list.
    */
-  async find(query: any) {
+  async find(query: any, sortOrder?: string) {
+    let sortObject: { [key: string]: SortOrder } = {
+      "dates.startDate": -1,
+      "dates.endDate": -1,
+    };
+    if (sortOrder === "startDateAsc") {
+      sortObject = { "dates.startDate": 1, "dates.endDate": 1 };
+    } else if (sortOrder === "startDateDesc") {
+      sortObject = { "dates.startDate": -1, "dates.endDate": -1 };
+    } else if (sortOrder === "endDateAsc") {
+      sortObject = { "dates.endDate": 1, "dates.startDate": 1 };
+    } else if (sortOrder === "endDateDesc") {
+      sortObject = { "dates.endDate": -1, "dates.startDate": -1 };
+    }
+
     return await this.eventModel
       .find(query)
-      .sort({ "dates.startDate": -1, "dates.endDate": -1 })
+      .sort(sortObject)
       .populate("book")
       .populate("requestedBy.user")
       .populate("readers.user")

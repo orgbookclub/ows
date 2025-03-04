@@ -88,4 +88,9 @@ export class EventFilter {
    * The ID of the leader of the event should be in this list.
    */
   leaderIds?: string[];
+
+  /**
+   * The criteria to sort the events.
+   */
+  sortBy?: string;
 }
