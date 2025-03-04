@@ -57,7 +57,7 @@ jobs:
         run: zip -r ows.zip ./* .npmrc
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ows-build
           path: ows.zip
