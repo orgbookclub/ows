@@ -8,6 +8,7 @@ import { BooksModule } from "./books/books.module";
 import { EventsModule } from "./events/events.module";
 import { HealthModule } from "./health/health.module";
 import { LoggerModule } from "./logger/logger.module";
+import { McpModule } from "./mcp/mcp.module";
 import { MigrationsModule } from "./migrations/migrations.module";
 import { ReviewsModule } from "./reviews/reviews.module";
 import { UsersModule } from "./users/users.module";
@@ -36,6 +37,7 @@ import { UsersModule } from "./users/users.module";
     MigrationsModule,
     HealthModule,
     LoggerModule,
+    McpModule,
   ],
   controllers: [],
   providers: [],

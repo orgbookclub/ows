@@ -33,3 +33,60 @@ $ yarn test:e2e
 # test coverage
 $ yarn test:cov
 ```
+
+## MCP server
+
+OWS exposes a read-only [Model Context Protocol](https://modelcontextprotocol.io)
+server in-process at `POST /mcp` using the official
+[`@modelcontextprotocol/sdk`](https://www.npmjs.com/package/@modelcontextprotocol/sdk)
+Streamable HTTP transport. The endpoint runs in stateless mode (no session
+ids), is excluded from the OpenAPI spec, and is gated by the same
+`JwtAuthGuard` as the rest of the API — point your MCP client at
+`http(s)://<host>/mcp` and pass the same `Authorization: Bearer <token>`
+header you would use against any other route. `ENV=dev` bypasses auth, as
+elsewhere.
+
+### Tools (v1, all read-only)
+
+| Tool                      | Backed by                           | Description                                                                                                          |
+| ------------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `events_search`           | `EventsService.findMany`            | 1:1 mirror of the `GET /api/events` query surface (every `EventFilter` field). Date inputs are ISO 8601 strings.     |
+| `events_get_by_id`        | `EventsService.findOne`             | Fetch a single event by Mongo object ID.                                                                             |
+| `users_get_by_discord_id` | `UsersService.findOneByUserId`      | Fetch a single user by Discord user ID (NOT the Mongo object ID). Returns null if no user exists.                    |
+
+`status` and `type` filters are single-valued (matching the underlying
+`EventsService`), so multi-value queries like *"BRs and MRs"* require multiple
+`events_search` calls.
+
+### Example MCP client config
+
+```jsonc
+// ~/.config/<your-mcp-client>/mcp.json
+{
+  "mcpServers": {
+    "ows": {
+      "url": "http://localhost:3000/mcp",
+      "headers": {
+        "Authorization": "Bearer <token from POST /auth/token>"
+      }
+    }
+  }
+}
+```
+
+### Smoke-testing locally
+
+The fastest way to verify the endpoint is the official
+[MCP Inspector](https://github.com/modelcontextprotocol/inspector):
+
+```bash
+# in one terminal: start OWS (ENV=dev disables auth)
+$ yarn start:dev
+
+# in another terminal: launch the inspector UI
+$ npx @modelcontextprotocol/inspector
+```
+
+In the inspector, set Transport Type to **Streamable HTTP**, URL to
+`http://localhost:3000/mcp`, click **Connect**, then **List Tools** →
+**events_search** → **Run Tool** with an empty argument object.
