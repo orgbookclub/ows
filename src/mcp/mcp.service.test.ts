@@ -8,7 +8,9 @@ import { UsersService } from "../users/users.service";
 import { McpService } from "./mcp.service";
 
 const stubEventsService = {
-  findMany: jest.fn().mockResolvedValue([]),
+  findManyV2: jest
+    .fn()
+    .mockResolvedValue({ items: [], total: 0, page: 1, pageSize: 100 }),
   findOne: jest.fn().mockResolvedValue(null),
 };
 

@@ -9,7 +9,12 @@ import {
   Param,
   Query,
 } from "@nestjs/common";
-import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from "@nestjs/swagger";
 
 import { CreateEventDto } from "./dto/create-event.dto";
 import { EventFilter } from "./dto/event-filter.dto";
@@ -65,10 +70,16 @@ export class EventsController {
   /**
    * Gets all event documents from the database which satisfy the filter conditions.
    *
+   * @deprecated Use `GET /api/v2/events` instead. Sunset target: when consumers have migrated.
    * @param filter Filter.
    * @returns A list of event documents.
    */
   @Get()
+  @ApiOperation({
+    deprecated: true,
+    description:
+      "Deprecated. Use GET /api/v2/events for filter, sort, projection, and pagination support.",
+  })
   @ApiOkResponse({ type: [EventDocument] })
   async find(@Query() filter: EventFilter) {
     return await this.eventsService.findMany(filter);

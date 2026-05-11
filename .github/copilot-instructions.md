@@ -1,6 +1,6 @@
 # Copilot Instructions for OWS (Organized Web Server)
 
-NestJS REST API for the OrgBookClub. Persists data in MongoDB via Mongoose, scrapes book info from Goodreads / Storygraph, and exposes a Swagger-documented API consumed by an auto-generated `@orgbookclub/ows-client` package.
+NestJS REST API for the OrgBookClub. Persists data in MongoDB via Mongoose, scrapes book info from Goodreads / Storygraph, and exposes a Swagger-documented API consumed by an auto-generated `@organizedbookclub/ows-client` package.
 
 ## Toolchain & commands
 

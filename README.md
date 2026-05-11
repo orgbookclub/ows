@@ -1,6 +1,6 @@
 # Organized Web Server (OWS)
 
-[![CI](https://github.com/orgbookclub/ows/actions/workflows/ows-develop-ci.yml/badge.svg)](https://github.com/orgbookclub/ows/actions/workflows/ows-develop-ci.yml) [![CD](https://github.com/orgbookclub/ows/actions/workflows/ows-deploy-railway.yml/badge.svg)](https://github.com/orgbookclub/ows/actions/workflows/ows-deploy-railway.yml) [![Publish Github Package](https://github.com/orgbookclub/ows/actions/workflows/npm-publish-github-packages.yml/badge.svg)](https://github.com/orgbookclub/ows/actions/workflows/npm-publish-github-packages.yml)
+[![CI](https://github.com/orgbookclub/ows/actions/workflows/ows-develop-ci.yml/badge.svg)](https://github.com/orgbookclub/ows/actions/workflows/ows-develop-ci.yml) [![CD](https://github.com/orgbookclub/ows/actions/workflows/ows-prod-deploy-azure.yml/badge.svg)](https://github.com/orgbookclub/ows/actions/workflows/ows-prod-deploy-azure.yml) [![Publish to npm](https://github.com/orgbookclub/ows/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/orgbookclub/ows/actions/workflows/npm-publish.yml)
 
 ## Installation
 
@@ -48,11 +48,11 @@ elsewhere.
 
 ### Tools (v1, all read-only)
 
-| Tool                      | Backed by                           | Description                                                                                                          |
-| ------------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `events_search`           | `EventsService.findMany`            | 1:1 mirror of the `GET /api/events` query surface (every `EventFilter` field). Date inputs are ISO 8601 strings.     |
-| `events_get_by_id`        | `EventsService.findOne`             | Fetch a single event by Mongo object ID.                                                                             |
-| `users_get_by_discord_id` | `UsersService.findOneByUserId`      | Fetch a single user by Discord user ID (NOT the Mongo object ID). Returns null if no user exists.                    |
+| Tool                      | Backed by                           | Description                                                                                                                                                                            |
+| ------------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `events_search`           | `EventsService.findManyV2`          | 1:1 mirror of the `GET /api/v2/events` query surface (filter + `sortBy` + `fields` projection + `page`/`pageSize`). Returns the paginated `{ items, total, page, pageSize }` wrapper. Default `pageSize` is 100. Date inputs are ISO 8601 strings. |
+| `events_get_by_id`        | `EventsService.findOne`             | Fetch a single event by Mongo object ID.                                                                                                                                              |
+| `users_get_by_discord_id` | `UsersService.findOneByUserId`      | Fetch a single user by Discord user ID (NOT the Mongo object ID). Returns null if no user exists.                                                                                     |
 
 `status` and `type` filters are single-valued (matching the underlying
 `EventsService`), so multi-value queries like *"BRs and MRs"* require multiple
@@ -90,3 +90,13 @@ $ npx @modelcontextprotocol/inspector
 In the inspector, set Transport Type to **Streamable HTTP**, URL to
 `http://localhost:3000/mcp`, click **Connect**, then **List Tools** →
 **events_search** → **Run Tool** with an empty argument object.
+
+## License
+
+Copyright (C) 2022–2026 ravsodhi.
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your
+option) any later version. See the [`LICENSE`](./LICENSE) file for the
+full license text.
