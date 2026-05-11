@@ -8,6 +8,7 @@ import { UsersModule } from "../users/users.module";
 import { EventsController } from "./events.controller";
 import { EventsService } from "./events.service";
 import { Event, EventSchema } from "./schemas/event.schema";
+import { EventsV2Controller } from "./v2/events.v2.controller";
 
 /**
  * The Events Module.
@@ -19,7 +20,7 @@ import { Event, EventSchema } from "./schemas/event.schema";
     BooksModule,
     UsersModule,
   ],
-  controllers: [EventsController],
+  controllers: [EventsController, EventsV2Controller],
   providers: [EventsService, EventRepository],
   exports: [EventsService],
 })

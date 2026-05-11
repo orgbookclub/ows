@@ -3,12 +3,19 @@ import { FilterQuery } from "mongoose";
 
 import { BooksService } from "../books/books.service";
 import { BookDocument } from "../books/schemas/book.schema";
-import { EventRepository } from "../repositories/event.repository";
+import {
+  EventRepository,
+  planEventPopulates,
+} from "../repositories/event.repository";
 
 import { CreateEventDto } from "./dto/create-event.dto";
 import { EventFilter } from "./dto/event-filter.dto";
 import { UpdateEventDto } from "./dto/update-event.dto";
 import { Event } from "./schemas/event.schema";
+import { EventFilterV2Dto } from "./v2/dto/event-filter.v2.dto";
+import { EventSortKey } from "./v2/dto/event-sort.v2.dto";
+import { PaginatedEventsDto } from "./v2/dto/paginated-events.dto";
+import { ParsedPagination, ParsedProjection } from "./v2/events.v2.utils";
 
 /**
  * The Events Service.
@@ -63,6 +70,44 @@ export class EventsService {
     const query: FilterQuery<Event> = await this.getFilterQuery(filter);
     const results = await this.repository.find(query, filter.sortBy);
     return results;
+  }
+
+  /**
+   * Gets a paginated, optionally projected and sorted, slice of event documents.
+   *
+   * @param filter The v2 filter (no sortBy).
+   * @param projection The parsed projection plan.
+   * @param sort The validated sort key, or undefined for the repository default.
+   * @param pagination The validated pagination.
+   * @returns A paginated wrapper around the matching event documents.
+   */
+  async findManyV2(
+    filter: EventFilterV2Dto,
+    projection: ParsedProjection,
+    sort: EventSortKey | undefined,
+    pagination: ParsedPagination,
+  ): Promise<PaginatedEventsDto> {
+    const query: FilterQuery<Event> = await this.getFilterQuery(
+      filter as EventFilter,
+    );
+    const populatePaths = planEventPopulates(
+      projection.mode,
+      projection.topLevelFields,
+    );
+    const { items, total } = await this.repository.findPaginated(
+      query,
+      sort,
+      projection.selectString,
+      populatePaths,
+      pagination.page,
+      pagination.pageSize,
+    );
+    return {
+      items,
+      total,
+      page: pagination.page,
+      pageSize: pagination.pageSize,
+    };
   }
 
   /**

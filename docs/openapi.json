@@ -364,7 +364,8 @@
             "get": {
                 "operationId": "EventsController_find",
                 "summary": "",
-                "description": "Gets all event documents from the database which satisfy the filter conditions.",
+                "description": "Deprecated. Use GET /api/v2/events for filter, sort, projection, and pagination support.",
+                "deprecated": true,
                 "parameters": [
                     {
                         "name": "name",
@@ -740,6 +741,261 @@
                             "application/json": {
                                 "schema": {
                                     "type": "boolean"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Events"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/events": {
+            "get": {
+                "operationId": "EventsV2Controller_find",
+                "summary": "",
+                "description": "Gets a paginated slice of event documents matching the filter, with optional\nprojection and sort.",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "required": false,
+                        "in": "query",
+                        "description": "The name of the event.",
+                        "example": "American Gods",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "bookSearchQuery",
+                        "required": false,
+                        "in": "query",
+                        "description": "The query string which will search among book titles.",
+                        "example": "American",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "bookIds",
+                        "required": false,
+                        "in": "query",
+                        "description": "A list of object IDs pointing to book documents.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "threads",
+                        "required": false,
+                        "in": "query",
+                        "description": "A list of channel/thread IDs.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "required": false,
+                        "in": "query",
+                        "description": "The status of the event.",
+                        "example": "Approved",
+                        "schema": {
+                            "enum": [
+                                "Requested",
+                                "Approved",
+                                "Announced",
+                                "Ongoing",
+                                "Completed",
+                                "Rejected",
+                                "Cancelled"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "required": false,
+                        "in": "query",
+                        "description": "The type of the event.",
+                        "example": "BuddyRead",
+                        "schema": {
+                            "enum": [
+                                "BuddyRead",
+                                "MonthlyRead",
+                                "ShortStoryRead",
+                                "PoetryRead",
+                                "Other"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "startDateBefore",
+                        "required": false,
+                        "in": "query",
+                        "description": "The start date of the event should be before this date.",
+                        "schema": {
+                            "format": "date-time",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "startDateAfter",
+                        "required": false,
+                        "in": "query",
+                        "description": "The start date of the event should be after this date.",
+                        "schema": {
+                            "format": "date-time",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "endDateBefore",
+                        "required": false,
+                        "in": "query",
+                        "description": "The end date of the event should be before this date.",
+                        "schema": {
+                            "format": "date-time",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "endDateAfter",
+                        "required": false,
+                        "in": "query",
+                        "description": "The end date of the event should be after this date.",
+                        "schema": {
+                            "format": "date-time",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "participantIds",
+                        "required": false,
+                        "in": "query",
+                        "description": "The ID of the participant of the event should be in this list.\nThis covers requestors, interested, readers etc all participants.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "requestedByIds",
+                        "required": false,
+                        "in": "query",
+                        "description": "The ID of the requestor of the event should be in this list.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "interestedIds",
+                        "required": false,
+                        "in": "query",
+                        "description": "The ID of the interested people of the event should be in this list.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "readerIds",
+                        "required": false,
+                        "in": "query",
+                        "description": "The ID of the reader of the event should be in this list.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "leaderIds",
+                        "required": false,
+                        "in": "query",
+                        "description": "The ID of the leader of the event should be in this list.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "fields",
+                        "required": false,
+                        "in": "query",
+                        "description": "Comma-separated list of fields to include in the response, or to exclude\nwhen each entry is prefixed with `-`. Inclusion and exclusion cannot be\nmixed in a single request. The `_id` field is always returned regardless.",
+                        "example": "name,status,dates.startDate",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sortBy",
+                        "required": false,
+                        "in": "query",
+                        "description": "The criterion to sort the events by.\nDefaults to startDateDesc when omitted.",
+                        "example": "startDateDesc",
+                        "schema": {
+                            "enum": [
+                                "startDateAsc",
+                                "startDateDesc",
+                                "endDateAsc",
+                                "endDateDesc"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "required": false,
+                        "in": "query",
+                        "description": "The 1-based page number to return.",
+                        "example": 1,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "required": false,
+                        "in": "query",
+                        "description": "The maximum number of items to return per page.",
+                        "example": 20,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedEventsDto"
                                 }
                             }
                         }
@@ -2044,6 +2300,36 @@
                         "description": "The description of the event."
                     }
                 }
+            },
+            "PaginatedEventsDto": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "description": "The page of event documents matching the request.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EventDocument"
+                        }
+                    },
+                    "total": {
+                        "type": "number",
+                        "description": "The total number of event documents matching the filter, across all pages."
+                    },
+                    "page": {
+                        "type": "number",
+                        "description": "The 1-based page number that was returned."
+                    },
+                    "pageSize": {
+                        "type": "number",
+                        "description": "The page size that was applied."
+                    }
+                },
+                "required": [
+                    "items",
+                    "total",
+                    "page",
+                    "pageSize"
+                ]
             },
             "CreateUserDto": {
                 "type": "object",

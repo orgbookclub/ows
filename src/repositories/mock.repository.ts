@@ -88,7 +88,36 @@ export class MockRepository<T> extends BaseRepository<T> {
    */
   async delete(id: string) {
     const index = this.databaseArray.findIndex((doc) => doc._id === id);
-    this.databaseArray.splice(index, index + 1);
+    this.databaseArray.splice(index, 1);
     return;
+  }
+
+  /**
+   * Returns a paginated slice of documents which match the query.
+   * The mock ignores projection and populate planning and returns the matching
+   * subset paged with skip/limit semantics matching the real repository.
+   *
+   * @param query The query object.
+   * @param _sortOrder The sort key (ignored in the mock).
+   * @param _selectString The projection string (ignored in the mock).
+   * @param _populatePaths The populate plan (ignored in the mock).
+   * @param page The 1-based page number.
+   * @param pageSize The page size.
+   * @returns The page of documents and the total count across all pages.
+   */
+  async findPaginated(
+    query: any,
+    _sortOrder: string | undefined,
+    _selectString: string | undefined,
+    _populatePaths: ReadonlyArray<string>,
+    page: number,
+    pageSize: number,
+  ): Promise<{ items: T[]; total: number }> {
+    const matched = await this.find(query);
+    const start = (page - 1) * pageSize;
+    return {
+      items: matched.slice(start, start + pageSize),
+      total: matched.length,
+    };
   }
 }
