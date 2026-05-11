@@ -16,8 +16,9 @@
           "withSeparateModelsAndApi": true,
           "sortParamsByRequiredFlag": true,
           "useSingleRequestParameter": true,
-          "npmName": "@orgbookclub/ows-client",
-          "npmLicense": "GPL-3.0-or-later"
+          "npmName": "@organizedbookclub/ows-client",
+          "npmLicense": "GPL-3.0-or-later",
+          "npmRepository": "https://github.com/orgbookclub/ows"
         }
       }
     }

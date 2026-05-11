@@ -1,0 +1,41 @@
+# Publishes the auto-generated @organizedbookclub/ows-client to public npm.
+# Triggered on a published GitHub Release, or manually via the Actions UI.
+# Requires repository secret NPM_TOKEN — a Granular Access Token from npmjs.com
+# with read/write permission on the @organizedbookclub org and 2FA bypass for
+# automation. The token is read by setup-node into ~/.npmrc as NODE_AUTH_TOKEN.
+
+name: Publish to npm
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install root dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Generate client with openapi-generator
+        run: yarn openapi:generate
+
+      - name: Install client dependencies and build
+        working-directory: client
+        run: yarn install --frozen-lockfile
+
+      - name: Publish to npm with provenance
+        working-directory: client
+        run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

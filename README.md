@@ -1,6 +1,6 @@
 # Organized Web Server (OWS)
 
-[![CI](https://github.com/orgbookclub/ows/actions/workflows/ows-develop-ci.yml/badge.svg)](https://github.com/orgbookclub/ows/actions/workflows/ows-develop-ci.yml) [![CD](https://github.com/orgbookclub/ows/actions/workflows/ows-deploy-railway.yml/badge.svg)](https://github.com/orgbookclub/ows/actions/workflows/ows-deploy-railway.yml) [![Publish Github Package](https://github.com/orgbookclub/ows/actions/workflows/npm-publish-github-packages.yml/badge.svg)](https://github.com/orgbookclub/ows/actions/workflows/npm-publish-github-packages.yml)
+[![CI](https://github.com/orgbookclub/ows/actions/workflows/ows-develop-ci.yml/badge.svg)](https://github.com/orgbookclub/ows/actions/workflows/ows-develop-ci.yml) [![CD](https://github.com/orgbookclub/ows/actions/workflows/ows-prod-deploy-azure.yml/badge.svg)](https://github.com/orgbookclub/ows/actions/workflows/ows-prod-deploy-azure.yml) [![Publish to npm](https://github.com/orgbookclub/ows/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/orgbookclub/ows/actions/workflows/npm-publish.yml)
 
 ## Installation
 
