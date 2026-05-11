@@ -55,7 +55,7 @@
   "devDependencies": {
     "@nestjs/cli": "^10.2.1",
     "@nestjs/testing": "^9.4.0",
-    "@openapitools/openapi-generator-cli": "^2.5.2",
+    "@openapitools/openapi-generator-cli": "^2.32.0",
     "@types/jest": "^29.5.12",
     "@types/node": "^22.5.2",
     "@types/passport-jwt": "^3.0.7",
