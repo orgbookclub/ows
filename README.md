@@ -48,11 +48,11 @@ elsewhere.
 
 ### Tools (v1, all read-only)
 
-| Tool                      | Backed by                           | Description                                                                                                          |
-| ------------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `events_search`           | `EventsService.findMany`            | 1:1 mirror of the `GET /api/events` query surface (every `EventFilter` field). Date inputs are ISO 8601 strings.     |
-| `events_get_by_id`        | `EventsService.findOne`             | Fetch a single event by Mongo object ID.                                                                             |
-| `users_get_by_discord_id` | `UsersService.findOneByUserId`      | Fetch a single user by Discord user ID (NOT the Mongo object ID). Returns null if no user exists.                    |
+| Tool                      | Backed by                           | Description                                                                                                                                                                            |
+| ------------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `events_search`           | `EventsService.findManyV2`          | 1:1 mirror of the `GET /api/v2/events` query surface (filter + `sortBy` + `fields` projection + `page`/`pageSize`). Returns the paginated `{ items, total, page, pageSize }` wrapper. Default `pageSize` is 100. Date inputs are ISO 8601 strings. |
+| `events_get_by_id`        | `EventsService.findOne`             | Fetch a single event by Mongo object ID.                                                                                                                                              |
+| `users_get_by_discord_id` | `UsersService.findOneByUserId`      | Fetch a single user by Discord user ID (NOT the Mongo object ID). Returns null if no user exists.                                                                                     |
 
 `status` and `type` filters are single-valued (matching the underlying
 `EventsService`), so multi-value queries like *"BRs and MRs"* require multiple

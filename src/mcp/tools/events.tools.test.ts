@@ -5,13 +5,17 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { EventStatus } from "../../events/dto/event-status";
 import { EventType } from "../../events/dto/event-type";
 import { EventsService } from "../../events/events.service";
+import { MAX_PAGE_SIZE } from "../../events/v2/dto/event-pagination.v2.dto";
+import { EventSortKey } from "../../events/v2/dto/event-sort.v2.dto";
 
 import { registerEventsTools } from "./events.tools";
 
-type EventsServiceMock = Pick<EventsService, "findMany" | "findOne"> & {
-  findMany: jest.Mock;
+type EventsServiceMock = Pick<EventsService, "findManyV2" | "findOne"> & {
+  findManyV2: jest.Mock;
   findOne: jest.Mock;
 };
+
+const emptyPage = { items: [], total: 0, page: 1, pageSize: MAX_PAGE_SIZE };
 
 const setup = async (
   eventsMock: EventsServiceMock,
@@ -47,13 +51,13 @@ describe("registerEventsTools", () => {
 
   beforeEach(() => {
     eventsMock = {
-      findMany: jest.fn().mockResolvedValue([{ _id: "x", name: "a" }]),
+      findManyV2: jest.fn().mockResolvedValue(emptyPage),
       findOne: jest.fn().mockResolvedValue({ _id: "y", name: "b" }),
     };
   });
 
   describe("events_search", () => {
-    it("passes through scalar EventFilter fields unchanged", async () => {
+    it("passes through scalar filter fields and routes sortBy to the sort arg", async () => {
       const { client, teardown } = await setup(eventsMock);
       try {
         await callEventsSearch(client, {
@@ -61,17 +65,20 @@ describe("registerEventsTools", () => {
           bookSearchQuery: "American",
           status: EventStatus.Completed,
           type: EventType.BuddyRead,
-          sortBy: "dates.startDate",
+          sortBy: EventSortKey.StartDateDesc,
         });
-        expect(eventsMock.findMany).toHaveBeenCalledWith(
+        expect(eventsMock.findManyV2).toHaveBeenCalledTimes(1);
+        const [filter, , sort] = eventsMock.findManyV2.mock.calls[0];
+        expect(filter).toEqual(
           expect.objectContaining({
             name: "American Gods",
             bookSearchQuery: "American",
             status: EventStatus.Completed,
             type: EventType.BuddyRead,
-            sortBy: "dates.startDate",
           }),
         );
+        expect(filter).not.toHaveProperty("sortBy");
+        expect(sort).toBe(EventSortKey.StartDateDesc);
       } finally {
         await teardown();
       }
@@ -89,7 +96,8 @@ describe("registerEventsTools", () => {
           readerIds: ["u4"],
           leaderIds: ["u5"],
         });
-        expect(eventsMock.findMany).toHaveBeenCalledWith(
+        const [filter] = eventsMock.findManyV2.mock.calls[0];
+        expect(filter).toEqual(
           expect.objectContaining({
             bookIds: ["b1", "b2"],
             threads: ["t1"],
@@ -115,7 +123,7 @@ describe("registerEventsTools", () => {
           endDateBefore: iso,
           endDateAfter: iso,
         });
-        const filter = eventsMock.findMany.mock.calls[0][0];
+        const [filter] = eventsMock.findManyV2.mock.calls[0];
         for (const key of [
           "startDateBefore",
           "startDateAfter",
@@ -130,12 +138,46 @@ describe("registerEventsTools", () => {
       }
     });
 
+    it("forwards the projection through to the service", async () => {
+      const { client, teardown } = await setup(eventsMock);
+      try {
+        await callEventsSearch(client, { fields: "name,status" });
+        const [, projection] = eventsMock.findManyV2.mock.calls[0];
+        expect(projection.mode).toBe("include");
+        expect(projection.selectString).toBe("name status");
+      } finally {
+        await teardown();
+      }
+    });
+
+    it("applies the requested page and pageSize", async () => {
+      const { client, teardown } = await setup(eventsMock);
+      try {
+        await callEventsSearch(client, { page: 3, pageSize: 50 });
+        const [, , , pagination] = eventsMock.findManyV2.mock.calls[0];
+        expect(pagination).toEqual({ page: 3, pageSize: 50 });
+      } finally {
+        await teardown();
+      }
+    });
+
+    it("defaults pageSize to MAX_PAGE_SIZE when omitted", async () => {
+      const { client, teardown } = await setup(eventsMock);
+      try {
+        await callEventsSearch(client, {});
+        const [, , , pagination] = eventsMock.findManyV2.mock.calls[0];
+        expect(pagination).toEqual({ page: 1, pageSize: MAX_PAGE_SIZE });
+      } finally {
+        await teardown();
+      }
+    });
+
     it("passes an empty filter when no args are given", async () => {
       const { client, teardown } = await setup(eventsMock);
       try {
         await callEventsSearch(client, {});
-        expect(eventsMock.findMany).toHaveBeenCalledTimes(1);
-        const filter = eventsMock.findMany.mock.calls[0][0];
+        expect(eventsMock.findManyV2).toHaveBeenCalledTimes(1);
+        const [filter] = eventsMock.findManyV2.mock.calls[0];
         for (const value of Object.values(filter)) {
           expect(value).toBeUndefined();
         }
@@ -144,14 +186,19 @@ describe("registerEventsTools", () => {
       }
     });
 
-    it("returns the service result as JSON in a text content block", async () => {
-      const docs = [{ _id: "a", name: "x" }];
-      eventsMock.findMany.mockResolvedValueOnce(docs);
+    it("returns the paginated wrapper as JSON in a text content block", async () => {
+      const wrapper = {
+        items: [{ _id: "a", name: "x" }],
+        total: 1,
+        page: 1,
+        pageSize: MAX_PAGE_SIZE,
+      };
+      eventsMock.findManyV2.mockResolvedValueOnce(wrapper);
       const { client, teardown } = await setup(eventsMock);
       try {
         const result = await callEventsSearch(client, {});
         expect(result.content).toEqual([
-          { type: "text", text: JSON.stringify(docs) },
+          { type: "text", text: JSON.stringify(wrapper) },
         ]);
       } finally {
         await teardown();
@@ -163,7 +210,31 @@ describe("registerEventsTools", () => {
       try {
         const result = await callEventsSearch(client, { status: "Bogus" });
         expect(result.isError).toBe(true);
-        expect(eventsMock.findMany).not.toHaveBeenCalled();
+        expect(eventsMock.findManyV2).not.toHaveBeenCalled();
+      } finally {
+        await teardown();
+      }
+    });
+
+    it("rejects invalid sortBy via the tool input schema", async () => {
+      const { client, teardown } = await setup(eventsMock);
+      try {
+        const result = await callEventsSearch(client, { sortBy: "nope" });
+        expect(result.isError).toBe(true);
+        expect(eventsMock.findManyV2).not.toHaveBeenCalled();
+      } finally {
+        await teardown();
+      }
+    });
+
+    it("rejects pageSize above the maximum via the tool input schema", async () => {
+      const { client, teardown } = await setup(eventsMock);
+      try {
+        const result = await callEventsSearch(client, {
+          pageSize: MAX_PAGE_SIZE + 1,
+        });
+        expect(result.isError).toBe(true);
+        expect(eventsMock.findManyV2).not.toHaveBeenCalled();
       } finally {
         await teardown();
       }
