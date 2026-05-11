@@ -88,6 +88,9 @@ export class MockRepository<T> extends BaseRepository<T> {
    */
   async delete(id: string) {
     const index = this.databaseArray.findIndex((doc) => doc._id === id);
+    if (index === -1) {
+      return;
+    }
     this.databaseArray.splice(index, 1);
     return;
   }
