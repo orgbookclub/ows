@@ -13,6 +13,8 @@ import {
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
+import { Scopes } from "../auth/scopes.decorator";
+
 import { CreateReviewDto } from "./dto/create-review.dto";
 import { UpdateReviewDto } from "./dto/update-review.dto";
 import { ReviewsService } from "./reviews.service";
@@ -37,6 +39,7 @@ export class ReviewsController {
    * @param createReviewDto
    */
   @Post()
+  @Scopes("reviews:write")
   create(@Body() createReviewDto: CreateReviewDto) {
     return this.reviewsService.create(createReviewDto);
   }
@@ -45,6 +48,7 @@ export class ReviewsController {
    *
    */
   @Get()
+  @Scopes("reviews:read")
   findAll() {
     return this.reviewsService.findAll();
   }
@@ -54,6 +58,7 @@ export class ReviewsController {
    * @param id
    */
   @Get(":id")
+  @Scopes("reviews:read")
   findOne(@Param("id") id: string) {
     return this.reviewsService.findOne(+id);
   }
@@ -64,6 +69,7 @@ export class ReviewsController {
    * @param updateReviewDto
    */
   @Patch(":id")
+  @Scopes("reviews:write")
   update(@Param("id") id: string, @Body() updateReviewDto: UpdateReviewDto) {
     return this.reviewsService.update(+id, updateReviewDto);
   }
@@ -73,6 +79,7 @@ export class ReviewsController {
    * @param id
    */
   @Delete(":id")
+  @Scopes("reviews:write")
   remove(@Param("id") id: string) {
     return this.reviewsService.remove(+id);
   }

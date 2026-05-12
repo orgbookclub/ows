@@ -1,28 +1,30 @@
 import { Injectable, Logger, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
-import { Strategy } from "passport-oauth2-client-password";
+import { BasicStrategy as Strategy } from "passport-http";
 
 import { AuthenticatedClient, AuthService } from "./auth.service";
 
 /**
- * Strategy for validating the Client Credentials auth flow.
+ * Strategy for validating client credentials sent via HTTP Basic auth on
+ * the /auth/token endpoint, per RFC 6749 §2.3.1. Complements the
+ * passport-oauth2-client-password strategy which only inspects the body.
  */
 @Injectable()
-export class ClientPasswordStrategy extends PassportStrategy(Strategy) {
+export class ClientBasicStrategy extends PassportStrategy(Strategy, "basic") {
   /**
-   * Initializes an instance of ClientPasswordStrategy.
+   * Initializes an instance of ClientBasicStrategy. Disables the default
+   * www-authenticate challenge so a missing header passes silently to the
+   * next strategy in the guard chain (the body-form strategy).
    *
    * @param authService The auth service.
    */
   constructor(private authService: AuthService) {
-    super();
-    Logger.debug("Initialized ClientPasswordStrategy");
+    super({ passReqToCallback: false });
+    Logger.debug("Initialized ClientBasicStrategy");
   }
 
   /**
-   * Calls auth service to validate the client ID and secret. Returns the
-   * authenticated client (with scopes) for downstream handlers, or rejects
-   * with 401 on invalid credentials.
+   * Validates the credentials carried by the Authorization: Basic header.
    *
    * @param clientId The client ID.
    * @param clientSecret The client secret.

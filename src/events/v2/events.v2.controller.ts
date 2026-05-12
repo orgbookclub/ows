@@ -1,6 +1,7 @@
 import { Controller, Get, Logger, Query } from "@nestjs/common";
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
+import { Scopes } from "../../auth/scopes.decorator";
 import { EventsService } from "../events.service";
 
 import { EventFilterV2Dto } from "./dto/event-filter.v2.dto";
@@ -43,6 +44,7 @@ export class EventsV2Controller {
    * @returns A paginated wrapper around the matching event documents.
    */
   @Get()
+  @Scopes("events:read")
   @ApiOkResponse({ type: PaginatedEventsDto })
   async find(
     @Query() filter: EventFilterV2Dto,

@@ -1,6 +1,8 @@
 import { Body, Controller, Logger, Post, Query } from "@nestjs/common";
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
+import { Scopes } from "../auth/scopes.decorator";
+
 import { BooksService } from "./books.service";
 import { CreateBookDto } from "./dto/create-book.dto";
 import { BookDocument } from "./schemas/book.schema";
@@ -29,6 +31,7 @@ export class BooksController {
    * @returns A Book document.
    */
   @Post()
+  @Scopes("books:write")
   @ApiOkResponse({ type: BookDocument })
   async createBookFromDto(@Body() createBookDto: CreateBookDto) {
     return await this.booksService.createBook(createBookDto);
@@ -41,6 +44,7 @@ export class BooksController {
    * @returns A Book document.
    */
   @Post("createFromUrl")
+  @Scopes("books:write")
   @ApiOkResponse({ type: BookDocument })
   async createBookFromUrl(@Query("url") url: string) {
     return await this.booksService.createBookFromUrl(url);

@@ -13,6 +13,8 @@ import {
 import { ApiExcludeController } from "@nestjs/swagger";
 import { Request, Response } from "express";
 
+import { Scopes } from "../auth/scopes.decorator";
+
 import { McpService } from "./mcp.service";
 
 const METHOD_NOT_ALLOWED_BODY = {
@@ -48,6 +50,7 @@ export class McpController {
    * @param body The pre-parsed JSON-RPC request body.
    */
   @Post()
+  @Scopes("events:read", "users:read")
   async handle(
     @Req() req: Request,
     @Res() res: Response,

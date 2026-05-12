@@ -16,6 +16,8 @@ import {
   ApiTags,
 } from "@nestjs/swagger";
 
+import { Scopes } from "../auth/scopes.decorator";
+
 import { CreateEventDto } from "./dto/create-event.dto";
 import { EventFilter } from "./dto/event-filter.dto";
 import { UpdateEventDto } from "./dto/update-event.dto";
@@ -46,6 +48,7 @@ export class EventsController {
    * @returns An event document.
    */
   @Post()
+  @Scopes("events:write")
   @ApiOkResponse({ type: EventDocument })
   async create(@Body() createEventDto: CreateEventDto) {
     return await this.eventsService.create(createEventDto);
@@ -59,6 +62,7 @@ export class EventsController {
    * @returns An event document.
    */
   @Post("createFromUrl")
+  @Scopes("events:write")
   @ApiOkResponse({ type: EventDocument })
   async createFromUrl(
     @Query("url") url: string,
@@ -75,6 +79,7 @@ export class EventsController {
    * @returns A list of event documents.
    */
   @Get()
+  @Scopes("events:read")
   @ApiOperation({
     deprecated: true,
     description:
@@ -92,6 +97,7 @@ export class EventsController {
    * @returns An event document.
    */
   @Get(":id")
+  @Scopes("events:read")
   @ApiOkResponse({ type: EventDocument })
   async findOne(@Param("id") id: string) {
     return await this.eventsService.findOne(id);
@@ -105,6 +111,7 @@ export class EventsController {
    * @returns The updated event document.
    */
   @Patch(":id")
+  @Scopes("events:write")
   @ApiOkResponse({ type: EventDocument })
   async update(
     @Param("id") id: string,
@@ -120,6 +127,7 @@ export class EventsController {
    * @returns Boolean indicating if doc is deleted.
    */
   @Delete(":id")
+  @Scopes("events:write")
   @ApiOkResponse({ type: Boolean })
   async remove(@Param("id") id: string) {
     return await this.eventsService.remove(id);

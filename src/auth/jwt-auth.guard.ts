@@ -1,10 +1,4 @@
-import {
-  ExecutionContext,
-  Injectable,
-  Logger,
-  SetMetadata,
-} from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
+import { ExecutionContext, Injectable, SetMetadata } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { AuthGuard } from "@nestjs/passport";
 
@@ -25,30 +19,25 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
   /**
    * Initializes an instance of JwtAuthGuard.
    *
-   * @param configService The global config service.
    * @param reflector A reflector. See documentation for more details.
    */
-  constructor(
-    private configService: ConfigService,
-    private reflector: Reflector,
-  ) {
+  constructor(private reflector: Reflector) {
     super();
-    Logger.debug("Initialized JwtAuthGuard");
   }
 
   /**
-   * Handles additional logic for checking if the Guard should pass/fail.
-   * Hardcoded to skip auth for dev environment.
+   * Skips authentication for handlers explicitly marked with @SkipAuth(),
+   * otherwise delegates to the underlying passport-jwt strategy.
    *
    * @param context The execution context.
-   * @returns A boolean indicating whether method can skip auth or not.
+   * @returns A boolean indicating whether the request is authorized.
    */
   canActivate(context: ExecutionContext) {
     const skipAuth = this.reflector.getAllAndOverride<boolean>(SKIP_AUTH, [
       context.getHandler(),
       context.getClass(),
     ]);
-    if (skipAuth || this.configService.get<string>("ENV") === "dev") {
+    if (skipAuth) {
       return true;
     }
     return super.canActivate(context);
