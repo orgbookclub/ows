@@ -6,11 +6,19 @@ import {
   Patch,
   Delete,
   Logger,
+  NotFoundException,
   Param,
 } from "@nestjs/common";
-import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiTags,
+} from "@nestjs/swagger";
 
 import { Scopes } from "../auth/scopes.decorator";
+import { ParseObjectIdPipe } from "../common/pipes/parse-object-id.pipe";
 
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
@@ -68,8 +76,13 @@ export class UsersController {
   @Get(":userid")
   @Scopes("users:read")
   @ApiOkResponse({ type: UserDocument })
+  @ApiNotFoundResponse({ description: "User not found." })
   async findOneByUserId(@Param("userid") userId: string) {
-    return await this.usersService.findOneByUserId(userId);
+    const user = await this.usersService.findOneByUserId(userId);
+    if (!user) {
+      throw new NotFoundException(`User with userId "${userId}" not found`);
+    }
+    return user;
   }
 
   /**
@@ -82,7 +95,11 @@ export class UsersController {
   @Patch(":id")
   @Scopes("users:write")
   @ApiOkResponse({ type: UserDocument })
-  async update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
+  @ApiBadRequestResponse({ description: "Invalid user id." })
+  async update(
+    @Param("id", ParseObjectIdPipe) id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
     return await this.usersService.update(id, updateUserDto);
   }
 
@@ -95,7 +112,8 @@ export class UsersController {
   @Delete(":id")
   @Scopes("users:write")
   @ApiOkResponse({ type: Boolean })
-  async remove(@Param("id") id: string) {
+  @ApiBadRequestResponse({ description: "Invalid user id." })
+  async remove(@Param("id", ParseObjectIdPipe) id: string) {
     return await this.usersService.remove(id);
   }
 }

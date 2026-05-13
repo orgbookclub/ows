@@ -1,3 +1,4 @@
+import { NotFoundException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { MockRepository } from "../repositories/mock.repository";
@@ -57,9 +58,10 @@ describe("UsersController", () => {
       expect(actual).toEqual(mockUserDocs[0]);
     });
 
-    it("should return null if not found", async () => {
-      const actual = await controller.findOneByUserId("99");
-      expect(actual).toBeNull();
+    it("should throw NotFoundException if not found", async () => {
+      await expect(controller.findOneByUserId("99")).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -79,8 +81,9 @@ describe("UsersController", () => {
     it("should delete the user", async () => {
       const id = mockUserDocs[1].userId;
       await controller.remove(mockUserDocs[1]._id);
-      const user = await controller.findOneByUserId(id);
-      expect(user).toBeNull();
+      await expect(controller.findOneByUserId(id)).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 });

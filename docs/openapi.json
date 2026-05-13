@@ -482,7 +482,9 @@
                 "schema": { "$ref": "#/components/schemas/EventDocument" }
               }
             }
-          }
+          },
+          "400": { "description": "Invalid event id." },
+          "404": { "description": "Event not found." }
         },
         "tags": ["Events"],
         "security": [{ "bearer": [] }]
@@ -515,7 +517,8 @@
                 "schema": { "$ref": "#/components/schemas/EventDocument" }
               }
             }
-          }
+          },
+          "400": { "description": "Invalid event id." }
         },
         "tags": ["Events"],
         "security": [{ "bearer": [] }]
@@ -538,7 +541,8 @@
             "content": {
               "application/json": { "schema": { "type": "boolean" } }
             }
-          }
+          },
+          "400": { "description": "Invalid event id." }
         },
         "tags": ["Events"],
         "security": [{ "bearer": [] }]
@@ -810,7 +814,8 @@
                 "schema": { "$ref": "#/components/schemas/UserDocument" }
               }
             }
-          }
+          },
+          "404": { "description": "User not found." }
         },
         "tags": ["Users"],
         "security": [{ "bearer": [] }]
@@ -845,7 +850,8 @@
                 "schema": { "$ref": "#/components/schemas/UserDocument" }
               }
             }
-          }
+          },
+          "400": { "description": "Invalid user id." }
         },
         "tags": ["Users"],
         "security": [{ "bearer": [] }]
@@ -868,7 +874,8 @@
             "content": {
               "application/json": { "schema": { "type": "boolean" } }
             }
-          }
+          },
+          "400": { "description": "Invalid user id." }
         },
         "tags": ["Users"],
         "security": [{ "bearer": [] }]
@@ -1092,7 +1099,7 @@
   "info": {
     "title": "OWS",
     "description": "API description for the Organized Web Server",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "contact": {}
   },
   "tags": [],
