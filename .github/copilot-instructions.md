@@ -19,8 +19,8 @@ NestJS REST API for the OrgBookClub. Persists data in MongoDB via Mongoose, scra
 
 ## Environment
 
-- Copy `sample.env` to `.development.env` (loaded by `ConfigModule` along with `.prod.env`). Required keys: `MONGODB_URI`, `PRIVATE_KEY` (JWT secret), `ENV`, `GREGG_CLIENT_ID`, `GREGG_CLIENT_SECRET`, `APPLICATIONINSIGHTS_CONNECTION_STRING`.
-- **`ENV=dev` disables JWT auth globally** (see `JwtAuthGuard.canActivate`). Production must set `ENV` to anything else.
+- Copy `sample.env` to `.development.env` (loaded by `ConfigModule` along with `.prod.env`). Required keys: `MONGODB_URI`, `PRIVATE_KEY_PEM`, `PUBLIC_KEY_PEM`, `ENV`, `GREGG_CLIENT_ID`, `GREGG_CLIENT_SECRET`, `APPLICATIONINSIGHTS_CONNECTION_STRING`. Generate the PEM pair locally with `yarn ts-node scripts/generate-jwt-keypair.ts`.
+- `config/clients.json` is the **production** registered-clients catalogue (committed, argon2id-hashed secrets only — never plaintext). For local development, set `CLIENTS_FILE=config/clients.dev.json` to load the bundled dev client (`id=dev`, `secret=dev-secret`, scope `*`) instead. `CLIENTS_FILE` defaults to `config/clients.json`.
 
 ## Architecture
 
@@ -29,7 +29,7 @@ Standard NestJS feature-module layout. `src/app.module.ts` wires the modules; th
 Feature modules:
 - `books`, `events`, `users`, `reviews` — CRUD over Mongo collections.
 - `book-info` — scrapes Goodreads & Storygraph via `cheerio`. Parsers extend the shared `Parser` base in `src/book-info/parsers/parser.ts` (the `CheerioAPI` field is named `soup` for legacy reasons).
-- `auth` — OAuth2 client-credentials at `POST /auth/token`, JWT bearer for everything else.
+- `auth` — OAuth2 client-credentials at `POST /auth/token`, RS256 JWT bearer for everything else; signing keys read from `PRIVATE_KEY_PEM` / `PUBLIC_KEY_PEM` env vars and exposed publicly at `GET /auth/.well-known/jwks.json` (RFC 7517). Registered clients live in the file pointed at by `CLIENTS_FILE` (default `config/clients.json`) with argon2id-hashed secrets.
 - `migrations` — one-off endpoints to migrate documents between schema versions; not part of normal request flow.
 - `health` — `GET /api/health` (uses `@SkipAuth()`).
 - `logger` — `CustomLogger` extends Nest's `ConsoleLogger` and forwards to Azure Application Insights. Installed in `main.ts` via `app.useLogger(...)`.
@@ -38,9 +38,9 @@ Cross-cutting patterns to preserve when adding code:
 
 - **Repository abstraction**: every Mongo collection has a repository class (e.g. `BookRepository`) extending `BaseRepository<T>` in `src/repositories/`. Services depend on the repository, never on the Mongoose model directly. Unit tests swap the real repository for `MockRepository<T>` seeded from fixtures in `src/utils/` — there is **no live Mongo in unit tests**.
 - **DTOs are classes, not interfaces**, because `@nestjs/swagger`'s plugin (configured in `nest-cli.json`) introspects them for OpenAPI. Mongoose schemas extend the DTO (e.g. `class Book extends BookDto`) so `@Prop` decorators sit on top of the DTO shape.
-- **Global JWT guard**: `JwtAuthGuard` is registered as `APP_GUARD` in `AuthModule`, so every route requires a Bearer token by default. Opt out with `@SkipAuth()` from `src/auth/jwt-auth.guard.ts` (used by `/auth/token` and `/api/health`).
+- **Global guards**: both `JwtAuthGuard` and `ScopesGuard` are registered as `APP_GUARD` in `AuthModule`, so every route requires a Bearer token *and* the scopes its controller declares. There is **no `ENV=dev` auth bypass** — the dev client gets through because it holds the wildcard scope `*`, not because auth is off. Opt out of auth entirely with `@SkipAuth()` from `src/auth/jwt-auth.guard.ts` (used by `/auth/token` and `/api/health`); declare required scopes with `@Scopes("events:read", ...)` from `src/auth/scopes.decorator.ts`.
 - **Controller routing**: feature controllers are mounted at `api/<feature>` (e.g. `@Controller("api/books")`) and decorated with `@ApiTags(...)` + `@ApiBearerAuth()`. Auth controller is the exception, mounted at `auth`.
-- **OpenAPI is a build artifact**: `src/main.ts` writes `docs/openapi.json` on every boot. Don't hand-edit it — change the controllers/DTOs and let bootstrap regenerate it. The downstream client package is generated from this file.
+- **OpenAPI is a build artifact, but it is committed**: `src/main.ts` writes `docs/openapi.json` on every boot using `JSON.stringify(document)` — i.e. minified onto a single line. The committed file, however, is **Prettier-formatted** so spec diffs are reviewable. When you change controllers/DTOs that affect the API surface, regenerate by booting `yarn start:dev` once, waiting for the `Updated openapi.json` debug log, killing the server, then running `yarn prettier --write docs/openapi.json` before committing. Don't hand-edit the JSON. The downstream client package is generated from this file.
 - **External scraping dispatch**: `BooksService.createBookFromUrl` selects the parser by URL prefix (`goodreadsService.GR_BASE_URLS` vs `storygraphService.SG_BASE_URL`). New sources should follow the same pattern.
 
 ## Code conventions (enforced by ESLint, will fail CI)
