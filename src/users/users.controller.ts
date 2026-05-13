@@ -10,6 +10,8 @@ import {
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
+import { Scopes } from "../auth/scopes.decorator";
+
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserDocument } from "./schemas/user.schema";
@@ -39,6 +41,7 @@ export class UsersController {
    * @returns A user document.
    */
   @Post()
+  @Scopes("users:write")
   @ApiOkResponse({ type: UserDocument })
   async create(@Body() createUserDto: CreateUserDto) {
     return await this.usersService.create(createUserDto);
@@ -50,6 +53,7 @@ export class UsersController {
    * @returns A list of user documents.
    */
   @Get()
+  @Scopes("users:read")
   @ApiOkResponse({ type: [UserDocument] })
   async findAll() {
     return await this.usersService.findAll();
@@ -62,6 +66,7 @@ export class UsersController {
    * @returns A user document.
    */
   @Get(":userid")
+  @Scopes("users:read")
   @ApiOkResponse({ type: UserDocument })
   async findOneByUserId(@Param("userid") userId: string) {
     return await this.usersService.findOneByUserId(userId);
@@ -75,6 +80,7 @@ export class UsersController {
    * @returns A user document.
    */
   @Patch(":id")
+  @Scopes("users:write")
   @ApiOkResponse({ type: UserDocument })
   async update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
     return await this.usersService.update(id, updateUserDto);
@@ -87,6 +93,7 @@ export class UsersController {
    * @returns Boolean indicating if doc is deleted.
    */
   @Delete(":id")
+  @Scopes("users:write")
   @ApiOkResponse({ type: Boolean })
   async remove(@Param("id") id: string) {
     return await this.usersService.remove(id);

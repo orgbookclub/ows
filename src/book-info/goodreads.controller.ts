@@ -7,6 +7,7 @@ import {
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
+import { Scopes } from "../auth/scopes.decorator";
 import { BookDto } from "../books/dto/book.dto";
 
 import { GoodreadsBookDto } from "./dto/goodreads-book.dto";
@@ -36,6 +37,7 @@ export class GoodreadsController {
    * @returns An array of @see BookDto objects.
    */
   @Get("search")
+  @Scopes("books:read")
   @ApiOkResponse({
     type: [BookDto],
   })
@@ -54,6 +56,7 @@ export class GoodreadsController {
    * @returns The book details.
    */
   @Get("book")
+  @Scopes("books:read")
   @ApiOkResponse({ type: GoodreadsBookDto })
   async searchAndGetBook(@Query("q") query: string) {
     const bookList = await this.goodreadsService.searchBooks(query, 1);
@@ -71,6 +74,7 @@ export class GoodreadsController {
    * @returns A list of quotes.
    */
   @Get("quotes")
+  @Scopes("books:read")
   @ApiOkResponse({ type: [String] })
   async getQuotes(@Query("k") k: number, @Query("q") query?: string) {
     if (query === "") query = undefined;

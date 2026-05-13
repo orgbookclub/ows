@@ -1,0 +1,165 @@
+@baseUrl = http://localhost:3000
+@clientId = dev
+@clientSecret = dev-secret
+
+############################################################
+# 1. Get an access token. Run this once per session — every
+#    other request below auto-references the captured token,
+#    so you never have to copy-paste it.
+#
+#    Designed for the VS Code REST Client extension
+#    (humao.rest-client). Install it from the marketplace or via
+#    `code --install-extension humao.rest-client`.
+############################################################
+
+# @name token
+POST {{baseUrl}}/auth/token
+Content-Type: application/json
+
+{
+  "grant_type": "client_credentials",
+  "client_id": "{{clientId}}",
+  "client_secret": "{{clientSecret}}"
+}
+
+###
+# Same thing, but using HTTP Basic auth instead of body params. The REST
+# Client extension auto-base64-encodes the space-separated user:secret.
+POST {{baseUrl}}/auth/token
+Authorization: Basic {{clientId}} {{clientSecret}}
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
+
+############################################################
+# Public discovery — no token needed.
+############################################################
+
+###
+GET {{baseUrl}}/auth/.well-known/jwks.json
+
+###
+GET {{baseUrl}}/api/health
+
+############################################################
+# Events
+############################################################
+
+###
+GET {{baseUrl}}/api/v2/events?pageSize=5
+Authorization: Bearer {{token.response.body.$.access_token}}
+
+###
+GET {{baseUrl}}/api/v2/events?pageSize=5&sortBy=-startDate&fields=name,status,startDate
+Authorization: Bearer {{token.response.body.$.access_token}}
+
+###
+# Replace :id with a real event Mongo object id.
+GET {{baseUrl}}/api/events/sdfasdfa
+Authorization: Bearer {{token.response.body.$.access_token}}
+
+###
+# Write example — events:write scope required.
+POST {{baseUrl}}/api/events
+Authorization: Bearer {{token.response.body.$.access_token}}
+Content-Type: application/json
+
+{
+  "name": "Test Event",
+  "type": "BR",
+  "status": "Announced",
+  "startDate": "2026-06-01T00:00:00.000Z",
+  "endDate": "2026-06-30T00:00:00.000Z",
+  "book": "000000000000000000000000"
+}
+
+############################################################
+# Users
+############################################################
+
+###
+GET {{baseUrl}}/api/users
+Authorization: Bearer {{token.response.body.$.access_token}}
+
+###
+# Replace 123456789 with a real Discord user id.
+GET {{baseUrl}}/api/users/123456789
+Authorization: Bearer {{token.response.body.$.access_token}}
+
+############################################################
+# Books / Goodreads / Storygraph
+############################################################
+
+###
+GET {{baseUrl}}/api/goodreads/search?q=dune&k=3
+Authorization: Bearer {{token.response.body.$.access_token}}
+
+###
+GET {{baseUrl}}/api/goodreads/book?q=dune
+Authorization: Bearer {{token.response.body.$.access_token}}
+
+###
+GET {{baseUrl}}/api/storygraph/search?q=dune&k=3
+Authorization: Bearer {{token.response.body.$.access_token}}
+
+###
+# Write example — books:write scope required.
+POST {{baseUrl}}/api/books/createFromUrl?url=https://www.goodreads.com/book/show/44767458-piranesi
+Authorization: Bearer {{token.response.body.$.access_token}}
+
+############################################################
+# MCP — requires events:read AND users:read scopes.
+# The dev client holds the wildcard scope, so it works.
+############################################################
+
+###
+POST {{baseUrl}}/mcp
+Authorization: Bearer {{token.response.body.$.access_token}}
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "tools/list"
+}
+
+###
+POST {{baseUrl}}/mcp
+Authorization: Bearer {{token.response.body.$.access_token}}
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "method": "tools/call",
+  "params": {
+    "name": "events_search",
+    "arguments": { "pageSize": 3 }
+  }
+}
+
+############################################################
+# Negative tests — confirm auth & scopes are wired correctly.
+############################################################
+
+###
+# Expect 401 — no token.
+GET {{baseUrl}}/api/v2/events
+
+###
+# Expect 401 — bogus token.
+GET {{baseUrl}}/api/v2/events
+Authorization: Bearer not-a-real-token
+
+###
+# Expect 401 — wrong client_secret on the token endpoint.
+POST {{baseUrl}}/auth/token
+Content-Type: application/json
+
+{
+  "grant_type": "client_credentials",
+  "client_id": "{{clientId}}",
+  "client_secret": "wrong-secret"
+}

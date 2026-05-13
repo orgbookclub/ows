@@ -7,6 +7,7 @@ import {
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
+import { Scopes } from "../auth/scopes.decorator";
 import { BookDto } from "../books/dto/book.dto";
 
 import { StorygraphBookDto } from "./dto/storygraph-book.dto";
@@ -36,6 +37,7 @@ export class StorygraphController {
    * @returns An array of @see BookDto objects.
    */
   @Get("search")
+  @Scopes("books:read")
   @ApiOkResponse({ type: [BookDto] })
   async searchBooks(@Query("q") query: string, @Query("k") k: number) {
     return await this.storygraphService.searchBooks(query, k);
@@ -48,6 +50,7 @@ export class StorygraphController {
    * @returns The book details.
    */
   @Get("book")
+  @Scopes("books:read")
   @ApiOkResponse({ type: StorygraphBookDto })
   async searchAndGetBook(@Query("q") query: string) {
     const bookList = await this.storygraphService.searchBooks(query, 1);

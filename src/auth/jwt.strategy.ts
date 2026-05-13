@@ -1,7 +1,8 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
+
+import { JwtKeysService } from "./jwt-keys.service";
 
 /**
  * Strategy for restricting access to endpoints without valid Jwt tokens.
@@ -9,28 +10,38 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   /**
-   * Initializes an instance of JwtStrategy.
+   * Initializes an instance of JwtStrategy. Verifies tokens with the RS256
+   * public key from JwtKeysService and enforces issuer/audience claims.
    *
-   * @param configService The global config service.
+   * @param keys The JWT keys service.
    */
-  constructor(private configService: ConfigService) {
+  constructor(keys: JwtKeysService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: configService.get<string>("PRIVATE_KEY"),
+      secretOrKey: keys.getPublicKeyPem(),
+      algorithms: ["RS256"],
+      issuer: "ows",
+      audience: "ows-api",
     });
-    Logger.debug("Initalized JwtStrategy");
+    Logger.debug("Initialized JwtStrategy");
   }
 
   /**
-   * Placeholder for returning the clientId after validation.
-   * The way passport works is we are ensured that this method is called only
-   * with a valid clientId.
+   * Returns the authenticated client identity (clientId + scopes) for the
+   * verified payload. Passport guarantees this method is only invoked once
+   * the signature, expiry, issuer, and audience have all been validated.
    *
-   * @param payload The payload.
-   * @returns Trivial response containing client ID.
+   * @param payload The verified JWT payload.
+   * @param payload.sub The token subject (the client id).
+   * @param payload.scope The space-separated granted scopes.
+   * @returns The authenticated identity attached to req.user.
    */
-  async validate(payload: any) {
-    return { clientId: payload.sub };
+  async validate(payload: { sub: string; scope?: string }) {
+    const scopes =
+      typeof payload.scope === "string" && payload.scope.length > 0
+        ? payload.scope.split(" ")
+        : [];
+    return { clientId: payload.sub, scopes };
   }
 }
