@@ -30,7 +30,7 @@ concurrency:
 env:
   AZURE_APIAPP_NAME: ows # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: "." # set this to the path to your web app project, defaults to the repository root
-  NODE_VERSION: "20.x" # set this to the node version to use
+  NODE_VERSION: "24.x" # set this to the node version to use
 
 permissions:
   contents: read
@@ -39,7 +39,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up Node.js
         uses: actions/setup-node@v6
