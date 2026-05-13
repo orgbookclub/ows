@@ -517,7 +517,8 @@
                 "schema": { "$ref": "#/components/schemas/EventDocument" }
               }
             }
-          }
+          },
+          "400": { "description": "Invalid event id." }
         },
         "tags": ["Events"],
         "security": [{ "bearer": [] }]
@@ -540,7 +541,8 @@
             "content": {
               "application/json": { "schema": { "type": "boolean" } }
             }
-          }
+          },
+          "400": { "description": "Invalid event id." }
         },
         "tags": ["Events"],
         "security": [{ "bearer": [] }]
@@ -848,7 +850,8 @@
                 "schema": { "$ref": "#/components/schemas/UserDocument" }
               }
             }
-          }
+          },
+          "400": { "description": "Invalid user id." }
         },
         "tags": ["Users"],
         "security": [{ "bearer": [] }]
@@ -871,7 +874,8 @@
             "content": {
               "application/json": { "schema": { "type": "boolean" } }
             }
-          }
+          },
+          "400": { "description": "Invalid user id." }
         },
         "tags": ["Users"],
         "security": [{ "bearer": [] }]

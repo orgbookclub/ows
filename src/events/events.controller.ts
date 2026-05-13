@@ -123,6 +123,7 @@ export class EventsController {
   @Patch(":id")
   @Scopes("events:write")
   @ApiOkResponse({ type: EventDocument })
+  @ApiBadRequestResponse({ description: "Invalid event id." })
   async update(
     @Param("id", ParseObjectIdPipe) id: string,
     @Body() updateEventDto: UpdateEventDto,
@@ -139,6 +140,7 @@ export class EventsController {
   @Delete(":id")
   @Scopes("events:write")
   @ApiOkResponse({ type: Boolean })
+  @ApiBadRequestResponse({ description: "Invalid event id." })
   async remove(@Param("id", ParseObjectIdPipe) id: string) {
     return await this.eventsService.remove(id);
   }

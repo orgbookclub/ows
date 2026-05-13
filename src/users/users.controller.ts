@@ -10,6 +10,7 @@ import {
   Param,
 } from "@nestjs/common";
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -94,6 +95,7 @@ export class UsersController {
   @Patch(":id")
   @Scopes("users:write")
   @ApiOkResponse({ type: UserDocument })
+  @ApiBadRequestResponse({ description: "Invalid user id." })
   async update(
     @Param("id", ParseObjectIdPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,
@@ -110,6 +112,7 @@ export class UsersController {
   @Delete(":id")
   @Scopes("users:write")
   @ApiOkResponse({ type: Boolean })
+  @ApiBadRequestResponse({ description: "Invalid user id." })
   async remove(@Param("id", ParseObjectIdPipe) id: string) {
     return await this.usersService.remove(id);
   }

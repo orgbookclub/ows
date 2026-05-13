@@ -47,7 +47,8 @@ describe("EventsController", () => {
     });
 
     it("should throw NotFoundException if no event found", async () => {
-      await expect(controller.findOne("randId")).rejects.toThrow(
+      const validButAbsentId = "507f1f77bcf86cd799439099";
+      await expect(controller.findOne(validButAbsentId)).rejects.toThrow(
         NotFoundException,
       );
     });
