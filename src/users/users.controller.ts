@@ -6,9 +6,15 @@ import {
   Patch,
   Delete,
   Logger,
+  NotFoundException,
   Param,
 } from "@nestjs/common";
-import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBearerAuth,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiTags,
+} from "@nestjs/swagger";
 
 import { Scopes } from "../auth/scopes.decorator";
 
@@ -68,8 +74,13 @@ export class UsersController {
   @Get(":userid")
   @Scopes("users:read")
   @ApiOkResponse({ type: UserDocument })
+  @ApiNotFoundResponse({ description: "User not found." })
   async findOneByUserId(@Param("userid") userId: string) {
-    return await this.usersService.findOneByUserId(userId);
+    const user = await this.usersService.findOneByUserId(userId);
+    if (!user) {
+      throw new NotFoundException(`User with userId "${userId}" not found`);
+    }
+    return user;
   }
 
   /**

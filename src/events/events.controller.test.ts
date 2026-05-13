@@ -1,3 +1,4 @@
+import { NotFoundException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { BooksService } from "../books/books.service";
@@ -37,5 +38,18 @@ describe("EventsController", () => {
 
   it("should be defined", () => {
     expect(controller).toBeDefined();
+  });
+
+  describe("findOne", () => {
+    it("should return an event", async () => {
+      const actual = await controller.findOne(mockEventDocs[0]._id);
+      expect(actual).toEqual(mockEventDocs[0]);
+    });
+
+    it("should throw NotFoundException if no event found", async () => {
+      await expect(controller.findOne("randId")).rejects.toThrow(
+        NotFoundException,
+      );
+    });
   });
 });

@@ -6,11 +6,13 @@ import {
   Patch,
   Delete,
   Logger,
+  NotFoundException,
   Param,
   Query,
 } from "@nestjs/common";
 import {
   ApiBearerAuth,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -99,8 +101,13 @@ export class EventsController {
   @Get(":id")
   @Scopes("events:read")
   @ApiOkResponse({ type: EventDocument })
+  @ApiNotFoundResponse({ description: "Event not found." })
   async findOne(@Param("id") id: string) {
-    return await this.eventsService.findOne(id);
+    const event = await this.eventsService.findOne(id);
+    if (!event) {
+      throw new NotFoundException(`Event with id "${id}" not found`);
+    }
+    return event;
   }
 
   /**
