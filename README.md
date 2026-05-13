@@ -56,13 +56,13 @@ verifiers can fetch the public key at `GET /auth/.well-known/jwks.json`
 
 2. The registered-clients catalogue lives in `config/clients.json`,
    committed to the repo with **argon2id-hashed secrets only** — no
-   plaintext credentials. The default file ships **empty** (`[]`) so a
-   production deployment never accepts an unintended client.
+   plaintext credentials. This file is the **production** catalogue
+   loaded by default in any environment that doesn't override
+   `CLIENTS_FILE`.
 
    For local development, the repo also commits
    `config/clients.dev.json` containing a single dev client (secret
-   `dev-secret`, scope `*`). Point at it via the `CLIENTS_FILE` env
-   var:
+   `dev-secret`, scope `*`). Opt in by pointing `CLIENTS_FILE` at it:
 
    ```bash
    # in .development.env
@@ -70,15 +70,14 @@ verifiers can fetch the public key at `GET /auth/.well-known/jwks.json`
    ```
 
    To register a real client, hash its secret and open a PR adding the
-   entry to `config/clients.json` (or the file your deployment loads).
-   PR review is the security gate.
+   entry to `config/clients.json`. PR review is the security gate.
 
    ```bash
    $ yarn ts-node scripts/hash-client-secret.ts            # generates a random secret
    $ yarn ts-node scripts/hash-client-secret.ts <secret>   # hashes the given secret
    ```
 
-   Add the entry to whichever catalogue the deployment loads:
+   Add the entry to the catalogue:
 
    ```jsonc
    {
@@ -95,11 +94,6 @@ verifiers can fetch the public key at `GET /auth/.well-known/jwks.json`
 
    The plaintext secret lives only in your password manager and the
    consuming service's deploy env — never in the repo.
-
-   In production, set `CLIENTS_FILE` to the path of the production
-   catalogue (typically mounted from your secret store) and leave
-   `config/clients.json` empty so a misconfiguration fails closed
-   instead of accepting the dev client.
 
 ### Requesting a token
 
