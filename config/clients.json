@@ -1,7 +1,1 @@
-[
-  {
-    "clientId": "dev",
-    "secretHash": "$argon2id$v=19$m=65536,t=3,p=4$oHpsT/vptK6lU78fdXSZ0A$HHucZBdR/cL5niozHRl3WckCwFuY229lkTFn3qBXZio",
-    "scopes": ["*"]
-  }
-]
+[]

@@ -56,19 +56,29 @@ verifiers can fetch the public key at `GET /auth/.well-known/jwks.json`
 
 2. The registered-clients catalogue lives in `config/clients.json`,
    committed to the repo with **argon2id-hashed secrets only** — no
-   plaintext credentials. The default file ships with one entry:
+   plaintext credentials. The default file ships **empty** (`[]`) so a
+   production deployment never accepts an unintended client.
 
-   - `dev` (secret: `dev-secret`, scope: `*`) — for local development.
+   For local development, the repo also commits
+   `config/clients.dev.json` containing a single dev client (secret
+   `dev-secret`, scope `*`). Point at it via the `CLIENTS_FILE` env
+   var:
 
-   To register a new client, hash its secret and open a PR adding the
-   entry. PR review is the security gate.
+   ```bash
+   # in .development.env
+   CLIENTS_FILE=config/clients.dev.json
+   ```
+
+   To register a real client, hash its secret and open a PR adding the
+   entry to `config/clients.json` (or the file your deployment loads).
+   PR review is the security gate.
 
    ```bash
    $ yarn ts-node scripts/hash-client-secret.ts            # generates a random secret
    $ yarn ts-node scripts/hash-client-secret.ts <secret>   # hashes the given secret
    ```
 
-   Then add it to `config/clients.json`:
+   Add the entry to whichever catalogue the deployment loads:
 
    ```jsonc
    {
@@ -86,9 +96,10 @@ verifiers can fetch the public key at `GET /auth/.well-known/jwks.json`
    The plaintext secret lives only in your password manager and the
    consuming service's deploy env — never in the repo.
 
-   To point at a different catalogue file (e.g. for a staging environment
-   or a one-off test), set the `CLIENTS_FILE` env var to the desired
-   path. Relative paths resolve against the process working directory.
+   In production, set `CLIENTS_FILE` to the path of the production
+   catalogue (typically mounted from your secret store) and leave
+   `config/clients.json` empty so a misconfiguration fails closed
+   instead of accepting the dev client.
 
 ### Requesting a token
 
