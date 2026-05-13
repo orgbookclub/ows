@@ -17,6 +17,7 @@ import {
 } from "@nestjs/swagger";
 
 import { Scopes } from "../auth/scopes.decorator";
+import { ParseObjectIdPipe } from "../common/pipes/parse-object-id.pipe";
 
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
@@ -93,7 +94,10 @@ export class UsersController {
   @Patch(":id")
   @Scopes("users:write")
   @ApiOkResponse({ type: UserDocument })
-  async update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
+  async update(
+    @Param("id", ParseObjectIdPipe) id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
     return await this.usersService.update(id, updateUserDto);
   }
 
@@ -106,7 +110,7 @@ export class UsersController {
   @Delete(":id")
   @Scopes("users:write")
   @ApiOkResponse({ type: Boolean })
-  async remove(@Param("id") id: string) {
+  async remove(@Param("id", ParseObjectIdPipe) id: string) {
     return await this.usersService.remove(id);
   }
 }

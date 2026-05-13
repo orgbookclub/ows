@@ -11,6 +11,7 @@ import {
   Query,
 } from "@nestjs/common";
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -19,6 +20,7 @@ import {
 } from "@nestjs/swagger";
 
 import { Scopes } from "../auth/scopes.decorator";
+import { ParseObjectIdPipe } from "../common/pipes/parse-object-id.pipe";
 
 import { CreateEventDto } from "./dto/create-event.dto";
 import { EventFilter } from "./dto/event-filter.dto";
@@ -101,8 +103,9 @@ export class EventsController {
   @Get(":id")
   @Scopes("events:read")
   @ApiOkResponse({ type: EventDocument })
+  @ApiBadRequestResponse({ description: "Invalid event id." })
   @ApiNotFoundResponse({ description: "Event not found." })
-  async findOne(@Param("id") id: string) {
+  async findOne(@Param("id", ParseObjectIdPipe) id: string) {
     const event = await this.eventsService.findOne(id);
     if (!event) {
       throw new NotFoundException(`Event with id "${id}" not found`);
@@ -121,7 +124,7 @@ export class EventsController {
   @Scopes("events:write")
   @ApiOkResponse({ type: EventDocument })
   async update(
-    @Param("id") id: string,
+    @Param("id", ParseObjectIdPipe) id: string,
     @Body() updateEventDto: UpdateEventDto,
   ) {
     return await this.eventsService.update(id, updateEventDto);
@@ -136,7 +139,7 @@ export class EventsController {
   @Delete(":id")
   @Scopes("events:write")
   @ApiOkResponse({ type: Boolean })
-  async remove(@Param("id") id: string) {
+  async remove(@Param("id", ParseObjectIdPipe) id: string) {
     return await this.eventsService.remove(id);
   }
 }
