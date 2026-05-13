@@ -46,7 +46,7 @@
     "argon2": "^0.44.0",
     "axios": "^1.15.2",
     "cheerio": "^1.0.0-rc.12",
-    "mongoose": "^8.9.5",
+    "mongoose": "^8.22.1",
     "passport": "^0.7.0",
     "passport-http": "^0.3.0",
     "passport-jwt": "^4.0.0",
