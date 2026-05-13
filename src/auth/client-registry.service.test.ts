@@ -2,7 +2,15 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
 
+import { ConfigService } from "@nestjs/config";
+
 import { ClientRegistryService } from "./client-registry.service";
+
+function buildConfig(overrides: Record<string, string> = {}): ConfigService {
+  return {
+    get: jest.fn((key: string) => overrides[key]),
+  } as unknown as ConfigService;
+}
 
 describe("ClientRegistryService", () => {
   let tmpDir: string;
@@ -46,7 +54,7 @@ describe("ClientRegistryService", () => {
       },
     ]);
 
-    const registry = new ClientRegistryService();
+    const registry = new ClientRegistryService(buildConfig());
 
     expect(registry.size()).toBe(2);
     expect(registry.findById("gregg")?.scopes).toEqual([
@@ -60,27 +68,62 @@ describe("ClientRegistryService", () => {
     expect(registry.findById("unknown")).toBeUndefined();
   });
 
+  it("honours the CLIENTS_FILE env override", () => {
+    const altDir = mkdtempSync(join(tmpdir(), "ows-clients-alt-"));
+    try {
+      const altPath = join(altDir, "alt-clients.json");
+      writeFileSync(
+        altPath,
+        JSON.stringify([
+          {
+            clientId: "from-override",
+            secretHash: "$argon2id$v=19$m=65536,t=3,p=4$EEEE$FFFF",
+            scopes: ["events:read"],
+          },
+        ]),
+        "utf-8",
+      );
+
+      const registry = new ClientRegistryService(
+        buildConfig({ CLIENTS_FILE: altPath }),
+      );
+
+      expect(registry.size()).toBe(1);
+      expect(registry.findById("from-override")?.scopes).toEqual([
+        "events:read",
+      ]);
+    } finally {
+      rmSync(altDir, { recursive: true, force: true });
+    }
+  });
+
   it("throws when the file is missing", () => {
-    expect(() => new ClientRegistryService()).toThrow(
+    expect(() => new ClientRegistryService(buildConfig())).toThrow(
       /Failed to read clients registry/,
     );
   });
 
   it("throws when the file is not valid JSON", () => {
     writeRawRegistry("{ not json");
-    expect(() => new ClientRegistryService()).toThrow(/not valid JSON/);
+    expect(() => new ClientRegistryService(buildConfig())).toThrow(
+      /not valid JSON/,
+    );
   });
 
   it("throws when the top level is not an array", () => {
     writeRegistry({ clientId: "x" });
-    expect(() => new ClientRegistryService()).toThrow(/must be a JSON array/);
+    expect(() => new ClientRegistryService(buildConfig())).toThrow(
+      /must be a JSON array/,
+    );
   });
 
   it("rejects non-argon2 secret hashes", () => {
     writeRegistry([
       { clientId: "gregg", secretHash: "plaintext", scopes: ["x"] },
     ]);
-    expect(() => new ClientRegistryService()).toThrow(/must be an argon2 hash/);
+    expect(() => new ClientRegistryService(buildConfig())).toThrow(
+      /must be an argon2 hash/,
+    );
   });
 
   it("rejects empty scopes arrays entries", () => {
@@ -91,7 +134,7 @@ describe("ClientRegistryService", () => {
         scopes: ["", "events:read"],
       },
     ]);
-    expect(() => new ClientRegistryService()).toThrow(
+    expect(() => new ClientRegistryService(buildConfig())).toThrow(
       /scopes must be an array of non-empty strings/,
     );
   });
@@ -109,6 +152,8 @@ describe("ClientRegistryService", () => {
         scopes: ["y"],
       },
     ]);
-    expect(() => new ClientRegistryService()).toThrow(/Duplicate clientId/);
+    expect(() => new ClientRegistryService(buildConfig())).toThrow(
+      /Duplicate clientId/,
+    );
   });
 });

@@ -23,9 +23,10 @@ Content-Type: application/json
 }
 
 ###
-# Same thing, but using HTTP Basic auth instead of body params.
+# Same thing, but using HTTP Basic auth instead of body params. The REST
+# Client extension auto-base64-encodes the space-separated user:secret.
 POST {{baseUrl}}/auth/token
-Authorization: Basic {{clientId}}:{{clientSecret}}
+Authorization: Basic {{clientId}} {{clientSecret}}
 Content-Type: application/x-www-form-urlencoded
 
 grant_type=client_credentials

@@ -86,6 +86,10 @@ verifiers can fetch the public key at `GET /auth/.well-known/jwks.json`
    The plaintext secret lives only in your password manager and the
    consuming service's deploy env — never in the repo.
 
+   To point at a different catalogue file (e.g. for a staging environment
+   or a one-off test), set the `CLIENTS_FILE` env var to the desired
+   path. Relative paths resolve against the process working directory.
+
 ### Requesting a token
 
 Body form (RFC 6749 §4.4.2):

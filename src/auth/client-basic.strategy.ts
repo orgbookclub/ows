@@ -12,14 +12,16 @@ import { AuthenticatedClient, AuthService } from "./auth.service";
 @Injectable()
 export class ClientBasicStrategy extends PassportStrategy(Strategy, "basic") {
   /**
-   * Initializes an instance of ClientBasicStrategy. Disables the default
-   * www-authenticate challenge so a missing header passes silently to the
-   * next strategy in the guard chain (the body-form strategy).
+   * Initializes an instance of ClientBasicStrategy. Falls back to passport
+   * defaults; when no Authorization header is present the underlying
+   * BasicStrategy short-circuits with `done(null, false)`, which lets the
+   * `AuthGuard(["basic", "oauth2-client-password"])` chain hand the
+   * request to the body-form strategy as the next attempt.
    *
    * @param authService The auth service.
    */
   constructor(private authService: AuthService) {
-    super({ passReqToCallback: false });
+    super();
     Logger.debug("Initialized ClientBasicStrategy");
   }
 

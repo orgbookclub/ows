@@ -32,6 +32,8 @@ export interface AccessTokenResponse {
  */
 @Injectable()
 export class AuthService {
+  private readonly dummyHashPromise: Promise<string>;
+
   /**
    * Initializes an instance of AuthService.
    *
@@ -45,13 +47,21 @@ export class AuthService {
     @Inject("ACCESS_TOKEN_TTL_SECONDS")
     private accessTokenTtlSeconds: number,
   ) {
+    this.dummyHashPromise = argon2.hash("constant-time-padding-v1", {
+      type: argon2.argon2id,
+    });
+    this.dummyHashPromise.catch((err) => {
+      Logger.error(`Failed to precompute dummy argon2 hash: ${err}`);
+    });
     Logger.debug("Initialized AuthService");
   }
 
   /**
-   * Verifies the supplied client credentials against the registry using a
-   * constant-time argon2 comparison and returns the authenticated client
-   * (with its granted scopes) on success.
+   * Verifies the supplied client credentials against the registry. Both
+   * the unknown-clientId and wrong-secret branches perform an
+   * argon2.verify call (against a precomputed dummy hash for the
+   * unknown-clientId branch), so the response time does not leak whether
+   * the clientId itself was registered.
    *
    * @param clientId The client ID.
    * @param clientSecret The client secret.
@@ -63,6 +73,12 @@ export class AuthService {
   ): Promise<AuthenticatedClient | undefined> {
     const client = this.clientRegistry.findById(clientId);
     if (!client) {
+      try {
+        await argon2.verify(await this.dummyHashPromise, clientSecret);
+      } catch {
+        // Intentionally ignored: the dummy verify exists only to
+        // equalize timing with the wrong-secret branch.
+      }
       return undefined;
     }
     let ok = false;

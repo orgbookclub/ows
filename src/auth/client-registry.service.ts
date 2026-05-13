@@ -2,8 +2,10 @@ import { readFileSync } from "fs";
 import { resolve } from "path";
 
 import { Injectable, Logger } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 
-const CLIENTS_FILE_PATH = "config/clients.json";
+const DEFAULT_CLIENTS_FILE_PATH = "config/clients.json";
+const CLIENTS_FILE_ENV_VAR = "CLIENTS_FILE";
 
 /**
  * Validates a single registry entry and returns it typed.
@@ -79,20 +81,32 @@ export interface RegisteredClient {
 }
 
 /**
- * Loads the registered-clients catalogue from `config/clients.json` into an
- * in-memory map at bootstrap. The file is checked into the repo and
- * contains argon2id-hashed secrets only — no plaintext credentials.
+ * Loads the registered-clients catalogue from `config/clients.json` (or the
+ * path named by the `CLIENTS_FILE` env var, when set) into an in-memory
+ * map at bootstrap. The file is checked into the repo and contains
+ * argon2id-hashed secrets only — no plaintext credentials.
  */
 @Injectable()
 export class ClientRegistryService {
   private readonly clients: Map<string, RegisteredClient>;
 
   /**
-   * Initializes the registry by reading and parsing the catalogue file
-   * relative to the current working directory.
+   * Initializes the registry by reading and parsing the catalogue file.
+   * The path is taken from the `CLIENTS_FILE` env var when set (resolved
+   * relative to the current working directory if not absolute), and falls
+   * back to `config/clients.json` otherwise.
+   *
+   * @param configService Nest config service used to read the
+   * `CLIENTS_FILE` override.
    */
-  constructor() {
-    const filePath = resolve(process.cwd(), CLIENTS_FILE_PATH);
+  constructor(configService: ConfigService) {
+    const configured = configService.get<string>(CLIENTS_FILE_ENV_VAR);
+    const filePath = resolve(
+      process.cwd(),
+      configured && configured.length > 0
+        ? configured
+        : DEFAULT_CLIENTS_FILE_PATH,
+    );
     let raw: string;
     try {
       raw = readFileSync(filePath, "utf-8");
