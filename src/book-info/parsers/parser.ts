@@ -1,4 +1,5 @@
-import { load, CheerioAPI, Cheerio, Element } from "cheerio";
+import { load, CheerioAPI, Cheerio } from "cheerio";
+import { Element } from "domhandler";
 
 /**
  * A Parser class, extended by @see GoodreadsParser and @see StorygraphParser.

@@ -86,8 +86,7 @@ verifiers can fetch the public key at `GET /auth/.well-known/jwks.json`
      "scopes": [
        "events:read", "events:write",
        "users:read", "users:write",
-       "books:read", "books:write",
-       "reviews:read", "reviews:write"
+       "books:read", "books:write"
      ]
    }
    ```
@@ -135,14 +134,12 @@ must include every required scope, with `*` acting as a wildcard.
 
 | Scope             | Granted on routes                                              |
 | ----------------- | -------------------------------------------------------------- |
-| `events:read`     | `GET /api/events`, `GET /api/events/:id`, `GET /api/v2/events` |
+| `events:read`     | `GET /api/events/:id`, `GET /api/v2/events`                    |
 | `events:write`    | `POST` / `PATCH` / `DELETE` on `/api/events`                   |
 | `users:read`      | `GET /api/users`, `GET /api/users/:userid`                     |
 | `users:write`     | `POST` / `PATCH` / `DELETE` on `/api/users`                    |
 | `books:read`      | `GET /api/goodreads/*`, `GET /api/storygraph/*`                |
 | `books:write`     | `POST /api/books`, `POST /api/books/createFromUrl`             |
-| `reviews:read`    | `GET /reviews`, `GET /reviews/:id`                             |
-| `reviews:write`   | `POST` / `PATCH` / `DELETE` on `/reviews`                      |
 | `*`               | wildcard — satisfies any required scope                        |
 
 Routes under `/api/migrations` require all three write scopes

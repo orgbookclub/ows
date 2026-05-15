@@ -15,7 +15,6 @@ import {
   ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOkResponse,
-  ApiOperation,
   ApiTags,
 } from "@nestjs/swagger";
 
@@ -23,7 +22,6 @@ import { Scopes } from "../auth/scopes.decorator";
 import { ParseObjectIdPipe } from "../common/pipes/parse-object-id.pipe";
 
 import { CreateEventDto } from "./dto/create-event.dto";
-import { EventFilter } from "./dto/event-filter.dto";
 import { UpdateEventDto } from "./dto/update-event.dto";
 import { EventsService } from "./events.service";
 import { EventDocument } from "./schemas/event.schema";
@@ -73,25 +71,6 @@ export class EventsController {
     @Body() createEventDto: CreateEventDto,
   ) {
     return await this.eventsService.createFromUrl(url, createEventDto);
-  }
-
-  /**
-   * Gets all event documents from the database which satisfy the filter conditions.
-   *
-   * @deprecated Use `GET /api/v2/events` instead. Sunset target: when consumers have migrated.
-   * @param filter Filter.
-   * @returns A list of event documents.
-   */
-  @Get()
-  @Scopes("events:read")
-  @ApiOperation({
-    deprecated: true,
-    description:
-      "Deprecated. Use GET /api/v2/events for filter, sort, projection, and pagination support.",
-  })
-  @ApiOkResponse({ type: [EventDocument] })
-  async find(@Query() filter: EventFilter) {
-    return await this.eventsService.findMany(filter);
   }
 
   /**

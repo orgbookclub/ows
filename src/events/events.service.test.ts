@@ -56,13 +56,6 @@ describe("EventsService", () => {
     });
   });
 
-  describe("findMany", () => {
-    it("should return all events", async () => {
-      const actual = await service.findMany({});
-      expect(actual).toEqual(mockEventDocs);
-    });
-  });
-
   describe("findOne", () => {
     it("should return an event", async () => {
       const actual = await service.findOne(mockEventDocs[0]._id);

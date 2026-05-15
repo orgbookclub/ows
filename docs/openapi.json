@@ -4,8 +4,6 @@
     "/api/goodreads/search": {
       "get": {
         "operationId": "GoodreadsController_searchBooks",
-        "summary": "",
-        "description": "Endpoint for searching books from Goodreads.",
         "parameters": [
           {
             "name": "q",
@@ -33,15 +31,14 @@
             }
           }
         },
-        "tags": ["Goodreads"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Endpoint for searching books from Goodreads.",
+        "tags": ["Goodreads"]
       }
     },
     "/api/goodreads/book": {
       "get": {
         "operationId": "GoodreadsController_searchAndGetBook",
-        "summary": "",
-        "description": "Searches for, and gets the details of a single book.",
         "parameters": [
           {
             "name": "q",
@@ -60,15 +57,14 @@
             }
           }
         },
-        "tags": ["Goodreads"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Searches for, and gets the details of a single book.",
+        "tags": ["Goodreads"]
       }
     },
     "/api/goodreads/quotes": {
       "get": {
         "operationId": "GoodreadsController_getQuotes",
-        "summary": "",
-        "description": "Searches quotes from Goodreads.",
         "parameters": [
           {
             "name": "k",
@@ -78,7 +74,7 @@
           },
           {
             "name": "q",
-            "required": true,
+            "required": false,
             "in": "query",
             "schema": { "type": "string" }
           }
@@ -93,15 +89,14 @@
             }
           }
         },
-        "tags": ["Goodreads"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Searches quotes from Goodreads.",
+        "tags": ["Goodreads"]
       }
     },
     "/api/storygraph/search": {
       "get": {
         "operationId": "StorygraphController_searchBooks",
-        "summary": "",
-        "description": "Endpoint for searching books from Storygraph.",
         "parameters": [
           {
             "name": "q",
@@ -129,15 +124,14 @@
             }
           }
         },
-        "tags": ["Storygraph"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Endpoint for searching books from Storygraph.",
+        "tags": ["Storygraph"]
       }
     },
     "/api/storygraph/book": {
       "get": {
         "operationId": "StorygraphController_searchAndGetBook",
-        "summary": "",
-        "description": "Searches for, and gets the details of a single book.",
         "parameters": [
           {
             "name": "q",
@@ -156,15 +150,14 @@
             }
           }
         },
-        "tags": ["Storygraph"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Searches for, and gets the details of a single book.",
+        "tags": ["Storygraph"]
       }
     },
     "/api/books": {
       "post": {
         "operationId": "BooksController_createBookFromDto",
-        "summary": "",
-        "description": "Creates a book from the given Dto object.",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -182,23 +175,16 @@
                 "schema": { "$ref": "#/components/schemas/BookDocument" }
               }
             }
-          },
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": { "schema": { "type": "object" } }
-            }
           }
         },
-        "tags": ["Books"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Creates a book from the given Dto object.",
+        "tags": ["Books"]
       }
     },
     "/api/books/createFromUrl": {
       "post": {
         "operationId": "BooksController_createBookFromUrl",
-        "summary": "",
-        "description": "Creates a book from the given valid URL.",
         "parameters": [
           {
             "name": "url",
@@ -215,23 +201,16 @@
                 "schema": { "$ref": "#/components/schemas/BookDocument" }
               }
             }
-          },
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": { "schema": { "type": "object" } }
-            }
           }
         },
-        "tags": ["Books"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Creates a book from the given valid URL.",
+        "tags": ["Books"]
       }
     },
     "/api/events": {
       "post": {
         "operationId": "EventsController_create",
-        "summary": "",
-        "description": "Creates an event from the Dto object.",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -249,182 +228,16 @@
                 "schema": { "$ref": "#/components/schemas/EventDocument" }
               }
             }
-          },
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": { "schema": { "type": "object" } }
-            }
           }
         },
-        "tags": ["Events"],
-        "security": [{ "bearer": [] }]
-      },
-      "get": {
-        "operationId": "EventsController_find",
-        "summary": "",
-        "description": "Deprecated. Use GET /api/v2/events for filter, sort, projection, and pagination support.",
-        "deprecated": true,
-        "parameters": [
-          {
-            "name": "name",
-            "required": false,
-            "in": "query",
-            "description": "The name of the event.",
-            "example": "American Gods",
-            "schema": { "type": "string" }
-          },
-          {
-            "name": "bookSearchQuery",
-            "required": false,
-            "in": "query",
-            "description": "The query string which will search among book titles.",
-            "example": "American",
-            "schema": { "type": "string" }
-          },
-          {
-            "name": "bookIds",
-            "required": false,
-            "in": "query",
-            "description": "A list of object IDs pointing to book documents.",
-            "schema": { "type": "array", "items": { "type": "string" } }
-          },
-          {
-            "name": "threads",
-            "required": false,
-            "in": "query",
-            "description": "A list of channel/thread IDs.",
-            "schema": { "type": "array", "items": { "type": "string" } }
-          },
-          {
-            "name": "status",
-            "required": false,
-            "in": "query",
-            "description": "The status of the event.",
-            "example": "Approved",
-            "schema": {
-              "enum": [
-                "Requested",
-                "Approved",
-                "Announced",
-                "Ongoing",
-                "Completed",
-                "Rejected",
-                "Cancelled"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "name": "type",
-            "required": false,
-            "in": "query",
-            "description": "The type of the event.",
-            "example": "BuddyRead",
-            "schema": {
-              "enum": [
-                "BuddyRead",
-                "MonthlyRead",
-                "ShortStoryRead",
-                "PoetryRead",
-                "Other"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "name": "startDateBefore",
-            "required": false,
-            "in": "query",
-            "description": "The start date of the event should be before this date.",
-            "schema": { "format": "date-time", "type": "string" }
-          },
-          {
-            "name": "startDateAfter",
-            "required": false,
-            "in": "query",
-            "description": "The start date of the event should be after this date.",
-            "schema": { "format": "date-time", "type": "string" }
-          },
-          {
-            "name": "endDateBefore",
-            "required": false,
-            "in": "query",
-            "description": "The end date of the event should be before this date.",
-            "schema": { "format": "date-time", "type": "string" }
-          },
-          {
-            "name": "endDateAfter",
-            "required": false,
-            "in": "query",
-            "description": "The end date of the event should be after this date.",
-            "schema": { "format": "date-time", "type": "string" }
-          },
-          {
-            "name": "participantIds",
-            "required": false,
-            "in": "query",
-            "description": "The ID of the participant of the event should be in this list.\nThis covers requestors, interested, readers etc all participants.",
-            "schema": { "type": "array", "items": { "type": "string" } }
-          },
-          {
-            "name": "requestedByIds",
-            "required": false,
-            "in": "query",
-            "description": "The ID of the requestor of the event should be in this list.",
-            "schema": { "type": "array", "items": { "type": "string" } }
-          },
-          {
-            "name": "interestedIds",
-            "required": false,
-            "in": "query",
-            "description": "The ID of the interested people of the event should be in this list.",
-            "schema": { "type": "array", "items": { "type": "string" } }
-          },
-          {
-            "name": "readerIds",
-            "required": false,
-            "in": "query",
-            "description": "The ID of the reader of the event should be in this list.",
-            "schema": { "type": "array", "items": { "type": "string" } }
-          },
-          {
-            "name": "leaderIds",
-            "required": false,
-            "in": "query",
-            "description": "The ID of the leader of the event should be in this list.",
-            "schema": { "type": "array", "items": { "type": "string" } }
-          },
-          {
-            "name": "sortBy",
-            "required": false,
-            "in": "query",
-            "description": "The criteria to sort the events.",
-            "schema": { "type": "string" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": { "$ref": "#/components/schemas/EventDocument" }
-                }
-              }
-            }
-          }
-        },
-        "tags": ["Events"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Creates an event from the Dto object.",
+        "tags": ["Events"]
       }
     },
     "/api/events/createFromUrl": {
       "post": {
         "operationId": "EventsController_createFromUrl",
-        "summary": "",
-        "description": "Creates an event from the book URL and Dto object.",
         "parameters": [
           {
             "name": "url",
@@ -449,23 +262,16 @@
                 "schema": { "$ref": "#/components/schemas/EventDocument" }
               }
             }
-          },
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": { "schema": { "type": "object" } }
-            }
           }
         },
-        "tags": ["Events"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Creates an event from the book URL and Dto object.",
+        "tags": ["Events"]
       }
     },
     "/api/events/{id}": {
       "get": {
         "operationId": "EventsController_findOne",
-        "summary": "",
-        "description": "Gets the event document with the given ID from the database.",
         "parameters": [
           {
             "name": "id",
@@ -486,13 +292,12 @@
           "400": { "description": "Invalid event id." },
           "404": { "description": "Event not found." }
         },
-        "tags": ["Events"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Gets the event document with the given ID from the database.",
+        "tags": ["Events"]
       },
       "patch": {
         "operationId": "EventsController_update",
-        "summary": "",
-        "description": "Updates the event with the given ID and Dto in the database.",
         "parameters": [
           {
             "name": "id",
@@ -520,13 +325,12 @@
           },
           "400": { "description": "Invalid event id." }
         },
-        "tags": ["Events"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Updates the event with the given ID and Dto in the database.",
+        "tags": ["Events"]
       },
       "delete": {
         "operationId": "EventsController_remove",
-        "summary": "",
-        "description": "Deletes the event document from the DB.",
         "parameters": [
           {
             "name": "id",
@@ -544,31 +348,28 @@
           },
           "400": { "description": "Invalid event id." }
         },
-        "tags": ["Events"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Deletes the event document from the DB.",
+        "tags": ["Events"]
       }
     },
     "/api/v2/events": {
       "get": {
         "operationId": "EventsV2Controller_find",
-        "summary": "",
-        "description": "Gets a paginated slice of event documents matching the filter, with optional\nprojection and sort.",
         "parameters": [
           {
             "name": "name",
             "required": false,
             "in": "query",
             "description": "The name of the event.",
-            "example": "American Gods",
-            "schema": { "type": "string" }
+            "schema": { "example": "American Gods", "type": "string" }
           },
           {
             "name": "bookSearchQuery",
             "required": false,
             "in": "query",
             "description": "The query string which will search among book titles.",
-            "example": "American",
-            "schema": { "type": "string" }
+            "schema": { "example": "American", "type": "string" }
           },
           {
             "name": "bookIds",
@@ -589,8 +390,9 @@
             "required": false,
             "in": "query",
             "description": "The status of the event.",
-            "example": "Approved",
             "schema": {
+              "example": "Approved",
+              "type": "string",
               "enum": [
                 "Requested",
                 "Approved",
@@ -599,8 +401,7 @@
                 "Completed",
                 "Rejected",
                 "Cancelled"
-              ],
-              "type": "string"
+              ]
             }
           },
           {
@@ -608,16 +409,16 @@
             "required": false,
             "in": "query",
             "description": "The type of the event.",
-            "example": "BuddyRead",
             "schema": {
+              "example": "BuddyRead",
+              "type": "string",
               "enum": [
                 "BuddyRead",
                 "MonthlyRead",
                 "ShortStoryRead",
                 "PoetryRead",
                 "Other"
-              ],
-              "type": "string"
+              ]
             }
           },
           {
@@ -688,23 +489,25 @@
             "required": false,
             "in": "query",
             "description": "Comma-separated list of fields to include in the response, or to exclude\nwhen each entry is prefixed with `-`. Inclusion and exclusion cannot be\nmixed in a single request. The `_id` field is always returned regardless.",
-            "example": "name,status,dates.startDate",
-            "schema": { "type": "string" }
+            "schema": {
+              "example": "name,status,dates.startDate",
+              "type": "string"
+            }
           },
           {
             "name": "sortBy",
             "required": false,
             "in": "query",
             "description": "The criterion to sort the events by.\nDefaults to startDateDesc when omitted.",
-            "example": "startDateDesc",
             "schema": {
+              "example": "startDateDesc",
+              "type": "string",
               "enum": [
                 "startDateAsc",
                 "startDateDesc",
                 "endDateAsc",
                 "endDateDesc"
-              ],
-              "type": "string"
+              ]
             }
           },
           {
@@ -712,16 +515,14 @@
             "required": false,
             "in": "query",
             "description": "The 1-based page number to return.",
-            "example": 1,
-            "schema": { "type": "number" }
+            "schema": { "example": 1, "type": "number" }
           },
           {
             "name": "pageSize",
             "required": false,
             "in": "query",
             "description": "The maximum number of items to return per page.",
-            "example": 20,
-            "schema": { "type": "number" }
+            "schema": { "example": 20, "type": "number" }
           }
         ],
         "responses": {
@@ -734,15 +535,14 @@
             }
           }
         },
-        "tags": ["Events"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Gets a paginated slice of event documents matching the filter, with optional\nprojection and sort.",
+        "tags": ["Events"]
       }
     },
     "/api/users": {
       "post": {
         "operationId": "UsersController_create",
-        "summary": "",
-        "description": "Creates a user from the given Dto object.",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -760,21 +560,14 @@
                 "schema": { "$ref": "#/components/schemas/UserDocument" }
               }
             }
-          },
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": { "schema": { "type": "object" } }
-            }
           }
         },
-        "tags": ["Users"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Creates a user from the given Dto object.",
+        "tags": ["Users"]
       },
       "get": {
         "operationId": "UsersController_findAll",
-        "summary": "",
-        "description": "Gets all user documents from the database.",
         "parameters": [],
         "responses": {
           "200": {
@@ -789,15 +582,14 @@
             }
           }
         },
-        "tags": ["Users"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Gets all user documents from the database.",
+        "tags": ["Users"]
       }
     },
     "/api/users/{userid}": {
       "get": {
         "operationId": "UsersController_findOneByUserId",
-        "summary": "",
-        "description": "Gets a user from the user Id.",
         "parameters": [
           {
             "name": "userid",
@@ -817,15 +609,14 @@
           },
           "404": { "description": "User not found." }
         },
-        "tags": ["Users"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Gets a user from the user Id.",
+        "tags": ["Users"]
       }
     },
     "/api/users/{id}": {
       "patch": {
         "operationId": "UsersController_update",
-        "summary": "",
-        "description": "Updates a user with the given Id.",
         "parameters": [
           {
             "name": "id",
@@ -853,13 +644,12 @@
           },
           "400": { "description": "Invalid user id." }
         },
-        "tags": ["Users"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Updates a user with the given Id.",
+        "tags": ["Users"]
       },
       "delete": {
         "operationId": "UsersController_remove",
-        "summary": "",
-        "description": "Deletes a user with the given Id.",
         "parameters": [
           {
             "name": "id",
@@ -877,126 +667,14 @@
           },
           "400": { "description": "Invalid user id." }
         },
-        "tags": ["Users"],
-        "security": [{ "bearer": [] }]
-      }
-    },
-    "/reviews": {
-      "post": {
-        "operationId": "ReviewsController_create",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/CreateReviewDto" }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": { "schema": { "type": "string" } }
-            }
-          }
-        },
-        "tags": ["Reviews"],
-        "security": [{ "bearer": [] }]
-      },
-      "get": {
-        "operationId": "ReviewsController_findAll",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": { "schema": { "type": "string" } }
-            }
-          }
-        },
-        "tags": ["Reviews"],
-        "security": [{ "bearer": [] }]
-      }
-    },
-    "/reviews/{id}": {
-      "get": {
-        "operationId": "ReviewsController_findOne",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": { "type": "string" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": { "schema": { "type": "string" } }
-            }
-          }
-        },
-        "tags": ["Reviews"],
-        "security": [{ "bearer": [] }]
-      },
-      "patch": {
-        "operationId": "ReviewsController_update",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": { "type": "string" }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/UpdateReviewDto" }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": { "schema": { "type": "string" } }
-            }
-          }
-        },
-        "tags": ["Reviews"],
-        "security": [{ "bearer": [] }]
-      },
-      "delete": {
-        "operationId": "ReviewsController_remove",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": { "type": "string" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": { "schema": { "type": "string" } }
-            }
-          }
-        },
-        "tags": ["Reviews"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Deletes a user with the given Id.",
+        "tags": ["Users"]
       }
     },
     "/auth/token": {
       "post": {
         "operationId": "AuthController_getAccessToken",
-        "summary": "",
-        "description": "Gets an access token, using the client credentials flow. Accepts\ncredentials either in the request body (per OAuth2 §4.4.2) or via the\nAuthorization: Basic header (per §2.3.1).",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -1014,22 +692,15 @@
                 "schema": { "$ref": "#/components/schemas/AccessTokenDto" }
               }
             }
-          },
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": { "schema": { "type": "object" } }
-            }
           }
         },
+        "summary": "Gets an access token, using the client credentials flow. Accepts\ncredentials either in the request body (per OAuth2 §4.4.2) or via the\nAuthorization: Basic header (per §2.3.1).",
         "tags": ["Auth"]
       }
     },
     "/auth/.well-known/jwks.json": {
       "get": {
         "operationId": "AuthController_getJwks",
-        "summary": "",
-        "description": "Returns the public JWKS document used by other services to verify\ntokens issued by OWS, per RFC 7517.",
         "parameters": [],
         "responses": {
           "200": {
@@ -1041,36 +712,33 @@
             }
           }
         },
+        "summary": "Returns the public JWKS document used by other services to verify\ntokens issued by OWS, per RFC 7517.",
         "tags": ["Auth"]
       }
     },
     "/api/migrations/all": {
       "get": {
         "operationId": "MigrationsController_migrateAllEvents",
-        "summary": "",
-        "description": "Migrates all events from older schema to newer one.",
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Migrations"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Migrates all events from older schema to newer one.",
+        "tags": ["Migrations"]
       }
     },
     "/api/migrations/updateBooks": {
       "get": {
         "operationId": "MigrationsController_updateBooks",
-        "summary": "",
-        "description": "Updates all the book documents.",
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Migrations"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Updates all the book documents.",
+        "tags": ["Migrations"]
       }
     },
     "/api/migrations": {
       "post": {
         "operationId": "MigrationsController_migrateEvent",
-        "summary": "",
-        "description": "Migrates a single event doc from older schema to newer one.",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -1081,17 +749,17 @@
           }
         },
         "responses": { "201": { "description": "" } },
-        "tags": ["Migrations"],
-        "security": [{ "bearer": [] }]
+        "security": [{ "bearer": [] }],
+        "summary": "Migrates a single event doc from older schema to newer one.",
+        "tags": ["Migrations"]
       }
     },
     "/api/health": {
       "get": {
         "operationId": "HealthController_getHealth",
-        "summary": "",
-        "description": "Health endpoint.",
         "parameters": [],
         "responses": { "200": { "description": "" } },
+        "summary": "Health endpoint.",
         "tags": ["Health"]
       }
     }
@@ -1099,7 +767,7 @@
   "info": {
     "title": "OWS",
     "description": "API description for the Organized Web Server",
-    "version": "2.1.1",
+    "version": "3.0.0",
     "contact": {}
   },
   "tags": [],
@@ -1689,7 +1357,6 @@
             "items": { "type": "string" }
           },
           "status": {
-            "type": "string",
             "description": "The status of the event.",
             "example": "Approved",
             "enum": [
@@ -1700,10 +1367,10 @@
               "Completed",
               "Rejected",
               "Cancelled"
-            ]
+            ],
+            "type": "string"
           },
           "type": {
-            "type": "string",
             "description": "The type of the event.",
             "example": "BuddyRead",
             "enum": [
@@ -1712,7 +1379,8 @@
               "ShortStoryRead",
               "PoetryRead",
               "Other"
-            ]
+            ],
+            "type": "string"
           },
           "dates": {
             "description": "The dates for the event.",
@@ -1805,8 +1473,6 @@
           }
         }
       },
-      "CreateReviewDto": { "type": "object", "properties": {} },
-      "UpdateReviewDto": { "type": "object", "properties": {} },
       "ClientCredentialsDto": {
         "type": "object",
         "properties": {

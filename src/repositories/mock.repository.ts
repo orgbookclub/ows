@@ -1,4 +1,3 @@
-/* eslint-disable jsdoc/no-undefined-types */
 import { BaseRepository } from "./base.repository";
 
 /**
