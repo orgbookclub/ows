@@ -27,7 +27,7 @@ NestJS REST API for the OrgBookClub. Persists data in MongoDB via Mongoose, scra
 Standard NestJS feature-module layout. `src/app.module.ts` wires the modules; the layout per feature is `*.module.ts` + `*.controller.ts` + `*.service.ts` + `dto/` + `schemas/` (Mongoose) and/or `entities/`.
 
 Feature modules:
-- `books`, `events`, `users`, `reviews` — CRUD over Mongo collections.
+- `books`, `events`, `users` — CRUD over Mongo collections.
 - `book-info` — scrapes Goodreads & Storygraph via `cheerio`. Parsers extend the shared `Parser` base in `src/book-info/parsers/parser.ts` (the `CheerioAPI` field is named `soup` for legacy reasons).
 - `auth` — OAuth2 client-credentials at `POST /auth/token`, RS256 JWT bearer for everything else; signing keys read from `PRIVATE_KEY_PEM` / `PUBLIC_KEY_PEM` env vars and exposed publicly at `GET /auth/.well-known/jwks.json` (RFC 7517). Registered clients live in the file pointed at by `CLIENTS_FILE` (default `config/clients.json`) with argon2id-hashed secrets.
 - `migrations` — one-off endpoints to migrate documents between schema versions; not part of normal request flow.
