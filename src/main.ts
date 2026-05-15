@@ -6,6 +6,8 @@ import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { useAzureMonitor } from "applicationinsights";
 
+import { version } from "../package.json";
+
 import { AppModule } from "./app.module";
 import { CustomLogger } from "./logger/CustomLogger";
 
@@ -42,7 +44,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle("OWS")
     .setDescription("API description for the Organized Web Server")
-    .setVersion(process.env.npm_package_version)
+    .setVersion(version)
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
