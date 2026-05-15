@@ -9,7 +9,6 @@ import {
 } from "../repositories/event.repository";
 
 import { CreateEventDto } from "./dto/create-event.dto";
-import { EventFilter } from "./dto/event-filter.dto";
 import { UpdateEventDto } from "./dto/update-event.dto";
 import { Event } from "./schemas/event.schema";
 import { EventFilterV2Dto } from "./v2/dto/event-filter.v2.dto";
@@ -61,18 +60,6 @@ export class EventsService {
   }
 
   /**
-   * Gets all event documents from the database which satisfy the filter conditions.
-   *
-   * @param filter Filter.
-   * @returns A list of events.
-   */
-  async findMany(filter: EventFilter) {
-    const query: FilterQuery<Event> = await this.getFilterQuery(filter);
-    const results = await this.repository.find(query, filter.sortBy);
-    return results;
-  }
-
-  /**
    * Gets a paginated, optionally projected and sorted, slice of event documents.
    *
    * @param filter The v2 filter (no sortBy).
@@ -87,9 +74,7 @@ export class EventsService {
     sort: EventSortKey | undefined,
     pagination: ParsedPagination,
   ): Promise<PaginatedEventsDto> {
-    const query: FilterQuery<Event> = await this.getFilterQuery(
-      filter as EventFilter,
-    );
+    const query: FilterQuery<Event> = await this.getFilterQuery(filter);
     const populatePaths = planEventPopulates(
       projection.mode,
       projection.topLevelFields,
@@ -148,7 +133,7 @@ export class EventsService {
    * @param filter The filter from the request.
    * @returns  A MongoDB FilterQuery object.
    */
-  private async getFilterQuery(filter: EventFilter) {
+  private async getFilterQuery(filter: EventFilterV2Dto) {
     const query: FilterQuery<Event> = {};
     filter.name && (query.name = filter.name);
     if (filter.bookSearchQuery) {
