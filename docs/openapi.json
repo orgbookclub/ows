@@ -881,117 +881,6 @@
         "security": [{ "bearer": [] }]
       }
     },
-    "/reviews": {
-      "post": {
-        "operationId": "ReviewsController_create",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/CreateReviewDto" }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": { "schema": { "type": "string" } }
-            }
-          }
-        },
-        "tags": ["Reviews"],
-        "security": [{ "bearer": [] }]
-      },
-      "get": {
-        "operationId": "ReviewsController_findAll",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": { "schema": { "type": "string" } }
-            }
-          }
-        },
-        "tags": ["Reviews"],
-        "security": [{ "bearer": [] }]
-      }
-    },
-    "/reviews/{id}": {
-      "get": {
-        "operationId": "ReviewsController_findOne",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": { "type": "string" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": { "schema": { "type": "string" } }
-            }
-          }
-        },
-        "tags": ["Reviews"],
-        "security": [{ "bearer": [] }]
-      },
-      "patch": {
-        "operationId": "ReviewsController_update",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": { "type": "string" }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/UpdateReviewDto" }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": { "schema": { "type": "string" } }
-            }
-          }
-        },
-        "tags": ["Reviews"],
-        "security": [{ "bearer": [] }]
-      },
-      "delete": {
-        "operationId": "ReviewsController_remove",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": { "type": "string" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": { "schema": { "type": "string" } }
-            }
-          }
-        },
-        "tags": ["Reviews"],
-        "security": [{ "bearer": [] }]
-      }
-    },
     "/auth/token": {
       "post": {
         "operationId": "AuthController_getAccessToken",
@@ -1805,8 +1694,6 @@
           }
         }
       },
-      "CreateReviewDto": { "type": "object", "properties": {} },
-      "UpdateReviewDto": { "type": "object", "properties": {} },
       "ClientCredentialsDto": {
         "type": "object",
         "properties": {
