@@ -135,7 +135,9 @@ export class EventsService {
    */
   private async getFilterQuery(filter: EventFilterV2Dto) {
     const query: FilterQuery<Event> = {};
-    filter.name && (query.name = filter.name);
+    if (filter.name) {
+      query.name = filter.name;
+    }
     if (filter.bookSearchQuery) {
       const books = await this.booksService.findBooks(filter.bookSearchQuery);
       if (books.length > 0) {
@@ -145,43 +147,62 @@ export class EventsService {
         books.forEach((book) => filter.bookIds.push(book._id.toString()));
       }
     }
-    filter.bookIds && (query.book = { $in: filter.bookIds });
-    filter.threads && (query.threads = { $in: filter.threads });
-    filter.status && (query.status = filter.status);
-    filter.type && (query.type = filter.type);
-    filter.startDateBefore &&
-      (query["dates.startDate"] = {
+    if (filter.bookIds) {
+      query.book = { $in: filter.bookIds };
+    }
+    if (filter.threads) {
+      query.threads = { $in: filter.threads };
+    }
+    if (filter.status) {
+      query.status = filter.status;
+    }
+    if (filter.type) {
+      query.type = filter.type;
+    }
+    if (filter.startDateBefore) {
+      query["dates.startDate"] = {
         $lte: new Date(filter.startDateBefore).toISOString(),
         ...query["dates.startDate"],
-      });
-    filter.startDateAfter &&
-      (query["dates.startDate"] = {
+      };
+    }
+    if (filter.startDateAfter) {
+      query["dates.startDate"] = {
         $gte: new Date(filter.startDateAfter).toISOString(),
         ...query["dates.startDate"],
-      });
-    filter.endDateBefore &&
-      (query["dates.endDate"] = {
+      };
+    }
+    if (filter.endDateBefore) {
+      query["dates.endDate"] = {
         $lte: new Date(filter.endDateBefore).toISOString(),
         ...query["dates.endDate"],
-      });
-    filter.endDateAfter &&
-      (query["dates.endDate"] = {
+      };
+    }
+    if (filter.endDateAfter) {
+      query["dates.endDate"] = {
         $gte: new Date(filter.endDateAfter).toISOString(),
         ...query["dates.endDate"],
-      });
-    filter.participantIds &&
-      (query["$or"] = [
+      };
+    }
+    if (filter.participantIds) {
+      query["$or"] = [
         { "requestedBy.user": { $in: filter.participantIds } },
         { "interested.user": { $in: filter.participantIds } },
         { "readers.user": { $in: filter.participantIds } },
         { "leaders.user": { $in: filter.participantIds } },
-      ]);
-    filter.requestedByIds &&
-      (query["requestedBy.user"] = { $in: filter.requestedByIds });
-    filter.interestedIds &&
-      (query["interested.user"] = { $in: filter.interestedIds });
-    filter.readerIds && (query["readers.user"] = { $in: filter.readerIds });
-    filter.leaderIds && (query["leaders.user"] = { $in: filter.leaderIds });
+      ];
+    }
+    if (filter.requestedByIds) {
+      query["requestedBy.user"] = { $in: filter.requestedByIds };
+    }
+    if (filter.interestedIds) {
+      query["interested.user"] = { $in: filter.interestedIds };
+    }
+    if (filter.readerIds) {
+      query["readers.user"] = { $in: filter.readerIds };
+    }
+    if (filter.leaderIds) {
+      query["leaders.user"] = { $in: filter.leaderIds };
+    }
     return query;
   }
 }

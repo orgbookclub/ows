@@ -35,7 +35,7 @@ export class StorygraphParser extends Parser {
         "div[class='book-pane-content grid grid-cols-10']",
       );
       return this.extractBooksFromRows(tableRows, k);
-    } catch (err) {
+    } catch {
       throw new InternalServerErrorException();
     }
   }
@@ -79,7 +79,7 @@ export class StorygraphParser extends Parser {
         genres: genres,
         numPages: pages,
       };
-    } catch (err) {
+    } catch {
       throw new InternalServerErrorException();
     }
   }
@@ -128,7 +128,7 @@ export class StorygraphParser extends Parser {
         coverUrl: coverUrl,
         numPages: 0,
       };
-    } catch (error) {
+    } catch {
       throw new InternalServerErrorException();
     }
   }

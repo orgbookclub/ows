@@ -64,7 +64,7 @@ export class MigrationsService {
         Logger.log(`Updating docu ${bookDoc._id}`);
         bookDoc.numPages = book.numPages;
         await this.booksService.updateBook(bookDoc._id, bookDoc);
-      } catch (error) {
+      } catch {
         Logger.log(`Error updating docu ${bookDoc._id}`);
       }
     }
