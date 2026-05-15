@@ -1,5 +1,6 @@
 import { InternalServerErrorException, Logger } from "@nestjs/common";
-import { Cheerio, CheerioAPI, Element } from "cheerio";
+import { Cheerio, CheerioAPI } from "cheerio";
+import { Element } from "domhandler";
 
 import { AuthorDto } from "../../books/dto/author.dto";
 import { BookDto } from "../../books/dto/book.dto";
