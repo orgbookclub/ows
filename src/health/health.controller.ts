@@ -1,8 +1,8 @@
 import { Controller, Get, Logger } from "@nestjs/common";
 import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
-import { version } from "../../package.json";
 import { SkipAuth } from "../auth/jwt-auth.guard";
+import { VERSION } from "../version";
 
 /**
  * The Health Controller.
@@ -26,6 +26,6 @@ export class HealthController {
   @ApiOkResponse()
   @SkipAuth()
   async getHealth() {
-    return `Healthy! v${version}`;
+    return `Healthy! v${VERSION}`;
   }
 }
