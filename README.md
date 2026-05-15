@@ -135,7 +135,7 @@ must include every required scope, with `*` acting as a wildcard.
 
 | Scope             | Granted on routes                                              |
 | ----------------- | -------------------------------------------------------------- |
-| `events:read`     | `GET /api/events`, `GET /api/events/:id`, `GET /api/v2/events` |
+| `events:read`     | `GET /api/events/:id`, `GET /api/v2/events`                    |
 | `events:write`    | `POST` / `PATCH` / `DELETE` on `/api/events`                   |
 | `users:read`      | `GET /api/users`, `GET /api/users/:userid`                     |
 | `users:write`     | `POST` / `PATCH` / `DELETE` on `/api/users`                    |
