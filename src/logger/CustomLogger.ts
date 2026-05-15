@@ -1,23 +1,30 @@
 import { ConsoleLogger, LogLevel, LoggerService } from "@nestjs/common";
-import { TelemetryClient, setup, start } from "applicationinsights";
-import { SeverityLevel } from "applicationinsights/out/Declarations/Contracts";
+import {
+  Logger as OtelLogger,
+  SeverityNumber,
+  logs,
+} from "@opentelemetry/api-logs";
+
+const LOGGER_NAME = "ows";
+const LOGGER_VERSION = "1.0.0";
 
 /**
  * A Custom Logger extending the base logger provided by NestJS.
+ *
+ * Console output is preserved via `super.<level>(...)`. Each log call is also
+ * forwarded as an OpenTelemetry `LogRecord`; when `useAzureMonitor` has been
+ * initialized in `main.ts`, the Azure Monitor exporter routes those records
+ * to Application Insights as Trace telemetry.
  */
 export class CustomLogger extends ConsoleLogger implements LoggerService {
-  private appInsightsClient: TelemetryClient;
+  private readonly otelLogger: OtelLogger;
 
   /**
    * Constructor.
    */
   constructor() {
     super();
-    setup(process.env.APPLICATIONINSIGHTS_CONNECTION_STRING);
-    start();
-    this.appInsightsClient = new TelemetryClient(
-      process.env.APPLICATIONINSIGHTS_CONNECTION_STRING ?? "N/A",
-    );
+    this.otelLogger = logs.getLogger(LOGGER_NAME, LOGGER_VERSION);
   }
 
   /**
@@ -28,10 +35,7 @@ export class CustomLogger extends ConsoleLogger implements LoggerService {
    */
   log(message: any, ...optionalParams: any[]) {
     super.log(message, ...optionalParams);
-    this.appInsightsClient.trackTrace({
-      message,
-      severity: SeverityLevel.Information,
-    });
+    this.emit(SeverityNumber.INFO, "INFO", message, optionalParams);
   }
 
   /**
@@ -42,11 +46,7 @@ export class CustomLogger extends ConsoleLogger implements LoggerService {
    */
   error(message: any, ...optionalParams: any[]) {
     super.error(message, ...optionalParams);
-    this.appInsightsClient.trackException({
-      exception: message,
-      severity: SeverityLevel.Error,
-      properties: optionalParams,
-    });
+    this.emit(SeverityNumber.ERROR, "ERROR", message, optionalParams);
   }
 
   /**
@@ -57,11 +57,7 @@ export class CustomLogger extends ConsoleLogger implements LoggerService {
    */
   warn(message: any, ...optionalParams: any[]) {
     super.warn(message, ...optionalParams);
-    this.appInsightsClient.trackTrace({
-      message: message,
-      severity: SeverityLevel.Warning,
-      properties: optionalParams,
-    });
+    this.emit(SeverityNumber.WARN, "WARN", message, optionalParams);
   }
 
   /**
@@ -72,11 +68,7 @@ export class CustomLogger extends ConsoleLogger implements LoggerService {
    */
   debug(message: any, ...optionalParams: any[]) {
     super.debug(message, ...optionalParams);
-    this.appInsightsClient.trackTrace({
-      message: message,
-      severity: SeverityLevel.Verbose,
-      properties: optionalParams,
-    });
+    this.emit(SeverityNumber.DEBUG, "DEBUG", message, optionalParams);
   }
 
   /**
@@ -87,6 +79,7 @@ export class CustomLogger extends ConsoleLogger implements LoggerService {
    */
   verbose(message: any, ...optionalParams: any[]) {
     super.verbose(message, ...optionalParams);
+    this.emit(SeverityNumber.TRACE, "TRACE", message, optionalParams);
   }
 
   /**
@@ -96,5 +89,40 @@ export class CustomLogger extends ConsoleLogger implements LoggerService {
    */
   setLogLevels(levels: LogLevel[]) {
     super.setLogLevels(levels);
+  }
+
+  /**
+   * Emit a single OpenTelemetry log record built from a Nest log call.
+   *
+   * @param severityNumber The OTel severity number.
+   * @param severityText The OTel severity text.
+   * @param message The original log message.
+   * @param optionalParams Optional parameters passed alongside the message;
+   *  the last string element is treated as the Nest "context" tag.
+   */
+  private emit(
+    severityNumber: SeverityNumber,
+    severityText: string,
+    message: any,
+    optionalParams: any[],
+  ) {
+    const attributes: Record<string, any> = {};
+    let context: string | undefined;
+    if (optionalParams.length > 0) {
+      const last = optionalParams[optionalParams.length - 1];
+      if (typeof last === "string") {
+        context = last;
+      }
+      attributes.params = optionalParams;
+    }
+    if (context) {
+      attributes.context = context;
+    }
+    this.otelLogger.emit({
+      severityNumber,
+      severityText,
+      body: typeof message === "string" ? message : JSON.stringify(message),
+      attributes,
+    });
   }
 }
