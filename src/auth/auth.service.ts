@@ -18,14 +18,12 @@ export interface AuthenticatedClient {
 /**
  * RFC 6749 §5.1 access token response.
  */
-/* eslint-disable camelcase */
 export interface AccessTokenResponse {
   access_token: string;
   token_type: "Bearer";
   expires_in: number;
   scope: string;
 }
-/* eslint-enable camelcase */
 
 /**
  * The Auth service.
