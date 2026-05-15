@@ -9,6 +9,52 @@ const LOGGER_NAME = "ows";
 const LOGGER_VERSION = "1.0.0";
 
 /**
+ * Format a log message body for OTel emission.
+ *
+ * Strings pass through unchanged; `Error` instances yield their stack
+ * (falling back to `name: message`); everything else is run through
+ * `safeStringify`.
+ *
+ * @param message The original log message.
+ * @returns The body string for the OTel `LogRecord`.
+ */
+function formatBody(message: any): string {
+  if (typeof message === "string") return message;
+  if (message instanceof Error) {
+    return message.stack ?? `${message.name}: ${message.message}`;
+  }
+  return safeStringify(message);
+}
+
+/**
+ * JSON-serialize any value with two safety nets: `Error` instances are
+ * captured as `{name, message, stack}` (the default toJSON would yield
+ * `{}`), and circular references collapse to `"[Circular]"`. Returns
+ * `"[unserializable: …]"` if the JSON.stringify call itself throws.
+ *
+ * @param value The value to serialize.
+ * @returns A JSON string suitable for an OTel attribute value.
+ */
+function safeStringify(value: any): string {
+  try {
+    const seen = new WeakSet<object>();
+    return JSON.stringify(value, (_key, val) => {
+      if (val instanceof Error) {
+        return { name: val.name, message: val.message, stack: val.stack };
+      }
+      if (typeof val === "object" && val !== null) {
+        if (seen.has(val)) return "[Circular]";
+        seen.add(val);
+      }
+      return val;
+    });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    return `[unserializable: ${msg}]`;
+  }
+}
+
+/**
  * A Custom Logger extending the base logger provided by NestJS.
  *
  * Console output is preserved via `super.<level>(...)`. Each log call is also
@@ -106,22 +152,19 @@ export class CustomLogger extends ConsoleLogger implements LoggerService {
     message: any,
     optionalParams: any[],
   ) {
-    const attributes: Record<string, any> = {};
-    let context: string | undefined;
-    if (optionalParams.length > 0) {
-      const last = optionalParams[optionalParams.length - 1];
-      if (typeof last === "string") {
-        context = last;
-      }
-      attributes.params = optionalParams;
+    const attributes: Record<string, string | number | boolean> = {};
+    let params = optionalParams;
+    if (params.length > 0 && typeof params[params.length - 1] === "string") {
+      attributes.context = params[params.length - 1] as string;
+      params = params.slice(0, -1);
     }
-    if (context) {
-      attributes.context = context;
+    if (params.length > 0) {
+      attributes.params = safeStringify(params);
     }
     this.otelLogger.emit({
       severityNumber,
       severityText,
-      body: typeof message === "string" ? message : JSON.stringify(message),
+      body: formatBody(message),
       attributes,
     });
   }
