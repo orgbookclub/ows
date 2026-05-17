@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 
+import { BookInfoModule } from "../book-info/book-info.module";
 import { EventsModule } from "../events/events.module";
 import { UsersModule } from "../users/users.module";
 
@@ -12,7 +13,7 @@ import { McpService } from "./mcp.service";
  * Tools are backed by the existing feature services injected via DI.
  */
 @Module({
-  imports: [EventsModule, UsersModule],
+  imports: [BookInfoModule, EventsModule, UsersModule],
   controllers: [McpController],
   providers: [McpService],
 })

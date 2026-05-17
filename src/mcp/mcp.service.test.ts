@@ -2,6 +2,8 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import { Test, TestingModule } from "@nestjs/testing";
 
+import { GoodreadsService } from "../book-info/goodreads.service";
+import { StorygraphService } from "../book-info/storygraph.service";
 import { EventsService } from "../events/events.service";
 import { UsersService } from "../users/users.service";
 
@@ -18,6 +20,16 @@ const stubUsersService = {
   findOneByUserId: jest.fn().mockResolvedValue(null),
 };
 
+const stubGoodreadsService = {
+  searchBooks: jest.fn().mockResolvedValue([]),
+  getBook: jest.fn().mockResolvedValue(null),
+};
+
+const stubStorygraphService = {
+  searchBooks: jest.fn().mockResolvedValue([]),
+  getBook: jest.fn().mockResolvedValue(null),
+};
+
 describe("McpService", () => {
   let service: McpService;
 
@@ -27,6 +39,8 @@ describe("McpService", () => {
         McpService,
         { provide: EventsService, useValue: stubEventsService },
         { provide: UsersService, useValue: stubUsersService },
+        { provide: GoodreadsService, useValue: stubGoodreadsService },
+        { provide: StorygraphService, useValue: stubStorygraphService },
       ],
     }).compile();
     service = module.get<McpService>(McpService);
@@ -59,6 +73,10 @@ describe("McpService", () => {
       expect(names).toEqual([
         "events_get_by_id",
         "events_search",
+        "goodreads_search_and_get_book",
+        "goodreads_search_books",
+        "storygraph_search_and_get_book",
+        "storygraph_search_books",
         "users_get_by_discord_id",
       ]);
 

@@ -9,13 +9,17 @@
             "name": "q",
             "required": true,
             "in": "query",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "k",
             "required": true,
             "in": "query",
-            "schema": { "type": "number" }
+            "schema": {
+              "type": "number"
+            }
           }
         ],
         "responses": {
@@ -25,13 +29,19 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": { "$ref": "#/components/schemas/BookDto" }
+                  "items": {
+                    "$ref": "#/components/schemas/BookDto"
+                  }
                 }
               }
             }
           }
         },
-        "security": [{ "bearer": [] }],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Endpoint for searching books from Goodreads.",
         "tags": ["Goodreads"]
       }
@@ -44,7 +54,9 @@
             "name": "q",
             "required": true,
             "in": "query",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -52,12 +64,18 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/GoodreadsBookDto" }
+                "schema": {
+                  "$ref": "#/components/schemas/GoodreadsBookDto"
+                }
               }
             }
           }
         },
-        "security": [{ "bearer": [] }],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Searches for, and gets the details of a single book.",
         "tags": ["Goodreads"]
       }
@@ -70,13 +88,17 @@
             "name": "k",
             "required": true,
             "in": "query",
-            "schema": { "type": "number" }
+            "schema": {
+              "type": "number"
+            }
           },
           {
             "name": "q",
             "required": false,
             "in": "query",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -84,12 +106,21 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "type": "array", "items": { "type": "string" } }
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
               }
             }
           }
         },
-        "security": [{ "bearer": [] }],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Searches quotes from Goodreads.",
         "tags": ["Goodreads"]
       }
@@ -102,13 +133,17 @@
             "name": "q",
             "required": true,
             "in": "query",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "k",
             "required": true,
             "in": "query",
-            "schema": { "type": "number" }
+            "schema": {
+              "type": "number"
+            }
           }
         ],
         "responses": {
@@ -118,13 +153,19 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": { "$ref": "#/components/schemas/BookDto" }
+                  "items": {
+                    "$ref": "#/components/schemas/BookDto"
+                  }
                 }
               }
             }
           }
         },
-        "security": [{ "bearer": [] }],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Endpoint for searching books from Storygraph.",
         "tags": ["Storygraph"]
       }
@@ -137,7 +178,9 @@
             "name": "q",
             "required": true,
             "in": "query",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -145,12 +188,18 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/StorygraphBookDto" }
+                "schema": {
+                  "$ref": "#/components/schemas/StorygraphBookDto"
+                }
               }
             }
           }
         },
-        "security": [{ "bearer": [] }],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Searches for, and gets the details of a single book.",
         "tags": ["Storygraph"]
       }
@@ -163,7 +212,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/CreateBookDto" }
+              "schema": {
+                "$ref": "#/components/schemas/CreateBookDto"
+              }
             }
           }
         },
@@ -172,12 +223,18 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/BookDocument" }
+                "schema": {
+                  "$ref": "#/components/schemas/BookDocument"
+                }
               }
             }
           }
         },
-        "security": [{ "bearer": [] }],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Creates a book from the given Dto object.",
         "tags": ["Books"]
       }
@@ -190,7 +247,9 @@
             "name": "url",
             "required": true,
             "in": "query",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -198,12 +257,18 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/BookDocument" }
+                "schema": {
+                  "$ref": "#/components/schemas/BookDocument"
+                }
               }
             }
           }
         },
-        "security": [{ "bearer": [] }],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Creates a book from the given valid URL.",
         "tags": ["Books"]
       }
@@ -216,7 +281,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/CreateEventDto" }
+              "schema": {
+                "$ref": "#/components/schemas/CreateEventDto"
+              }
             }
           }
         },
@@ -225,12 +292,18 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/EventDocument" }
+                "schema": {
+                  "$ref": "#/components/schemas/EventDocument"
+                }
               }
             }
           }
         },
-        "security": [{ "bearer": [] }],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Creates an event from the Dto object.",
         "tags": ["Events"]
       }
@@ -243,14 +316,18 @@
             "name": "url",
             "required": true,
             "in": "query",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/CreateEventDto" }
+              "schema": {
+                "$ref": "#/components/schemas/CreateEventDto"
+              }
             }
           }
         },
@@ -259,12 +336,18 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/EventDocument" }
+                "schema": {
+                  "$ref": "#/components/schemas/EventDocument"
+                }
               }
             }
           }
         },
-        "security": [{ "bearer": [] }],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Creates an event from the book URL and Dto object.",
         "tags": ["Events"]
       }
@@ -277,7 +360,9 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -285,14 +370,24 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/EventDocument" }
+                "schema": {
+                  "$ref": "#/components/schemas/EventDocument"
+                }
               }
             }
           },
-          "400": { "description": "Invalid event id." },
-          "404": { "description": "Event not found." }
+          "400": {
+            "description": "Invalid event id."
+          },
+          "404": {
+            "description": "Event not found."
+          }
         },
-        "security": [{ "bearer": [] }],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Gets the event document with the given ID from the database.",
         "tags": ["Events"]
       },
@@ -303,14 +398,18 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/UpdateEventDto" }
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEventDto"
+              }
             }
           }
         },
@@ -319,13 +418,21 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/EventDocument" }
+                "schema": {
+                  "$ref": "#/components/schemas/EventDocument"
+                }
               }
             }
           },
-          "400": { "description": "Invalid event id." }
+          "400": {
+            "description": "Invalid event id."
+          }
         },
-        "security": [{ "bearer": [] }],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Updates the event with the given ID and Dto in the database.",
         "tags": ["Events"]
       },
@@ -336,19 +443,31 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "type": "boolean" } }
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
             }
           },
-          "400": { "description": "Invalid event id." }
+          "400": {
+            "description": "Invalid event id."
+          }
         },
-        "security": [{ "bearer": [] }],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Deletes the event document from the DB.",
         "tags": ["Events"]
       }
@@ -362,28 +481,44 @@
             "required": false,
             "in": "query",
             "description": "The name of the event.",
-            "schema": { "example": "American Gods", "type": "string" }
+            "schema": {
+              "example": "American Gods",
+              "type": "string"
+            }
           },
           {
             "name": "bookSearchQuery",
             "required": false,
             "in": "query",
             "description": "The query string which will search among book titles.",
-            "schema": { "example": "American", "type": "string" }
+            "schema": {
+              "example": "American",
+              "type": "string"
+            }
           },
           {
             "name": "bookIds",
             "required": false,
             "in": "query",
             "description": "A list of object IDs pointing to book documents.",
-            "schema": { "type": "array", "items": { "type": "string" } }
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "threads",
             "required": false,
             "in": "query",
             "description": "A list of channel/thread IDs.",
-            "schema": { "type": "array", "items": { "type": "string" } }
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "status",
@@ -426,63 +561,100 @@
             "required": false,
             "in": "query",
             "description": "The start date of the event should be before this date.",
-            "schema": { "format": "date-time", "type": "string" }
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
           },
           {
             "name": "startDateAfter",
             "required": false,
             "in": "query",
             "description": "The start date of the event should be after this date.",
-            "schema": { "format": "date-time", "type": "string" }
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
           },
           {
             "name": "endDateBefore",
             "required": false,
             "in": "query",
             "description": "The end date of the event should be before this date.",
-            "schema": { "format": "date-time", "type": "string" }
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
           },
           {
             "name": "endDateAfter",
             "required": false,
             "in": "query",
             "description": "The end date of the event should be after this date.",
-            "schema": { "format": "date-time", "type": "string" }
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
           },
           {
             "name": "participantIds",
             "required": false,
             "in": "query",
             "description": "The ID of the participant of the event should be in this list.\nThis covers requestors, interested, readers etc all participants.",
-            "schema": { "type": "array", "items": { "type": "string" } }
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "requestedByIds",
             "required": false,
             "in": "query",
             "description": "The ID of the requestor of the event should be in this list.",
-            "schema": { "type": "array", "items": { "type": "string" } }
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "interestedIds",
             "required": false,
             "in": "query",
             "description": "The ID of the interested people of the event should be in this list.",
-            "schema": { "type": "array", "items": { "type": "string" } }
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "readerIds",
             "required": false,
             "in": "query",
             "description": "The ID of the reader of the event should be in this list.",
-            "schema": { "type": "array", "items": { "type": "string" } }
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "leaderIds",
             "required": false,
             "in": "query",
             "description": "The ID of the leader of the event should be in this list.",
-            "schema": { "type": "array", "items": { "type": "string" } }
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "fields",
@@ -515,14 +687,20 @@
             "required": false,
             "in": "query",
             "description": "The 1-based page number to return.",
-            "schema": { "example": 1, "type": "number" }
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
           },
           {
             "name": "pageSize",
             "required": false,
             "in": "query",
             "description": "The maximum number of items to return per page.",
-            "schema": { "example": 20, "type": "number" }
+            "schema": {
+              "example": 20,
+              "type": "number"
+            }
           }
         ],
         "responses": {
@@ -530,12 +708,18 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/PaginatedEventsDto" }
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedEventsDto"
+                }
               }
             }
           }
         },
-        "security": [{ "bearer": [] }],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Gets a paginated slice of event documents matching the filter, with optional\nprojection and sort.",
         "tags": ["Events"]
       }
@@ -548,7 +732,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/CreateUserDto" }
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
             }
           }
         },
@@ -557,12 +743,18 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/UserDocument" }
+                "schema": {
+                  "$ref": "#/components/schemas/UserDocument"
+                }
               }
             }
           }
         },
-        "security": [{ "bearer": [] }],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Creates a user from the given Dto object.",
         "tags": ["Users"]
       },
@@ -576,13 +768,19 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": { "$ref": "#/components/schemas/UserDocument" }
+                  "items": {
+                    "$ref": "#/components/schemas/UserDocument"
+                  }
                 }
               }
             }
           }
         },
-        "security": [{ "bearer": [] }],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Gets all user documents from the database.",
         "tags": ["Users"]
       }
@@ -595,7 +793,9 @@
             "name": "userid",
             "required": true,
             "in": "path",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -603,13 +803,21 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/UserDocument" }
+                "schema": {
+                  "$ref": "#/components/schemas/UserDocument"
+                }
               }
             }
           },
-          "404": { "description": "User not found." }
+          "404": {
+            "description": "User not found."
+          }
         },
-        "security": [{ "bearer": [] }],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Gets a user from the user Id.",
         "tags": ["Users"]
       }
@@ -622,14 +830,18 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/UpdateUserDto" }
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
             }
           }
         },
@@ -638,13 +850,21 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/UserDocument" }
+                "schema": {
+                  "$ref": "#/components/schemas/UserDocument"
+                }
               }
             }
           },
-          "400": { "description": "Invalid user id." }
+          "400": {
+            "description": "Invalid user id."
+          }
         },
-        "security": [{ "bearer": [] }],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Updates a user with the given Id.",
         "tags": ["Users"]
       },
@@ -655,19 +875,31 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "type": "boolean" } }
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
             }
           },
-          "400": { "description": "Invalid user id." }
+          "400": {
+            "description": "Invalid user id."
+          }
         },
-        "security": [{ "bearer": [] }],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Deletes a user with the given Id.",
         "tags": ["Users"]
       }
@@ -680,7 +912,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/ClientCredentialsDto" }
+              "schema": {
+                "$ref": "#/components/schemas/ClientCredentialsDto"
+              }
             }
           }
         },
@@ -689,7 +923,9 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/AccessTokenDto" }
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenDto"
+                }
               }
             }
           }
@@ -707,7 +943,9 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/JwksDto" }
+                "schema": {
+                  "$ref": "#/components/schemas/JwksDto"
+                }
               }
             }
           }
@@ -720,8 +958,16 @@
       "get": {
         "operationId": "MigrationsController_migrateAllEvents",
         "parameters": [],
-        "responses": { "200": { "description": "" } },
-        "security": [{ "bearer": [] }],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Migrates all events from older schema to newer one.",
         "tags": ["Migrations"]
       }
@@ -730,8 +976,16 @@
       "get": {
         "operationId": "MigrationsController_updateBooks",
         "parameters": [],
-        "responses": { "200": { "description": "" } },
-        "security": [{ "bearer": [] }],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Updates all the book documents.",
         "tags": ["Migrations"]
       }
@@ -744,12 +998,22 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/EventDto" }
+              "schema": {
+                "$ref": "#/components/schemas/EventDto"
+              }
             }
           }
         },
-        "responses": { "201": { "description": "" } },
-        "security": [{ "bearer": [] }],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Migrates a single event doc from older schema to newer one.",
         "tags": ["Migrations"]
       }
@@ -758,7 +1022,11 @@
       "get": {
         "operationId": "HealthController_getHealth",
         "parameters": [],
-        "responses": { "200": { "description": "" } },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
         "summary": "Health endpoint.",
         "tags": ["Health"]
       }
@@ -767,14 +1035,18 @@
   "info": {
     "title": "OWS",
     "description": "API description for the Organized Web Server",
-    "version": "3.0.2",
+    "version": "3.1.0",
     "contact": {}
   },
   "tags": [],
   "servers": [],
   "components": {
     "securitySchemes": {
-      "bearer": { "scheme": "bearer", "bearerFormat": "JWT", "type": "http" }
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
     },
     "schemas": {
       "AuthorDto": {
@@ -804,7 +1076,9 @@
           "authors": {
             "description": "A list of Author DTOs.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/AuthorDto" }
+            "items": {
+              "$ref": "#/components/schemas/AuthorDto"
+            }
           },
           "url": {
             "type": "string",
@@ -815,7 +1089,9 @@
             "description": "The list of genres for the book.",
             "example": ["Fantasy", "Fiction", "Science Fiction"],
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "coverUrl": {
             "type": "string",
@@ -848,7 +1124,9 @@
           "authors": {
             "description": "A list of Author DTOs.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/AuthorDto" }
+            "items": {
+              "$ref": "#/components/schemas/AuthorDto"
+            }
           },
           "url": {
             "type": "string",
@@ -859,7 +1137,9 @@
             "description": "The list of genres for the book.",
             "example": ["Fantasy", "Fiction", "Science Fiction"],
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "coverUrl": {
             "type": "string",
@@ -938,7 +1218,9 @@
           "authors": {
             "description": "A list of Author DTOs.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/AuthorDto" }
+            "items": {
+              "$ref": "#/components/schemas/AuthorDto"
+            }
           },
           "url": {
             "type": "string",
@@ -949,7 +1231,9 @@
             "description": "The list of genres for the book.",
             "example": ["Fantasy", "Fiction", "Science Fiction"],
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "coverUrl": {
             "type": "string",
@@ -980,18 +1264,24 @@
             "description": "The moods for the book.",
             "example": ["adventurous (83%)", "mysterious (73%)", "dark(66%)"],
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "pace": {
             "description": "The paces for the book.",
             "example": ["slow (51%)", "medium (42%)", "fast (5%)"],
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "quesAns": {
             "description": "The set of question answer pairs for the book.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/QuestionAnswerDto" }
+            "items": {
+              "$ref": "#/components/schemas/QuestionAnswerDto"
+            }
           },
           "description": {
             "type": "string",
@@ -1026,7 +1316,9 @@
           "authors": {
             "description": "A list of Author DTOs.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/AuthorDto" }
+            "items": {
+              "$ref": "#/components/schemas/AuthorDto"
+            }
           },
           "url": {
             "type": "string",
@@ -1037,7 +1329,9 @@
             "description": "The list of genres for the book.",
             "example": ["Fantasy", "Fiction", "Science Fiction"],
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "coverUrl": {
             "type": "string",
@@ -1070,7 +1364,9 @@
           "authors": {
             "description": "A list of Author DTOs.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/AuthorDto" }
+            "items": {
+              "$ref": "#/components/schemas/AuthorDto"
+            }
           },
           "url": {
             "type": "string",
@@ -1081,7 +1377,9 @@
             "description": "The list of genres for the book.",
             "example": ["Fantasy", "Fiction", "Science Fiction"],
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "coverUrl": {
             "type": "string",
@@ -1093,7 +1391,9 @@
             "description": "The number of pages of the book.",
             "example": 635
           },
-          "_id": { "type": "string" }
+          "_id": {
+            "type": "string"
+          }
         },
         "required": [
           "title",
@@ -1150,7 +1450,9 @@
           "threads": {
             "description": "A list of channel/thread IDs.",
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "status": {
             "description": "The status of the event.",
@@ -1180,26 +1482,40 @@
           },
           "dates": {
             "description": "The dates for the event.",
-            "allOf": [{ "$ref": "#/components/schemas/DateRange" }]
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DateRange"
+              }
+            ]
           },
           "requestedBy": {
             "description": "The participant who requested the event.",
-            "allOf": [{ "$ref": "#/components/schemas/ParticipantDto" }]
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ParticipantDto"
+              }
+            ]
           },
           "interested": {
             "description": "A list of participants who show interest in the event.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/ParticipantDto" }
+            "items": {
+              "$ref": "#/components/schemas/ParticipantDto"
+            }
           },
           "readers": {
             "description": "The participants who read the book in the event duration.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/ParticipantDto" }
+            "items": {
+              "$ref": "#/components/schemas/ParticipantDto"
+            }
           },
           "leaders": {
             "description": "The participants who lead the discussion for the event.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/ParticipantDto" }
+            "items": {
+              "$ref": "#/components/schemas/ParticipantDto"
+            }
           },
           "description": {
             "type": "string",
@@ -1220,12 +1536,17 @@
       "UserDocument": {
         "type": "object",
         "properties": {
-          "_id": { "type": "string" },
+          "_id": {
+            "type": "string"
+          },
           "userId": {
             "type": "string",
             "description": "The unique ID for the user."
           },
-          "name": { "type": "string", "description": "The username." },
+          "name": {
+            "type": "string",
+            "description": "The username."
+          },
           "joinDate": {
             "format": "date-time",
             "type": "string",
@@ -1233,7 +1554,11 @@
           },
           "profile": {
             "description": "The profile information fot the user.",
-            "allOf": [{ "$ref": "#/components/schemas/ProfileDto" }]
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProfileDto"
+              }
+            ]
           }
         },
         "required": ["_id", "userId", "name", "joinDate", "profile"]
@@ -1243,7 +1568,11 @@
         "properties": {
           "user": {
             "description": "The user object.",
-            "allOf": [{ "$ref": "#/components/schemas/UserDocument" }]
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserDocument"
+              }
+            ]
           },
           "points": {
             "type": "number",
@@ -1255,7 +1584,9 @@
       "EventDocument": {
         "type": "object",
         "properties": {
-          "_id": { "type": "string" },
+          "_id": {
+            "type": "string"
+          },
           "name": {
             "type": "string",
             "description": "The name of the event.",
@@ -1263,12 +1594,18 @@
           },
           "book": {
             "description": "The book for which the event is happening.",
-            "allOf": [{ "$ref": "#/components/schemas/BookDocument" }]
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BookDocument"
+              }
+            ]
           },
           "threads": {
             "description": "A list of channel/thread IDs.",
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "status": {
             "description": "The status of the event.",
@@ -1298,26 +1635,40 @@
           },
           "dates": {
             "description": "The dates for the event.",
-            "allOf": [{ "$ref": "#/components/schemas/DateRange" }]
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DateRange"
+              }
+            ]
           },
           "requestedBy": {
             "description": "The participant who requested the event.",
-            "allOf": [{ "$ref": "#/components/schemas/Participant" }]
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Participant"
+              }
+            ]
           },
           "interested": {
             "description": "A list of participants who show interest in the event.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/Participant" }
+            "items": {
+              "$ref": "#/components/schemas/Participant"
+            }
           },
           "readers": {
             "description": "The participants who read the book in the event duration.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/Participant" }
+            "items": {
+              "$ref": "#/components/schemas/Participant"
+            }
           },
           "leaders": {
             "description": "The participants who lead the discussion for the event.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/Participant" }
+            "items": {
+              "$ref": "#/components/schemas/Participant"
+            }
           },
           "description": {
             "type": "string",
@@ -1354,7 +1705,9 @@
           "threads": {
             "description": "A list of channel/thread IDs.",
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "status": {
             "description": "The status of the event.",
@@ -1384,26 +1737,40 @@
           },
           "dates": {
             "description": "The dates for the event.",
-            "allOf": [{ "$ref": "#/components/schemas/DateRange" }]
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DateRange"
+              }
+            ]
           },
           "requestedBy": {
             "description": "The participant who requested the event.",
-            "allOf": [{ "$ref": "#/components/schemas/ParticipantDto" }]
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ParticipantDto"
+              }
+            ]
           },
           "interested": {
             "description": "A list of participants who show interest in the event.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/ParticipantDto" }
+            "items": {
+              "$ref": "#/components/schemas/ParticipantDto"
+            }
           },
           "readers": {
             "description": "The participants who read the book in the event duration.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/ParticipantDto" }
+            "items": {
+              "$ref": "#/components/schemas/ParticipantDto"
+            }
           },
           "leaders": {
             "description": "The participants who lead the discussion for the event.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/ParticipantDto" }
+            "items": {
+              "$ref": "#/components/schemas/ParticipantDto"
+            }
           },
           "description": {
             "type": "string",
@@ -1417,7 +1784,9 @@
           "items": {
             "description": "The page of event documents matching the request.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/EventDocument" }
+            "items": {
+              "$ref": "#/components/schemas/EventDocument"
+            }
           },
           "total": {
             "type": "number",
@@ -1441,7 +1810,10 @@
             "type": "string",
             "description": "The unique ID for the user."
           },
-          "name": { "type": "string", "description": "The username." },
+          "name": {
+            "type": "string",
+            "description": "The username."
+          },
           "joinDate": {
             "format": "date-time",
             "type": "string",
@@ -1449,7 +1821,11 @@
           },
           "profile": {
             "description": "The profile information fot the user.",
-            "allOf": [{ "$ref": "#/components/schemas/ProfileDto" }]
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProfileDto"
+              }
+            ]
           }
         },
         "required": ["userId", "name", "joinDate", "profile"]
@@ -1461,7 +1837,10 @@
             "type": "string",
             "description": "The unique ID for the user."
           },
-          "name": { "type": "string", "description": "The username." },
+          "name": {
+            "type": "string",
+            "description": "The username."
+          },
           "joinDate": {
             "format": "date-time",
             "type": "string",
@@ -1469,7 +1848,11 @@
           },
           "profile": {
             "description": "The profile information fot the user.",
-            "allOf": [{ "$ref": "#/components/schemas/ProfileDto" }]
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProfileDto"
+              }
+            ]
           }
         }
       },
@@ -1562,7 +1945,9 @@
           "keys": {
             "description": "The set of public keys verifiers can use to validate OWS-issued JWTs.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/JwksKeyDto" }
+            "items": {
+              "$ref": "#/components/schemas/JwksKeyDto"
+            }
           }
         },
         "required": ["keys"]
@@ -1582,7 +1967,9 @@
           "threads": {
             "description": "A list of channel/thread IDs.",
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "status": {
             "type": "string",
@@ -1612,26 +1999,40 @@
           },
           "dates": {
             "description": "The dates for the event.",
-            "allOf": [{ "$ref": "#/components/schemas/DateRange" }]
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DateRange"
+              }
+            ]
           },
           "requestedBy": {
             "description": "The participant who requested the event.",
-            "allOf": [{ "$ref": "#/components/schemas/ParticipantDto" }]
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ParticipantDto"
+              }
+            ]
           },
           "interested": {
             "description": "A list of participants who show interest in the event.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/ParticipantDto" }
+            "items": {
+              "$ref": "#/components/schemas/ParticipantDto"
+            }
           },
           "readers": {
             "description": "The participants who read the book in the event duration.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/ParticipantDto" }
+            "items": {
+              "$ref": "#/components/schemas/ParticipantDto"
+            }
           },
           "leaders": {
             "description": "The participants who lead the discussion for the event.",
             "type": "array",
-            "items": { "$ref": "#/components/schemas/ParticipantDto" }
+            "items": {
+              "$ref": "#/components/schemas/ParticipantDto"
+            }
           },
           "description": {
             "type": "string",
