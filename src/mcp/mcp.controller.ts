@@ -50,7 +50,7 @@ export class McpController {
    * @param body The pre-parsed JSON-RPC request body.
    */
   @Post()
-  @Scopes("events:read", "users:read")
+  @Scopes("events:read", "users:read", "books:read")
   async handle(
     @Req() req: Request,
     @Res() res: Response,

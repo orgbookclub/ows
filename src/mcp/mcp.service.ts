@@ -1,10 +1,14 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Injectable, Logger } from "@nestjs/common";
 
+import { GoodreadsService } from "../book-info/goodreads.service";
+import { StorygraphService } from "../book-info/storygraph.service";
 import { EventsService } from "../events/events.service";
 import { UsersService } from "../users/users.service";
 
 import { registerEventsTools } from "./tools/events.tools";
+import { registerGoodreadsTools } from "./tools/goodreads.tools";
+import { registerStorygraphTools } from "./tools/storygraph.tools";
 import { registerUsersTools } from "./tools/users.tools";
 
 const MCP_SERVER_NAME = "ows-mcp";
@@ -22,10 +26,14 @@ export class McpService {
    *
    * @param eventsService Service backing the events_* tools.
    * @param usersService Service backing the users_* tools.
+   * @param goodreadsService Service backing the goodreads_* tools.
+   * @param storygraphService Service backing the storygraph_* tools.
    */
   constructor(
     private readonly eventsService: EventsService,
     private readonly usersService: UsersService,
+    private readonly goodreadsService: GoodreadsService,
+    private readonly storygraphService: StorygraphService,
   ) {
     Logger.debug("Initialized McpService");
   }
@@ -44,6 +52,8 @@ export class McpService {
     });
     registerEventsTools(server, this.eventsService);
     registerUsersTools(server, this.usersService);
+    registerGoodreadsTools(server, this.goodreadsService);
+    registerStorygraphTools(server, this.storygraphService);
     return server;
   }
 }
