@@ -313,7 +313,7 @@ export const mockBookResultFromOL = {
   series: "",
   authors: [
     {
-      name: "",
+      name: "Neil Gaiman",
       url: "https://openlibrary.org/authors/OL53305A",
     },
   ],

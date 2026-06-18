@@ -1,5 +1,7 @@
 import {
   ForbiddenException,
+  HttpException,
+  HttpStatus,
   Injectable,
   InternalServerErrorException,
   Logger,
@@ -52,7 +54,7 @@ export class BooksService {
   /**
    * Creates a book from a given URL.
    *
-   * @param url A Valid GR or SG URL.
+   * @param url A valid Goodreads, Storygraph, or Open Library URL.
    * @returns The created book document.
    */
   async createBookFromUrl(url: string) {
@@ -63,6 +65,8 @@ export class BooksService {
       book = await this.storygraphService.getBook(url);
     } else if (url.startsWith(this.openLibraryService.OL_BASE_URL)) {
       book = await this.openLibraryService.getBook(url);
+    } else {
+      throw new HttpException("Unsupported URL", HttpStatus.BAD_REQUEST);
     }
     return await this.createBook(book);
   }

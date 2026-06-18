@@ -52,6 +52,9 @@ describe("OpenLibraryService", () => {
         if (url.includes("/ratings.json")) {
           return of({ data: mockOLRatingsApiResponse } as any);
         }
+        if (url.includes("/authors/") && url.endsWith(".json")) {
+          return of({ data: { name: "Neil Gaiman" } } as any);
+        }
         return of({ data: mockOLWorkApiResponse } as any);
       });
       const actual = await service.getBook(
@@ -75,6 +78,9 @@ describe("OpenLibraryService", () => {
         if (url.includes("/ratings.json")) {
           return of({ data: mockOLRatingsApiResponse } as any);
         }
+        if (url.includes("/authors/") && url.endsWith(".json")) {
+          return of({ data: { name: "Neil Gaiman" } } as any);
+        }
         return of({ data: workWithObjectDesc } as any);
       });
       const actual = await service.getBook(
@@ -89,12 +95,21 @@ describe("OpenLibraryService", () => {
         if (url.includes("/ratings.json")) {
           return of({ data: mockOLRatingsApiResponse } as any);
         }
+        if (url.includes("/authors/") && url.endsWith(".json")) {
+          return of({ data: { name: "Neil Gaiman" } } as any);
+        }
         return of({ data: workNoDesc } as any);
       });
       const actual = await service.getBook(
         "https://openlibrary.org/works/OL679360W",
       );
       expect(actual.description).toEqual("No description available");
+    });
+
+    it("should throw an error for empty work ID.", async () => {
+      await expect(
+        service.getBook("https://openlibrary.org/works/"),
+      ).rejects.toThrow("Invalid URL");
     });
   });
 });
