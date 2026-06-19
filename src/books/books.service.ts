@@ -1,11 +1,14 @@
 import {
   ForbiddenException,
+  HttpException,
+  HttpStatus,
   Injectable,
   InternalServerErrorException,
   Logger,
 } from "@nestjs/common";
 
 import { GoodreadsService } from "../book-info/goodreads.service";
+import { OpenLibraryService } from "../book-info/open-library.service";
 import { StorygraphService } from "../book-info/storygraph.service";
 import { BookRepository } from "../repositories/book.repository";
 
@@ -23,11 +26,13 @@ export class BooksService {
    * @param repository The repository which handles DB operations.
    * @param goodreadsService Service for fetching Book info from Goodreads.
    * @param storygraphService Service for fetching Book info from Storygraph.
+   * @param openLibraryService Service for fetching Book info from Open Library.
    */
   constructor(
     private repository: BookRepository,
     private readonly goodreadsService: GoodreadsService,
     private readonly storygraphService: StorygraphService,
+    private readonly openLibraryService: OpenLibraryService,
   ) {
     Logger.debug("Initialized BooksService");
   }
@@ -49,7 +54,7 @@ export class BooksService {
   /**
    * Creates a book from a given URL.
    *
-   * @param url A Valid GR or SG URL.
+   * @param url A valid Goodreads, Storygraph, or Open Library URL.
    * @returns The created book document.
    */
   async createBookFromUrl(url: string) {
@@ -58,6 +63,10 @@ export class BooksService {
       book = await this.goodreadsService.getBook(url);
     } else if (url.startsWith(this.storygraphService.SG_BASE_URL)) {
       book = await this.storygraphService.getBook(url);
+    } else if (url.startsWith(this.openLibraryService.OL_BASE_URL)) {
+      book = await this.openLibraryService.getBook(url);
+    } else {
+      throw new HttpException("Unsupported URL", HttpStatus.BAD_REQUEST);
     }
     return await this.createBook(book);
   }

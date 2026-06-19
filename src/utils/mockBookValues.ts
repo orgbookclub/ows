@@ -291,3 +291,80 @@ export const mockBookResultFromSG = {
   ],
   numPages: 635,
 };
+
+export const mockSearchResultsFromOL = [
+  {
+    title: "American Gods",
+    authors: [
+      {
+        name: "Neil Gaiman",
+        url: "https://openlibrary.org/authors/OL53305A",
+      },
+    ],
+    url: "https://openlibrary.org/works/OL679360W",
+    genres: ["Americana", "mythology"],
+    coverUrl: "https://covers.openlibrary.org/b/id/8494659-L.jpg",
+    numPages: 576,
+  },
+];
+export const mockBookResultFromOL = {
+  title: "American Gods",
+  url: "https://openlibrary.org/works/OL679360W",
+  series: "",
+  authors: [
+    {
+      name: "Neil Gaiman",
+      url: "https://openlibrary.org/authors/OL53305A",
+    },
+  ],
+  coverUrl: "https://covers.openlibrary.org/b/id/8494659-L.jpg",
+  avgRating: 4.2,
+  numRatings: 59,
+  description:
+    "American Gods (2001) is a fantasy novel by British author Neil Gaiman.",
+  genres: ["Americana", "mythology"],
+  numPages: 0,
+};
+
+/* eslint-disable camelcase */
+export const mockOLSearchApiResponse = {
+  numFound: 1,
+  docs: [
+    {
+      key: "/works/OL679360W",
+      title: "American Gods",
+      author_name: ["Neil Gaiman"],
+      author_key: ["OL53305A"],
+      cover_i: 8494659,
+      number_of_pages_median: 576,
+      subject: [
+        "science fiction",
+        "Americana",
+        "mythology",
+        "nyt:e-book_fiction=2012-01-14",
+        "award:hugo_award=2002",
+      ],
+    },
+  ],
+};
+/* eslint-enable camelcase */
+export const mockOLWorkApiResponse = {
+  title: "American Gods",
+  description:
+    "American Gods (2001) is a fantasy novel by British author Neil Gaiman.",
+  covers: [8494659, 10211195],
+  subjects: [
+    "science fiction",
+    "Americana",
+    "mythology",
+    "nyt:e-book_fiction=2012-01-14",
+    "award:hugo_award=2002",
+  ],
+  authors: [{ author: { key: "/authors/OL53305A" } }],
+};
+export const mockOLRatingsApiResponse = {
+  summary: {
+    average: 4.2,
+    count: 59,
+  },
+};
