@@ -323,7 +323,7 @@ export const mockBookResultFromOL = {
   description:
     "American Gods (2001) is a fantasy novel by British author Neil Gaiman.",
   genres: ["Americana", "mythology"],
-  numPages: 0,
+  numPages: 576,
 };
 
 /* eslint-disable camelcase */
@@ -368,3 +368,23 @@ export const mockOLRatingsApiResponse = {
     count: 59,
   },
 };
+/* eslint-disable camelcase */
+export const mockOLWorkSearchApiResponse = {
+  numFound: 1,
+  docs: [
+    {
+      cover_i: 8494659,
+      number_of_pages_median: 576,
+    },
+  ],
+};
+export const mockOLAltEditionSearchApiResponse = {
+  numFound: 1,
+  docs: [
+    {
+      cover_i: 12345,
+      number_of_pages_median: 320,
+    },
+  ],
+};
+/* eslint-enable camelcase */
