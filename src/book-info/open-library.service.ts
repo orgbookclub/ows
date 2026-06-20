@@ -144,7 +144,7 @@ export class OpenLibraryService {
     try {
       const query = encodeURIComponent(`key:/works/${workId}`);
       const response = await this.fetchJson(
-        `${this.OL_BASE_URL}/search.json?q=${query}&fields=cover_i,number_of_pages_median`,
+        `${this.OL_BASE_URL}/search.json?q=${query}&fields=cover_i,number_of_pages_median&limit=1`,
         1,
       );
       const doc = response.data?.docs?.[0] ?? {};
