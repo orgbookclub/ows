@@ -9,30 +9,41 @@ import { BaseRepository } from "./base.repository";
 
 /**
  * The default Mongoose sort spec used when no sort key is supplied.
+ *
+ * The trailing `_id` key is a unique tiebreaker. The other sort fields
+ * (`dates.startDate` / `dates.endDate`) are not unique, so without it
+ * `skip`/`limit` pagination over events that share those dates can drop or
+ * duplicate documents at page boundaries — which silently under-counts
+ * reader points and revokes roles from members who actually qualify. `_id`
+ * guarantees a total order, making pagination deterministic and complete.
  */
 const DEFAULT_SORT: { [key: string]: SortOrder } = {
   "dates.startDate": -1,
   "dates.endDate": -1,
+  _id: -1,
 };
 
 /**
  * Resolves a sort-key string to a Mongoose sort spec.
+ *
+ * Every spec ends with a unique `_id` tiebreaker so that paginated reads are
+ * stable and complete; see {@link DEFAULT_SORT} for why this matters.
  *
  * @param sortOrder The sort key.
  * @returns The Mongoose sort spec.
  */
 function resolveSortSpec(sortOrder?: string): { [key: string]: SortOrder } {
   if (sortOrder === "startDateAsc") {
-    return { "dates.startDate": 1, "dates.endDate": 1 };
+    return { "dates.startDate": 1, "dates.endDate": 1, _id: 1 };
   }
   if (sortOrder === "startDateDesc") {
-    return { "dates.startDate": -1, "dates.endDate": -1 };
+    return { "dates.startDate": -1, "dates.endDate": -1, _id: -1 };
   }
   if (sortOrder === "endDateAsc") {
-    return { "dates.endDate": 1, "dates.startDate": 1 };
+    return { "dates.endDate": 1, "dates.startDate": 1, _id: 1 };
   }
   if (sortOrder === "endDateDesc") {
-    return { "dates.endDate": -1, "dates.startDate": -1 };
+    return { "dates.endDate": -1, "dates.startDate": -1, _id: -1 };
   }
   return DEFAULT_SORT;
 }
@@ -203,3 +214,5 @@ export function planEventPopulates(
     (p) => p.path,
   );
 }
+
+export { resolveSortSpec };
