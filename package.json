@@ -35,7 +35,7 @@
     "dev:token": "bash scripts/dev-token.sh"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@modelcontextprotocol/sdk": "^1.32.0",
     "@nestjs/axios": "^4",
     "@nestjs/common": "^11",
     "@nestjs/config": "^4",
